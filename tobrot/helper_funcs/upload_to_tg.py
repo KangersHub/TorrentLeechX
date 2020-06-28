@@ -155,8 +155,8 @@ async def upload_to_gdrive(file_upload, message):
         tam_link = requests.utils.requote_uri(indexurl)
         #s_tr = '-'*40
         button = []
-        button.append([pyrogram.InlineKeyboardButton(text="☁️FileCloudUrl:", url=f"{gau_link}")])
-        button.append([pyrogram.InlineKeyboardButton(text="ℹ️FileIndexUrl:", url=f"{tam_link}")])
+        button.append([pyrogram.InlineKeyboardButton(text="☁️ FileCloudUrl ☁️", url=f"{gau_link}")])
+        button.append([pyrogram.InlineKeyboardButton(text="ℹ️ FileIndexUrl ℹ️", url=f"{tam_link}")])
         button_markup = pyrogram.InlineKeyboardMarkup(button)
         await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
         await message.edit_text(f"🤖: {file_upload} has been Uploaded successfully to your cloud 🤒", reply_markup=button_markup)
@@ -186,8 +186,8 @@ async def upload_to_gdrive(file_upload, message):
         tam_link = requests.utils.requote_uri(indexurl)
         print(tam_link)
         button = []
-        button.append([pyrogram.InlineKeyboardButton(text="☁️FolderCloudUrl:", url=f"{gau_link}")])
-        button.append([pyrogram.InlineKeyboardButton(text="ℹ️FolderIndexUrl:", url=f"{tam_link}")])
+        button.append([pyrogram.InlineKeyboardButton(text="☁️ FolderCloudUrl ☁️", url=f"{gau_link}")])
+        button.append([pyrogram.InlineKeyboardButton(text="ℹ️ FolderIndexUrl ℹ️", url=f"{tam_link}")])
         button_markup = pyrogram.InlineKeyboardMarkup(button)
         await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
         await message.edit_text(f"🤖: Folder has been Uploaded successfully to {tt} in your cloud 🤒", reply_markup=button_markup)
