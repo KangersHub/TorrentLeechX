@@ -29,6 +29,7 @@ from tobrot.helper_funcs.download_aria_p_n import call_apropriate_function_t
 from tobrot.helper_funcs.create_compressed_archive import unzip_me, unrar_me, untar_me
 
 async def down_load_media_f(client, message):
+    user_id = message.reply_to_message.from_user.id
     mess_age = await message.reply_text("...", quote=True)
     if not os.path.isdir(DOWNLOAD_LOCATION):
         os.makedirs(DOWNLOAD_LOCATION)
@@ -56,23 +57,23 @@ async def down_load_media_f(client, message):
             if message.command[1] == "unzip":
                 file_upload = await unzip_me(the_real_download_location_g)
                 if file_upload is not None:
-                    g_response = await upload_to_gdrive(file_upload, mess_age)
+                    g_response = await upload_to_gdrive(file_upload, mess_age, user_id)
                     LOGGER.info(g_response)
                     
             elif message.command[1] == "unrar":
                 file_uploade = await unrar_me(the_real_download_location_g)
                 if file_uploade is not None:
-                    gk_response = await upload_to_gdrive(file_uploade, mess_age)
+                    gk_response = await upload_to_gdrive(file_uploade, mess_age, user_id)
                     LOGGER.info(gk_response)
                     
             elif message.command[1] == "untar":
                  file_uploadg = await untar_me(the_real_download_location_g)
                  if file_uploadg is not None:
-                     gau_response = await upload_to_gdrive(file_uploadg, mess_age)
+                     gau_response = await upload_to_gdrive(file_uploadg, mess_age, user_id)
                      LOGGER.info(gau_response)
         else:
-            gaut_response = await upload_to_gdrive(the_real_download_location_g, mess_age)
+            gaut_response = await upload_to_gdrive(the_real_download_location_g, mess_age, user_id)
             LOGGER.info(gaut_response)
     else:
-        await asyncio.sleep(10)
+        #await asyncio.sleep(4)
         await mess_age.edit_text("Reply to a Telegram Media, to upload to the Cloud Drive.")
