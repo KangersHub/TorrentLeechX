@@ -151,12 +151,16 @@ async def upload_to_gdrive(file_upload, message):
         gauti = f"https://drive.google.com/file/d/{p}/view?usp=drivesdk"
         gau_link = re.search("(?P<url>https?://[^\s]+)", gauti).group("url")
         print(gau_link)
-        indexurl = f"{INDEX_LINK}/{file_upload}"
-        tam_link = requests.utils.requote_uri(indexurl)
+        #indexurl = f"{INDEX_LINK}/{file_upload}"
+        #tam_link = requests.utils.requote_uri(indexurl)
         #s_tr = '-'*40
         button = []
         button.append([pyrogram.InlineKeyboardButton(text="☁️ FileCloudUrl ☁️", url=f"{gau_link}")])
-        button.append([pyrogram.InlineKeyboardButton(text="ℹ️ FileIndexUrl ℹ️", url=f"{tam_link}")])
+        if INDEX_URL:
+            indexurl = f"{INDEX_LINK}/{file_upload}"
+            tam_link = requests.utils.requote_uri(indexurl)
+            print(tam_link)
+            button.append([pyrogram.InlineKeyboardButton(text="ℹ️ FileIndexUrl ℹ️", url=f"{tam_link}")])
         button_markup = pyrogram.InlineKeyboardMarkup(button)
         await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
         await message.edit_text(f"🤖: {file_upload} has been Uploaded successfully to your cloud 🤒", reply_markup=button_markup)
@@ -182,12 +186,16 @@ async def upload_to_gdrive(file_upload, message):
         gautii = f"https://drive.google.com/folderview?id={p}"
         gau_link = re.search("(?P<url>https?://[^\s]+)", gautii).group("url")
         print(gau_link)
-        indexurl = f"{INDEX_LINK}/{file_upload}/"
-        tam_link = requests.utils.requote_uri(indexurl)
-        print(tam_link)
+        #indexurl = f"{INDEX_LINK}/{file_upload}/"
+        #tam_link = requests.utils.requote_uri(indexurl)
+        #print(tam_link)
         button = []
         button.append([pyrogram.InlineKeyboardButton(text="☁️ FolderCloudUrl ☁️", url=f"{gau_link}")])
-        button.append([pyrogram.InlineKeyboardButton(text="ℹ️ FolderIndexUrl ℹ️", url=f"{tam_link}")])
+        if INDEX_URL:
+            indexurl = f"{INDEX_LINK}/{file_upload}"
+            tam_link = requests.utils.requote_uri(indexurl)
+            print(tam_link)
+            button.append([pyrogram.InlineKeyboardButton(text="ℹ️ FolderIndexUrl ℹ️", url=f"{tam_link}")])
         button_markup = pyrogram.InlineKeyboardMarkup(button)
         await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
         await message.edit_text(f"🤖: Folder has been Uploaded successfully to {tt} in your cloud 🤒", reply_markup=button_markup)
