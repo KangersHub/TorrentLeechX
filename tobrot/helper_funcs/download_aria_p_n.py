@@ -251,7 +251,8 @@ async def call_apropriate_function_g(
     cstom_file_name,
     is_unzip,
     is_unrar,
-    is_untar
+    is_untar,
+    user_message
 ):
     if incoming_link.lower().startswith("magnet:"):
         sagtus, err_message = add_magnet(aria_instance, incoming_link, c_file_name)
@@ -330,6 +331,7 @@ async def call_apropriate_function_g(
     final_response = await upload_to_gdrive(
         to_upload_file,
         sent_message_to_update_tg_p,
+        user_message,
         user_id
     )
 #
