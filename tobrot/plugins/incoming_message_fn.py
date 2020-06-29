@@ -143,7 +143,8 @@ async def incoming_gdrive_message_f(client, message):
             cf_name,
             is_unzip,
             is_unrar,
-            is_untar
+            is_untar,
+            message
         )
     else:
         await i_m_sefg.edit_text(
