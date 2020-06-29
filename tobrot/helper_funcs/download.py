@@ -29,7 +29,10 @@ from tobrot.helper_funcs.download_aria_p_n import call_apropriate_function_t
 from tobrot.helper_funcs.create_compressed_archive import unzip_me, unrar_me, untar_me
 
 async def down_load_media_f(client, message):
-    user_id = message.from_user.id
+    if message.from_user.username:
+            user_id = f"@{message.from_user.username}"
+        else:
+            user_id = f'<a href="tg://user?id={message.from_user.id}">{message.from_user.first_name}</a>'
     print(user_id)
     mess_age = await message.reply_text("...", quote=True)
     if not os.path.isdir(DOWNLOAD_LOCATION):
