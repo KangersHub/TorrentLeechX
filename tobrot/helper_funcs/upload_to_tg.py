@@ -156,7 +156,7 @@ async def upload_to_gdrive(file_upload, message):
         #s_tr = '-'*40
         button = []
         button.append([pyrogram.InlineKeyboardButton(text="☁️ FileCloudUrl ☁️", url=f"{gau_link}")])
-        if INDEX_URL:
+        if INDEX_LINK:
             indexurl = f"{INDEX_LINK}/{file_upload}"
             tam_link = requests.utils.requote_uri(indexurl)
             print(tam_link)
@@ -191,7 +191,7 @@ async def upload_to_gdrive(file_upload, message):
         #print(tam_link)
         button = []
         button.append([pyrogram.InlineKeyboardButton(text="☁️ FolderCloudUrl ☁️", url=f"{gau_link}")])
-        if INDEX_URL:
+        if INDEX_LINK:
             indexurl = f"{INDEX_LINK}/{file_upload}"
             tam_link = requests.utils.requote_uri(indexurl)
             print(tam_link)
