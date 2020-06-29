@@ -11,7 +11,7 @@ from tobrot import (
 
 
 async def check_size_g(client, message):
-    await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
+    #await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
     del_it = await message.reply_text("🔊 Checking size...wait!!!")
     subprocess.Popen(('touch', 'rclone.conf'), stdout = subprocess.PIPE)
     with open('rclone.conf', 'a', newline="\n") as fole:
@@ -23,6 +23,6 @@ async def check_size_g(client, message):
     print(popi)
     p = popi.decode("utf-8")
     print(p)
-    #await asyncio.sleep()
+    await asyncio.sleep(5)
     await message.reply_text(f"{p}")
     await del_it.delete()
