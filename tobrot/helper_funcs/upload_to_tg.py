@@ -126,9 +126,9 @@ async def upload_to_tg(
     return dict_contatining_uploaded_files
 #
 
-async def upload_to_gdrive(file_upload, message):
+async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
     await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-    await message.edit_text("🔊 Now Uploading to ☁️ cloud...")
+    del_it = await message.edit_text("🔊 Now Uploading to ☁️ Cloud!!!")
     subprocess.Popen(('touch', 'rclone.conf'), stdout = subprocess.PIPE)
     with open('rclone.conf', 'a', newline="\n") as fole:
         fole.write("[DRIVE]\n")
@@ -153,7 +153,6 @@ async def upload_to_gdrive(file_upload, message):
         print(gau_link)
         #indexurl = f"{INDEX_LINK}/{file_upload}"
         #tam_link = requests.utils.requote_uri(indexurl)
-        #s_tr = '-'*40
         button = []
         button.append([pyrogram.InlineKeyboardButton(text="☁️ FileCloudUrl ☁️", url=f"{gau_link}")])
         if INDEX_LINK:
@@ -163,9 +162,10 @@ async def upload_to_gdrive(file_upload, message):
             button.append([pyrogram.InlineKeyboardButton(text="ℹ️ FileIndexUrl ℹ️", url=f"{tam_link}")])
         button_markup = pyrogram.InlineKeyboardMarkup(button)
         await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-        await message.edit_text(f"🤖: {file_upload} has been Uploaded successfully to your cloud 🤒", reply_markup=button_markup)
+        await messa_ge.reply_text(f"🤖: {file_upload} has been Uploaded successfully to your Cloud <a href='tg://user?id={g_id}'>🤒</a>", reply_markup=button_markup)
         #await message.edit_text(f"""🤖: {file_upload} has been Uploaded successfully to your cloud 🤒\n\n☁️ Cloud URL:  <a href="{gau_link}">FileLink</a>\nℹ️ Direct URL:  <a href="{tam_link}">IndexLink</a>""")
         os.remove(file_upload)
+        await del_it.delete()
     else:
         tt= os.path.join(destination, file_upload)
         print(tt)
@@ -198,10 +198,11 @@ async def upload_to_gdrive(file_upload, message):
             button.append([pyrogram.InlineKeyboardButton(text="ℹ️ FolderIndexUrl ℹ️", url=f"{tam_link}")])
         button_markup = pyrogram.InlineKeyboardMarkup(button)
         await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-        await message.edit_text(f"🤖: Folder has been Uploaded successfully to {tt} in your cloud 🤒", reply_markup=button_markup)
+        await messa_ge.reply_text(f"🤖: Folder has been Uploaded successfully to {tt} in your Cloud <a href='tg://user?id={g_id}'>🤒</a>", reply_markup=button_markup)
         #await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-        #await message.edit_text(f"""🤖: Folder has been Uploaded successfully to {tt} in your cloud 🤒\n\n☁️ Cloud URL:  <a href="{gau_link}">FolderLink</a>\nℹ️ Index Url:. <a href="{tam_link}">IndexLink</a>""")
+        #await messa_ge.reply_text(f"""🤖: Folder has been Uploaded successfully to {tt} in your cloud 🤒\n\n☁️ Cloud URL:  <a href="{gau_link}">FolderLink</a>\nℹ️ Index Url:. <a href="{tam_link}">IndexLink</a>""")
         shutil.rmtree(file_upload)
+        await del_it.delete()
 
 #
 
