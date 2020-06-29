@@ -23,6 +23,6 @@ async def check_size_g(client, message):
     print(popi)
     p = popi.decode("utf-8")
     print(p)
-    await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
+    #await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
     await message.reply_text(f"The total size: {p}")
     await del_it.delete()
