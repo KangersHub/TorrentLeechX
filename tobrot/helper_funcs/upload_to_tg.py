@@ -126,7 +126,7 @@ async def upload_to_tg(
     return dict_contatining_uploaded_files
 #
 
-async def upload_to_gdrive(file_upload, message):
+async def upload_to_gdrive(file_upload, message, g_id):
     await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
     await message.edit_text("🔊 Now Uploading to ☁️ cloud...")
     subprocess.Popen(('touch', 'rclone.conf'), stdout = subprocess.PIPE)
@@ -163,7 +163,7 @@ async def upload_to_gdrive(file_upload, message):
             button.append([pyrogram.InlineKeyboardButton(text="ℹ️ FileIndexUrl ℹ️", url=f"{tam_link}")])
         button_markup = pyrogram.InlineKeyboardMarkup(button)
         await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-        await message.edit_text(f"🤖: {file_upload} has been Uploaded successfully to your cloud 🤒", reply_markup=button_markup)
+        await message.edit_text(f"🤖: {file_upload} has been Uploaded successfully to your cloud 🤒\n <a href='tg://user?id={g_id}'>♀️♂️</a>", reply_markup=button_markup)
         #await message.edit_text(f"""🤖: {file_upload} has been Uploaded successfully to your cloud 🤒\n\n☁️ Cloud URL:  <a href="{gau_link}">FileLink</a>\nℹ️ Direct URL:  <a href="{tam_link}">IndexLink</a>""")
         os.remove(file_upload)
     else:
