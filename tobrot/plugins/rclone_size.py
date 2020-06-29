@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# (c) gautamajay52
+
 import subprocess
 import os
 import asyncio
