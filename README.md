@@ -13,7 +13,8 @@ A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.c
     ✓ Untar
     ✓ Custom file name
     ✓ Custom commands
-    ✓ 
+    ✓ Get total size of your working cloud directory
+    ✓
 
 ### Credit goes to SpEcHiDe for his Publicleech repo.
 
@@ -150,29 +151,31 @@ and everythin except `[NAME]`
 
 * `/leech archive`: This command should be used as reply to a magnetic link, a torrent link, or a direct link. [This command will create a .tar.gz file of the output directory, and send the files in the chat, splited into PARTS of 1024MiB each, due to Telegram limitations]
 
-* `/gleech`: This command should be used as reply to a magnetic link, a torrent link, or a direct link. And this will download the files from the given link or torrent and will upload to the drive using rclone.
+* `/gleech`: This command should be used as reply to a magnetic link, a torrent link, or a direct link. And this will download the files from the given link or torrent and will upload to the cloud using rclone.
 
-* `/gleech archive` This command will compress the folder/file and will upload to your google drive.
+* `/gleech archive` This command will compress the folder/file and will upload to your cloud.
 
 * `/leech unzip`: This will unzip the .zip file and dupload to telegram.
 
-* `/gleech unzip`: This will unzip the .zip file and upload to drive.
+* `/gleech unzip`: This will unzip the .zip file and upload to cloud.
 
 * `/leech unrar`: This will unrar the .rar file and dupload to telegram.
 
-* `/gleech unrar`: This will unrar the .rar file and upload to drive.
+* `/gleech unrar`: This will unrar the .rar file and upload to cloud.
 
 * `/leech untar`: This will untar the .tar file and upload to telegram.
 
-* `/gleech untar`: This will untar the .tar file and upload to drive.
+* `/gleech untar`: This will untar the .tar file and upload to cloud..
 
-* `/tleech`: This will mirror the telegram files to ur respective cloud drive.
+* `/tleech`: This will mirror the telegram files to ur respective cloud cloud.
 
-* `/tleech unzip`: This will unzip the .zip telegram file and upload to drive.
+* `/tleech unzip`: This will unzip the .zip telegram file and upload to cloud.
 
-* `/tleech unrar`: This will unrar the .rar telegram file and upload to drive.
+* `/tleech unrar`: This will unrar the .rar telegram file and upload to cloud.
 
-* `/tleech untar`: This will untar the .tar telegram file and upload to drive.
+* `/tleech untar`: This will untar the .tar telegram file and upload to cloud.
+
+* `/getsize`: This will give you total size of your destination folder in cloud.
 
 
 * [Only work with direct link for now]It is like u can add custom name as prefix of the original file name.
