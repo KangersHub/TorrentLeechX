@@ -29,10 +29,7 @@ from tobrot.helper_funcs.download_aria_p_n import call_apropriate_function_t
 from tobrot.helper_funcs.create_compressed_archive import unzip_me, unrar_me, untar_me
 
 async def down_load_media_f(client, message):
-    if message.from_user.username:
-            user_id = f"@{message.from_user.username}"
-        else:
-            user_id = f'<a href="tg://user?id={message.from_user.id}">{message.from_user.first_name}</a>'
+    user_id = message.from_user.id
     print(user_id)
     mess_age = await message.reply_text("...", quote=True)
     if not os.path.isdir(DOWNLOAD_LOCATION):
@@ -61,22 +58,22 @@ async def down_load_media_f(client, message):
             if message.command[1] == "unzip":
                 file_upload = await unzip_me(the_real_download_location_g)
                 if file_upload is not None:
-                    g_response = await upload_to_gdrive(file_upload, mess_age, user_id)
+                    g_response = await upload_to_gdrive(file_upload, mess_age, message, user_id)
                     LOGGER.info(g_response)
                     
             elif message.command[1] == "unrar":
                 file_uploade = await unrar_me(the_real_download_location_g)
                 if file_uploade is not None:
-                    gk_response = await upload_to_gdrive(file_uploade, mess_age, user_id)
+                    gk_response = await upload_to_gdrive(file_uploade, mess_age, message, user_id)
                     LOGGER.info(gk_response)
                     
             elif message.command[1] == "untar":
                  file_uploadg = await untar_me(the_real_download_location_g)
                  if file_uploadg is not None:
-                     gau_response = await upload_to_gdrive(file_uploadg, mess_age, user_id)
+                     gau_response = await upload_to_gdrive(file_uploadg, mess_age, message, user_id)
                      LOGGER.info(gau_response)
         else:
-            gaut_response = await upload_to_gdrive(the_real_download_location_g, mess_age, user_id)
+            gaut_response = await upload_to_gdrive(the_real_download_location_g, mess_age, message, user_id)
             LOGGER.info(gaut_response)
     else:
         #await asyncio.sleep(4)
