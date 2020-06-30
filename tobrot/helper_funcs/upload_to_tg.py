@@ -135,7 +135,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         fole.write(f"{RCLONE_CONFIG}")
     destination = f'{DESTINATION_FOLDER}'
     if os.path.isfile(file_upload):
-        tmp = subprocess.Popen(['rclone', 'copy', '--config=rclone.conf', f'{file_upload}', 'DRIVE:'f'{destination}', '-v'], stdout = subprocess.PIPE)
+        tmp = subprocess.Popen(['rclone', 'copy', '--config=rclone.conf', f'/app/{file_upload}', 'DRIVE:'f'{destination}', '-v'], stdout = subprocess.PIPE)
         pro, cess = tmp.communicate()
         gk_file = re.escape(file_upload)
         print(gk_file)
