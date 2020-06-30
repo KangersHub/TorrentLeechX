@@ -29,6 +29,6 @@ async def check_size_g(client, message):
     print(popp.decode("utf-8"))
     p = popi.decode("utf-8")
     print(p)
-    await asyncio.sleep(2)
+    #await asyncio.sleep(2)
     await message.reply_text(f"🔊CloudInfo:\n{p}")
     await del_it.delete()
