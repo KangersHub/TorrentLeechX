@@ -20,7 +20,7 @@ A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.c
 
 ## installing
 
-### The Easy Way
+### The Easy Way (Fork this repo and tap on deploy button)
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
