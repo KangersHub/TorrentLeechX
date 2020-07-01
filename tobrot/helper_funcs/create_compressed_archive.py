@@ -74,8 +74,8 @@ async def unzip_me(input_directory):
         )
         # Wait for the subprocess to finish
         stdout, stderr = process.communicate()
-        print(stdout.decode("utf-8"))
-        print(stderr.decode("utf-8"))
+        print(stdout)
+        print(stderr)
         #e_response = stderr.decode().strip()
         #t_response = stdout.decode().strip()
         if os.path.exists(uncompressed_file_name):
@@ -103,8 +103,8 @@ async def untar_me(input_directory):
         )
         # Wait for the subprocess to finish
         stdout, stderr = process.communicate()
-        print(stdout.decode("utf-8"))
-        print(stderr.decode("utf-8"))
+        print(stdout)
+        print(stderr)
         #e_response = stderr.decode().strip()
         #t_response = stdout.decode().strip()
         if os.path.exists(uncompressed_file_name):
@@ -132,8 +132,8 @@ async def unrar_me(input_directory):
         )
         # Wait for the subprocess to finish
         stdout, stderr = process.communicate()
-        print(stdout.decode("utf-8"))
-        print(stderr.decode("utf-8"))
+        print(stdout)
+        print(stderr)
         #e_response = stderr.decode().strip()
         #t_response = stdout.decode().strip()
         if os.path.exists(uncompressed_file_name):
