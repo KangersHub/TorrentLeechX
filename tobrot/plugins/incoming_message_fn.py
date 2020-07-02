@@ -164,7 +164,7 @@ async def incoming_youtube_dl_f(client, message):
     LOGGER.info(dl_url)
     if len(message.command) > 1:
         if message.command[1] == "gdrive":
-            with open('blame_knowledge.txt', 'w+') as gg:
+            with open('blame_my_knowledge.txt', 'w+') as gg:
                 gg.write("I am noob and can't make callbackquery, so here we are")
     LOGGER.info(cf_name)
     if dl_url is not None:
