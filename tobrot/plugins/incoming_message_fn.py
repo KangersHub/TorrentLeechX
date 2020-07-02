@@ -162,6 +162,10 @@ async def incoming_youtube_dl_f(client, message):
         message.reply_to_message, "YTDL"
     )
     LOGGER.info(dl_url)
+    if len(message.command) > 1:
+        if message.command[1] == "gdrive":
+            with open('gupload.txt', 'w+') as gg:
+                gg.write("I am noob and can't make callbackquery, so here we are")
     LOGGER.info(cf_name)
     if dl_url is not None:
         await i_m_sefg.edit_text("extracting links")
