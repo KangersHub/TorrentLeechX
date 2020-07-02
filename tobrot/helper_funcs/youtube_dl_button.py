@@ -14,6 +14,7 @@ import math
 import os
 import shutil
 import time
+import subprocess
 from datetime import datetime
 
 from tobrot import (
@@ -175,6 +176,9 @@ async def youtube_dl_call_back(bot, update):
         )
         user_id = update.from_user.id
         #
+        print(tmp_directory_for_each_user)
+        f_older = "/app/"
+        shutil.move(tmp_directory_for_each_user, f_older)
         if os.path.exists('blame_my_knowledge.txt'):
             final_response = await upload_to_gdrive(
                 tmp_directory_for_each_user,
