@@ -177,12 +177,12 @@ async def youtube_dl_call_back(bot, update):
         user_id = update.from_user.id
         #
         print(tmp_directory_for_each_user)
-        for a, b, c in os.walk('tmp_directory_for_each_user'):
+        for a, b, c in os.walk(tmp_directory_for_each_user):
             print(a)
             for d in c:
                 e = os.path.join(a, d)
                 print(e)
-                y=os.path.basename(e)
+                y = os.path.basename(e)
                 print(y)
                 liop = subprocess.Popen(["mv", f'{e}', "/app/"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 o, e = liop.communicate()
