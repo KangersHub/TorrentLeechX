@@ -182,15 +182,15 @@ async def youtube_dl_call_back(bot, update):
             for d in c:
                 e = os.path.join(a, d)
                 print(e)
-                y = os.path.basename(e)
-                print(y)
+                gaut_am = os.path.basename(e)
+                print(gaut_am)
                 liop = subprocess.Popen(["mv", f'{e}', "/app/"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 o, e = liop.communicate()
                 print(o)
                 print(e)
         if os.path.exists('blame_my_knowledge.txt'):
             final_response = await upload_to_gdrive(
-                y,
+                gaut_am,
                 update.message,
                 update.message.reply_to_message,
                 user_id
