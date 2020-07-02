@@ -24,7 +24,7 @@ from tobrot import (
 import pyrogram
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
-from tobrot.helper_funcs.upload_to_tg import upload_to_tg
+from tobrot.helper_funcs.upload_to_tg import upload_to_tg, upload_to_gdrive
 
 
 async def youtube_dl_call_back(bot, update):
@@ -175,6 +175,23 @@ async def youtube_dl_call_back(bot, update):
         )
         user_id = update.from_user.id
         #
+        if os.path.exists('blame_my_knowledge.txt'):
+            final_response = await upload_to_gdrive(
+                tmp_directory_for_each_user,
+                update.message,
+                update.message,
+                user_id
+            )
+        else:
+            final_response = await upload_to_tg(
+                update.message,
+                tmp_directory_for_each_user,
+                user_id,
+                {},
+                True
+            )
+          
+        '''  
         final_response = await upload_to_tg(
             update.message,
             tmp_directory_for_each_user,
@@ -182,10 +199,12 @@ async def youtube_dl_call_back(bot, update):
             {},
             True
         )
+        '''
         LOGGER.info(final_response)
         #
         try:
             shutil.rmtree(tmp_directory_for_each_user)
+            os.remove('blame_my_knowledge.txt')
         except:
             pass
         #
