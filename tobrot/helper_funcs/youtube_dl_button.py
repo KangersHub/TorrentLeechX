@@ -177,7 +177,8 @@ async def youtube_dl_call_back(bot, update):
         user_id = update.from_user.id
         #
         print(tmp_directory_for_each_user)
-        for a, b, c in os.walk(tmp_directory_for_each_user):
+        if os.path.exists('blame_my_knowledge.txt'):
+            for a, b, c in os.walk(tmp_directory_for_each_user):
             print(a)
             for d in c:
                 e = os.path.join(a, d)
@@ -188,7 +189,6 @@ async def youtube_dl_call_back(bot, update):
                 o, e = liop.communicate()
                 print(o)
                 print(e)
-        if os.path.exists('blame_my_knowledge.txt'):
             final_response = await upload_to_gdrive(
                 gaut_am,
                 update.message,
