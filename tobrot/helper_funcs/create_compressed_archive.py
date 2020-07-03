@@ -67,7 +67,7 @@ async def unzip_me(input_directory):
         process = subprocess.Popen([
             "unzip",
             "-o",
-            f"{base_dir_name}",
+            f"/app/{base_dir_name}",
             "-d",
             f"{uncompressed_file_name}"],
             stdout=subprocess.PIPE
