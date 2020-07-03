@@ -97,7 +97,7 @@ async def untar_me(input_directory):
         process = subprocess.Popen([
             "tar",
             "-xvf",
-            input_directory,
+            f"/app/{base_dir_name}",
             "-C"
             f"{uncompressed_file_name}"],
             stdout=subprocess.PIPE,
