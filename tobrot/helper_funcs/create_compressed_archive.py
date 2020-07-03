@@ -67,7 +67,7 @@ async def unzip_me(input_directory):
         process = subprocess.Popen([
             "unzip",
             "-o",
-            f"/app/{base_dir_name}",
+            f"{base_dir_name}",
             "-d",
             f"{uncompressed_file_name}"],
             stdout=subprocess.PIPE
@@ -90,16 +90,18 @@ async def unzip_me(input_directory):
 async def untar_me(input_directory):
     return_name = None
     if os.path.exists(input_directory):
+        print(input_directory)
         base_dir_name = os.path.basename(input_directory)
         uncompressed_file_name = os.path.splitext(base_dir_name)[0]
-        subprocess.Popen(('mkdir', f'{uncompressed_file_name}'), stdout = subprocess.PIPE)
+        subprocess.Popen(('mkdir', f'{uncompressed_file_name}'), stdout = subprocess.PIPE, stderr = subprocess.PIPE)
         process = subprocess.Popen([
             "tar",
             "-xvf",
-            f"{base_dir_name}",
+            input_directory,
             "-C"
             f"{uncompressed_file_name}"],
-            stdout=subprocess.PIPE
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
         )
         # Wait for the subprocess to finish
         stdout, stderr = process.communicate()
