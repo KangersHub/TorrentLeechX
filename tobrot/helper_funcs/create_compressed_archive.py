@@ -64,7 +64,7 @@ async def unzip_me(input_directory):
             #compressed_file_name = base_dir_name[0:(64 - suffix_extention_length)]
             #compressed_file_name += ".tar.gz"
         # fix for https://t.me/c/1434259219/13344
-        process = subprocess.Popen([
+        ga_utam = subprocess.Popen([
             "unzip",
             "-o",
             f"{base_dir_name}",
@@ -73,9 +73,9 @@ async def unzip_me(input_directory):
             stdout=subprocess.PIPE
         )
         # Wait for the subprocess to finish
-        stdout, stderr = process.communicate()
-        print(stdout)
-        print(stderr)
+        gau, tam = ga_utam.communicate()
+        print(gau)
+        print(tam)
         #e_response = stderr.decode().strip()
         #t_response = stdout.decode().strip()
         if os.path.exists(uncompressed_file_name):
@@ -94,7 +94,7 @@ async def untar_me(input_directory):
         base_dir_name = os.path.basename(input_directory)
         uncompressed_file_name = os.path.splitext(base_dir_name)[0]
         subprocess.Popen(('mkdir', f'{uncompressed_file_name}'), stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-        process = subprocess.Popen([
+        bc_kanger = subprocess.Popen([
             "tar",
             "-xvf",
             f"/app/{base_dir_name}",
@@ -104,9 +104,9 @@ async def untar_me(input_directory):
             stderr=subprocess.PIPE
         )
         # Wait for the subprocess to finish
-        stdout, stderr = process.communicate()
-        print(stdout)
-        print(stderr)
+        mc, kanger = bc_kanger.communicate()
+        print(mc)
+        print(kanger)
         #e_response = stderr.decode().strip()
         #t_response = stdout.decode().strip()
         if os.path.exists(uncompressed_file_name):
@@ -125,7 +125,7 @@ async def unrar_me(input_directory):
         uncompressed_file_name = os.path.splitext(base_dir_name)[0]
         subprocess.Popen(('mkdir', f'{uncompressed_file_name}'), stdout = subprocess.PIPE)
         print(base_dir_name)
-        process = subprocess.Popen([
+        jai_hind = subprocess.Popen([
             "unrar",
             "x",
             f"{base_dir_name}",
@@ -133,9 +133,9 @@ async def unrar_me(input_directory):
             stdout=subprocess.PIPE
         )
         # Wait for the subprocess to finish
-        stdout, stderr = process.communicate()
-        print(stdout)
-        print(stderr)
+        jai, hind = jai_hind.communicate()
+        print(jai)
+        print(hind)
         #e_response = stderr.decode().strip()
         #t_response = stdout.decode().strip()
         if os.path.exists(uncompressed_file_name):
