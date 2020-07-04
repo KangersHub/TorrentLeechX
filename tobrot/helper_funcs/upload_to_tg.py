@@ -149,7 +149,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         gautam = gau.decode("utf-8")
         print(gautam)
         #os.remove("filter.txt")
-        gauti = f"https://drive.google.com/file/d/{p}/view?usp=drivesdk"
+        gauti = f"https://drive.google.com/file/d/{gautam}/view?usp=drivesdk"
         gau_link = re.search("(?P<url>https?://[^\s]+)", gauti).group("url")
         print(gau_link)
         #indexurl = f"{INDEX_LINK}/{file_upload}"
@@ -184,7 +184,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         gautam = gau.decode("utf-8")
         print(gautam)
         #os.remove("filter1.txt")
-        gautii = f"https://drive.google.com/folderview?id={p}"
+        gautii = f"https://drive.google.com/folderview?id={gautam}"
         gau_link = re.search("(?P<url>https?://[^\s]+)", gautii).group("url")
         print(gau_link)
         #indexurl = f"{INDEX_LINK}/{file_upload}/"
