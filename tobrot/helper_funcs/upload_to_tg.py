@@ -124,7 +124,8 @@ async def upload_to_tg(
                 dict_contatining_uploaded_files[os.path.basename(local_file_name)] = sent_message.message_id
     # await message.delete()
     return dict_contatining_uploaded_files
-#
+
+#coded by © gautamajay52 thanks to Rclone team for this wonderful tool.🧘
 
 async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
     await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
@@ -141,12 +142,12 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         print(gk_file)
         with open('filter.txt', 'w+') as filter:
             print(f"+ {gk_file}\n- *", file=filter)
-        process1 = subprocess.Popen(['rclone', 'lsf', '--config=rclone.conf', '-F', 'i', "--filter-from=filter.txt", "--files-only", 'DRIVE:'f'{destination}'], stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+        gau_tam = subprocess.Popen(['rclone', 'lsf', '--config=rclone.conf', '-F', 'i', "--filter-from=filter.txt", "--files-only", 'DRIVE:'f'{destination}'], stdout = subprocess.PIPE, stderr = subprocess.PIPE)
         #os.remove("filter.txt")
-        popi, popp = process1.communicate()
-        print(popi)
-        p = popi.decode("utf-8")
-        print(p)
+        gau, tam = gau_tam.communicate()
+        print(gau)
+        gautam = gau.decode("utf-8")
+        print(gautam)
         #os.remove("filter.txt")
         gauti = f"https://drive.google.com/file/d/{p}/view?usp=drivesdk"
         gau_link = re.search("(?P<url>https?://[^\s]+)", gauti).group("url")
@@ -176,12 +177,12 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         print(g_file)
         with open('filter1.txt', 'w+') as filter1:
             print(f"+ {g_file}/\n- *", file=filter1)
-        process12 = subprocess.Popen(['rclone', 'lsf', '--config=rclone.conf', '-F', 'i', "--filter-from=filter1.txt", "--dirs-only", 'DRIVE:'f'{destination}'], stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+        gau_tam = subprocess.Popen(['rclone', 'lsf', '--config=rclone.conf', '-F', 'i', "--filter-from=filter1.txt", "--dirs-only", 'DRIVE:'f'{destination}'], stdout = subprocess.PIPE, stderr = subprocess.PIPE)
         #os.remove("filter1.txt")
-        popie, popp = process12.communicate()
-        print(popie)
-        p = popie.decode("utf-8")
-        print(p)
+        gau, tam = gau_tam.communicate()
+        print(gau)
+        gautam = gau.decode("utf-8")
+        print(gautam)
         #os.remove("filter1.txt")
         gautii = f"https://drive.google.com/folderview?id={p}"
         gau_link = re.search("(?P<url>https?://[^\s]+)", gautii).group("url")
