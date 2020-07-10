@@ -196,11 +196,7 @@ the file will be uploaded as `new.txt`.
 
 ## How to Use?
 
-* send any one of the available command, as a reply to a valid link.
-
-* if file is larger than 1500MB, [read this](https://t.me/c/1434259219/113).
-
-* if file is a TAR archive, [read this](https://t.me/c/1434259219/104) to know how to uncompress.
+* send any one of the available command, as a reply to a valid link/magnet/torrent. 👊
 
 
 ## Credits, and Thanks to
