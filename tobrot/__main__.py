@@ -26,7 +26,9 @@ from tobrot import (
     LEECH_COMMAND,
     YTDL_COMMAND,
     GLEECH_COMMAND,
-    TELEGRAM_LEECH_COMMAND_G
+    TELEGRAM_LEECH_COMMAND_G,
+    CANCEL_COMMAND_G,
+    GET_SIZE_G
 )
 
 from pyrogram import Client, Filters, MessageHandler, CallbackQueryHandler
@@ -88,7 +90,7 @@ if __name__ == "__main__" :
     #
     incoming_size_checker_handler = MessageHandler(
         check_size_g,
-        filters=Filters.command(["getsize"]) & Filters.chat(chats=AUTH_CHANNEL)
+        filters=Filters.command([f"{GET_SIZE_G}"]) & Filters.chat(chats=AUTH_CHANNEL)
     )
     app.add_handler(incoming_size_checker_handler)
     #
@@ -106,7 +108,7 @@ if __name__ == "__main__" :
     #
     cancel_message_handler = MessageHandler(
         cancel_message_f,
-        filters=Filters.command(["cancel"]) & Filters.chat(chats=AUTH_CHANNEL)
+        filters=Filters.command([f"{CANCEL_COMMAND_G}"]) & Filters.chat(chats=AUTH_CHANNEL)
     )
     app.add_handler(cancel_message_handler)
     #
