@@ -89,6 +89,14 @@
       "description": "Enter your custom ytdl command like ytdl1@urgroupname and so on. Default is /ytdl.",
       "required": false
     },
+    "CANCEL_COMMAND_G": {
+      "description": "Enter your custom cancel command like cancel@urgroupname and so on. Default is /cancel.",
+      "required": false
+    },
+    "GET_SIZE_G": {
+      "description": "Enter your custom getsize command like getsize@urgroupname and so on. Default is /getsize.",
+      "required": false
+    },
     "RCLONE_CONFIG": {
       "description": "Enter your copied text from rclone config. Compulsory for /gleech as well as /tleech command ",
       "required": false
