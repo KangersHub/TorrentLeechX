@@ -114,8 +114,8 @@ async def unrar_me(input_directory):
         m_k_gau = ['mkdir', f'{uncompressed_file_name}']
         await asyncio.create_subprocess_exec(*m_k_gau, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
         print(base_dir_name)
-        gaut_tm_r = ["unrar", "x", f"{base_dir_name}", f"{uncompressed_file_name}"]
-        jai_hind = await asyncio.create_subprocess_exec(*gau_tm_r, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
+        gau_tam_r = ["unrar", "x", f"{base_dir_name}", f"{uncompressed_file_name}"]
+        jai_hind = await asyncio.create_subprocess_exec(*gau_tam_r, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
         # Wait for the subprocess to finish
         jai, hind = await jai_hind.communicate()
         print(jai)
