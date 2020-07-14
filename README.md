@@ -193,6 +193,42 @@ You have to pass link as
 
 the file will be uploaded as `new.txt`.
 
+## Process to run this BOT on VPS
+
+- Clone this repo:
+```
+git clone https://github.com/gautamajay52/TorrentLeech-Gdrive 
+cd TorrentLeech-Gdrive
+```
+
+- Install requirements
+For Debian based distros
+```
+sudo apt install python3
+```
+Install Docker by following the [official docker docs](https://docs.docker.com/engine/install/debian/)
+
+## Setting up config file
+```
+cp tobrot/g_config.py tobrot/config.py
+```
+Follow and fill all the required variables that were already filled in the sample config file, but with your details. And you can also fill all other variables according to your need and all those are explained above already.
+
+## Deploying
+
+- Start docker daemon (skip if already running):
+```
+sudo dockerd
+```
+- Build Docker image:
+```
+sudo docker build . -t TorrentLeech-Gdrive
+```
+- Run the image:
+```
+sudo docker run TorrentLeech-Gdrive
+```
+
 
 ## How to Use?
 
