@@ -14,8 +14,9 @@ A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.c
     ✓ Custom file name
     ✓ Custom commands
     ✓ Get total size of your working cloud directory
-    ✓ Now you can also upload files downloaded from /ytdl command to gdrive using `/ytdl gdrive` command.
-    ✓ 
+    ✓ You can also upload files downloaded from /ytdl command to gdrive using `/ytdl gdrive` command.
+    ✓ You can also deploy this on your VPS
+    ✓
 
 ### Credit goes to SpEcHiDe for his Publicleech repo.
 
