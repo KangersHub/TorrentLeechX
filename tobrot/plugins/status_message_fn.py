@@ -74,7 +74,6 @@ async def status_message_f(client, message):
             msg = "🤷‍♂️ No Active, Queued or Paused TORRENTs"
         await message.reply_text(msg, quote=True)
 
-
 async def cancel_message_f(client, message):
     if len(message.command) > 1:
         # /cancel command
@@ -95,7 +94,6 @@ async def cancel_message_f(client, message):
             )
     else:
         await message.delete()
-
 
 async def exec_message_f(client, message):
     if await AdminCheck(client, message.chat.id, message.from_user.id):
