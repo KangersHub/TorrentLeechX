@@ -36,6 +36,5 @@ async def button(client, update: CallbackQuery):
 			else:
 				await update.message.delete()
 	#cb_data = update.data
-	elif:
-		if "|" in cb_data:
-			await youtube_dl_call_back(client, update)
+	elif "|" in cb_data:
+		await youtube_dl_call_back(client, update)
