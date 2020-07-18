@@ -16,7 +16,7 @@ from tobrot.plugins.status_message_fn import cancel_message_f
 
 async def button(client, update: CallbackQuery):
 	cb_data = update.data
-	g = await AdminCheck(client, update.message.chat.id, update.from_user.id)
+	g = await AdminCheck(bot, update.message.chat.id, update.from_user.id)
 	print(g)
 	if (update.from_user.id == update.message.reply_to_message.from_user.id) or g:
 		print(cb_data)
@@ -37,4 +37,4 @@ async def button(client, update: CallbackQuery):
 				await update.message.delete()
 	#cb_data = update.data
 	elif "|" in cb_data:
-		await youtube_dl_call_back(client, update)
+		await youtube_dl_call_back(bot, update)
