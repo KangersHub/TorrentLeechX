@@ -37,6 +37,14 @@
       "description": "should be an integer. The BOT API ID of the Telegram Group, where the Leecher should work.",
       "value": ""
     },
+    "OWNER_ID": {
+      "description": "should be an integer. ID of owner of bot",
+      "value": ""
+    },
+    "UPLOAD_AS_DOC": {
+      "description": "True/False. If true all files will be uploaded as documents. Default is False",
+      "value": ""
+    },
     "CHUNK_SIZE": {
       "description": "should be an integer",
       "value": "128",
