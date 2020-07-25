@@ -67,6 +67,8 @@ class Config(Config):
 
 * `DESTINATION_FOLDER`: Name of your folder in ur respective drive where you want to upload the files using the bot.
 
+* `OWNER_ID`: ID of the bot owner, He/she can be able to access bot in bot only mode too.
+
 ##### Set Rclone
 
 1. Set Rclone locally by following the official repo : https://rclone.org/docs/
@@ -144,6 +146,8 @@ and everythin except `[NAME]`
 * `YTDL_COMMAND`
 
 * `TELEGRAM_LEECH_COMMAND_G`
+
+* `UPLOAD_AS_DOC`: Takes two option True or False. If True file will be uploaded as document. This is for people who wants video files as document instead of streamable.
 
 * `INDEX_LINK`: (Without `/` at last of the link, otherwise u will get error) During creating index, plz fill `Default Root ID` with the id of your `DESTINATION_FOLDER` after creating. Otherwise index will not work properly.
 ## Available Commands
