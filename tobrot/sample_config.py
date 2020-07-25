@@ -6,6 +6,7 @@ class Config(object):
     # The Telegram API things
     APP_ID = int(os.environ.get("APP_ID", 12345))
     API_HASH = os.environ.get("API_HASH")
+    OWNER_ID = os.environ.get("OWNER_ID", 12345)
     # Get these values from my.telegram.org
     # to store the channel ID who are authorized to use the bot
     AUTH_CHANNEL = set(int(x) for x in os.environ.get("AUTH_CHANNEL", "").split())
@@ -46,3 +47,4 @@ class Config(object):
     STATUS_COMMAND = os.environ.get("STATUS_COMMAND", "status")
     SAVE_THUMBNAIL = os.environ.get("SAVE_THUMBNAIL", "savethumbnail")
     CLEAR_THUMBNAIL = os.environ.get("CLEAR_THUMBNAIL", "clearthumbnail")
+    UPLOAD_AS_DOC = os.environ.get("UPLOAD_AS_DOC", "False")

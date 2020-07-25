@@ -19,7 +19,8 @@ import traceback
 import io
 
 from tobrot import (
-    MAX_MESSAGE_LENGTH
+    MAX_MESSAGE_LENGTH,
+    AUTH_CHANNEL
 )
 
 
@@ -96,7 +97,7 @@ async def cancel_message_f(client, message):
         await message.delete()
 
 async def exec_message_f(client, message):
-    if await AdminCheck(client, message.chat.id, message.from_user.id):
+    if message.from_user.id in AUTH_CHANNEL:
         DELAY_BETWEEN_EDITS = 0.3
         PROCESS_RUN_TIME = 100
         cmd = message.text.split(" ", maxsplit=1)[1]
@@ -143,7 +144,7 @@ async def upload_document_f(client, message):
     imsegd = await message.reply_text(
         "processing ..."
     )
-    if await AdminCheck(client, message.chat.id, message.from_user.id):
+    if message.from_user.id in AUTH_CHANNEL:
         if " " in message.text:
             recvd_command, local_file_name = message.text.split(" ", 1)
             recvd_response = await upload_to_tg(
