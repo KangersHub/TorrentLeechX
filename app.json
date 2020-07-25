@@ -44,6 +44,7 @@
     "UPLOAD_AS_DOC": {
       "description": "True/False. If true all files will be uploaded as documents. Default is False",
       "value": ""
+      "required": false
     },
     "CHUNK_SIZE": {
       "description": "should be an integer",
