@@ -97,6 +97,12 @@ if __name__ == "__main__" :
     )
     app.add_handler(incoming_size_checker_handler)
     #
+    incoming_g_clear_handler = MessageHandler(
+        g_clearme,
+        filters=Filters.command(["renewme"]) & Filters.chat(chats=AUTH_CHANNEL)
+    )
+    app.add_handler(incoming_g_clear_handler)
+    #
     incoming_youtube_dl_handler = MessageHandler(
         incoming_youtube_dl_f,
         filters=Filters.command([f"{YTDL_COMMAND}"]) & Filters.chat(chats=AUTH_CHANNEL)
