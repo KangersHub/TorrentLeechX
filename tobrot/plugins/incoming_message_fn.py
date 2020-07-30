@@ -13,6 +13,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 import os
+import requests
 
 from tobrot import (
     DOWNLOAD_LOCATION
