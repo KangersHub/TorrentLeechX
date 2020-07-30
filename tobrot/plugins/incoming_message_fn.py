@@ -185,10 +185,11 @@ async def incoming_youtube_dl_f(client, message):
             user_working_dir
         )
         if thumb_image is not None:
-            await message.reply_photo(
-                photo=thumb_image,
+            await message.reply_text(
+                text_message,
+                #photo=thumb_image,
                 quote=True,
-                caption=text_message,
+                #caption=text_message,
                 reply_markup=reply_markup
             )
             await i_m_sefg.delete()
