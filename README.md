@@ -22,7 +22,7 @@ A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.c
 
 ### Credit goes to SpEcHiDe for his Publicleech repo.
 
-## installing
+## installing...
 
 ### The Easy Way (Fork this repo and tap on deploy button)
 
