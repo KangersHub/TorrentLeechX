@@ -184,12 +184,14 @@ async def incoming_youtube_dl_f(client, message):
             yt_dl_pass_word,
             user_working_dir
         )
+        gau = thumb_image.replace('vi_webp', 'vi')
+        gau_tam = gau.replace('webp', 'jpg')
         if thumb_image is not None:
-            await message.reply_text(
-                text_message,
-                #photo=thumb_image,
+            await message.reply_photo(
+                #text_message,
+                photo=gau_tam,
                 quote=True,
-                #caption=text_message,
+                caption=text_message,
                 reply_markup=reply_markup
             )
             await i_m_sefg.delete()
