@@ -61,5 +61,6 @@ async def yt_playlist_downg(message, i_m_sefg):
         print(final_response)
     try:
         shutil.rmtree(fol_der)
+        os.remove('blame_my_knowledge.txt')
     except:
         pass
