@@ -1,4 +1,4 @@
-# for support join here [TorrentLeech-Gdrive](https://telegram.dog/torrentleechgdrivesupport)
+# for support join here [TorrentLeech-Gdrive](https://telegram.dog/GBotStore)
 # working example group [Leech Here](https://telegram.dog/torrentleechgdrive)
 
 # Telegram Torrent Leecher 🔥🤖
@@ -18,6 +18,7 @@ A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.c
     ✓ You can also deploy this on your VPS
     ✓ Option to select either video will be uploaded as document or streamable
     ✓ Added /renewme command to clear the downloads which are not deleted automatically.
+    ✓ Added support for youtube playlist 😐
     ✓
 
 ### Credit goes to SpEcHiDe for his Publicleech repo.
@@ -155,7 +156,11 @@ and everythin except `[NAME]`
 
 * `/ytdl`: This command should be used as reply to a [supported link](https://ytdl-org.github.io/youtube-dl/supportedsites.html)
 
+* `/pytdl`: This command will download videos from youtube playlist link and will upload to telegram.
+
 * `/ytdl gdrive`: This will download and upload to your cloud.
+
+* `/pytdl gdrive`: This download and upload to your gloud.
 
 * `/leech`: This command should be used as reply to a magnetic link, a torrent link, or a direct link. [this command will SPAM the chat and send the downloads a seperate files, if there is more than one file, in the specified torrent]
 
