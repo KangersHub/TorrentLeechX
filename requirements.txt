@@ -6,4 +6,3 @@ https://github.com/pyrogram/pyrogram/archive/asyncio-dev.zip
 tgcrypto
 git+https://github.com/gautamajay52/youtube-dl
 hurry.filesize
-wget
