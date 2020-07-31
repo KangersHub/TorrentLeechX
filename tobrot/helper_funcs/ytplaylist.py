@@ -34,7 +34,7 @@ async def yt_playlist_downg(message, i_m_sefg):
         os.mkdir(fol_der)
     except:
         pass
-    cmd = ["youtube-dl", "-f", "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4", "-o", f"{fol_der}/%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s", f"{url}"]
+    cmd = ["youtube-dl", "-i", "-f", "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4", "-o", f"{fol_der}/%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s", f"{url}"]
     gau_tam = await asyncio.create_subprocess_exec(*cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
     gau, tam = await gau_tam.communicate()
     LOGGER.info(gau.decode('utf-8'))
