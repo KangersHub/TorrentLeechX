@@ -212,16 +212,14 @@ async def incoming_youtube_dl_f(client, message):
 #playlist
 async def g_yt_playlist(client, message):
     """ /pytdl command """
-    i_m_sefg = await message.reply_text("Processing...you should wait🤗", quote=True)
+    #i_m_sefg = await message.reply_text("Processing...you should wait🤗", quote=True)
     if len(message.command) > 1:
         if message.command[1] == "gdrive":
             with open('blame_my_knowledge_again.txt', 'w+') as gg:
                 gg.write("I am noob and don't know what to do that's why I have did this")
     if 'www.youtube.com/playlist' in message.reply_to_message.text:
+        i_m_sefg = await message.reply_text("Processing...you should wait🤗", quote=True)
         await yt_playlist_downg(message.reply_to_message, i_m_sefg)
     
     else:
-        await i_m_sefg.edit_text(
-            "**FCUK**! wat have you entered. \nPlease read /help \n"
-            f"<b>API Error</b>: {cf_name}"
-        )
+        await i_m_sefg.edit_text("Reply to youtube playlist link only 🙄")
