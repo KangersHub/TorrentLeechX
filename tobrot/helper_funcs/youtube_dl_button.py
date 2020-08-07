@@ -178,8 +178,12 @@ async def youtube_dl_call_back(bot, update):
         #
         print(tmp_directory_for_each_user)
         G_DRIVE = False
-        if len(update.message.reply_to_message.command) > 1:
-            if message.command[1] == "gdrive":
+        txt = update.message.reply_to_message.text
+        print(txt)
+        g_txt = txt.split()
+        print(g_txt)
+        if len(g_txt) > 1:
+            if g_txt[1] == "gdrive":
                 G_DRIVE = True
         if G_DRIVE:
             for a, b, c in os.walk(tmp_directory_for_each_user):
