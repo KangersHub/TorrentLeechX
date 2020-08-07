@@ -177,7 +177,11 @@ async def youtube_dl_call_back(bot, update):
         user_id = update.from_user.id
         #
         print(tmp_directory_for_each_user)
-        if os.path.exists('blame_my_knowledge.txt'):
+        G_DRIVE = False
+        if len(update.message.reply_to_message.command) > 1:
+            if message.command[1] == "gdrive":
+                G_DRIVE = True
+        if G_DRIVE:
             for a, b, c in os.walk(tmp_directory_for_each_user):
                 print(a)
                 for d in c:
@@ -217,7 +221,6 @@ async def youtube_dl_call_back(bot, update):
         #
         try:
             shutil.rmtree(tmp_directory_for_each_user)
-            os.remove('blame_my_knowledge.txt')
         except:
             pass
         #
