@@ -149,6 +149,8 @@ and everythin except `[NAME]`
 
 * `YTDL_COMMAND`
 
+* `GLEECH_COMMAND`
+
 * `TELEGRAM_LEECH_COMMAND_G`
 
 * `PYTDL_COMMAND_G`
