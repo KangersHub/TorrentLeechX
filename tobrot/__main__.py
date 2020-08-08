@@ -31,7 +31,8 @@ from tobrot import (
     GET_SIZE_G,
     STATUS_COMMAND,
     SAVE_THUMBNAIL,
-    CLEAR_THUMBNAIL
+    CLEAR_THUMBNAIL,
+    PYTDL_COMMAND_G
 )
 
 from pyrogram import Client, Filters, MessageHandler, CallbackQueryHandler
@@ -111,7 +112,7 @@ if __name__ == "__main__" :
     #
     incoming_youtube_playlist_dl_handler = MessageHandler(
         g_yt_playlist,
-        filters=Filters.command(["pytdl"]) & Filters.chat(chats=AUTH_CHANNEL)
+        filters=Filters.command([f"{PYTDL_COMMAND_G}"]) & Filters.chat(chats=AUTH_CHANNEL)
     )
     app.add_handler(incoming_youtube_playlist_dl_handler)
     #
