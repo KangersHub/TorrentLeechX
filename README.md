@@ -25,9 +25,9 @@ A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.c
 
 ## installing...
 
-### ~~The Easy Way (Fork this repo and tap on deploy button)~~
+### The Easy Way (Fork this repo and tap on deploy button - Revived)
 
-Heroku not supported from now 😅
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 Better buy a vps 😐 and follow [this](https://github.com/gautamajay52/TorrentLeech-Gdrive#process-to-run-this-bot-on-vps)
 
