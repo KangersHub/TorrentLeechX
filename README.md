@@ -151,6 +151,8 @@ and everythin except `[NAME]`
 
 * `TELEGRAM_LEECH_COMMAND_G`
 
+* `PYTDL_COMMAND_G`
+
 * `UPLOAD_AS_DOC`: Takes two option True or False. If True file will be uploaded as document. This is for people who wants video files as document instead of streamable.
 
 * `INDEX_LINK`: (Without `/` at last of the link, otherwise u will get error) During creating index, plz fill `Default Root ID` with the id of your `DESTINATION_FOLDER` after creating. Otherwise index will not work properly.
