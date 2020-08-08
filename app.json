@@ -2,16 +2,7 @@
   "name": "Telegram Torrent Leecher",
   "description": "A Telegram Torrent (and youtube-dl) Leecher based on Pyrogram. Powered by @torrentleechgdrivesupport!",
   "keywords": [
-    "telegram",
-    "best",
-    "indian",
-    "pyrogram",
-    "torrent",
-    "3",
-    "plugin",
-    "productivity",
-    "youtube-dl",
-    "leecher"
+    "telegram"
   ],
   "repository": "https://github.com/gautamajay52/TorrentLeech-Gdrive",
   "success_url": "https://t.me/torrentleechgdrivesupport",
@@ -117,23 +108,5 @@
       "required": false
     }
   },
-  "addons": [
-  ],
-  "buildpacks": [{
-    "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"
-  }, {
-    "url": "https://github.com/SayanthD/aria2-heroku"
-  }, {
-    "url": "https://github.com/amivin/rclone-heroku"
-  }, {
-    "url": "https://github.com/HasibulKabir/heroku-buildpack-rarlab"
-  }, {
-    "url": "heroku/python"
-  }],
-  "formation": {
-    "worker": {
-      "quantity": 1,
-      "size": "free"
-    }
-  }
+  "stack": "container"
 }
