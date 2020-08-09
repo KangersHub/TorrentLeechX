@@ -71,7 +71,7 @@ class Config(Config):
 
 * `DESTINATION_FOLDER`: Name of your folder in ur respective drive where you want to upload the files using the bot.
 
-* `OWNER_ID`: ID of the bot owner, He/she can be able to access bot in bot only mode too.
+* `OWNER_ID`: ID of the bot owner, He/she can be abled to access bot in bot only mode too(private mode).
 
 ##### Set Rclone
 
