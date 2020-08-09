@@ -104,7 +104,7 @@
       "required": false
     },
     "DESTINATION_FOLDER": {
-      "description": "Enter your Destination folder in which you want to upload yoyr file.",
+      "description": "Enter your Cloud folder NAME(not ID😅) in which you want to upload/store your files.",
       "required": false
     },
     "CUSTOM_FILE_NAME": {
