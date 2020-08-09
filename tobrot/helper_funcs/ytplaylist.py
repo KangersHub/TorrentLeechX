@@ -55,7 +55,7 @@ async def yt_playlist_downg(message, i_m_sefg, G_DRIVE):
             ta_m = os.path.join(fol_der, ga_u)
             print(ta_m)
             shutil.move(ta_m, './')
-            await upload_to_gdrive(ga_u, i_m_sefg, messa_ge, usr)
+            await upload_to_gdrive(ga_u, i_m_sefg, message, usr)
     else:
         final_response = await upload_to_tg(i_m_sefg, fol_der, usr, {})
         print(final_response)
