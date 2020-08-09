@@ -217,8 +217,8 @@ the file will be uploaded as `new.txt`.
 
 - Clone this repo:
 ```
-git clone https://github.com/gautamajay52/TorrentLeech-Gdrive 
-cd TorrentLeech-Gdrive
+git clone https://github.com/gautamajay52/TorrentLeech-Gdrive torrentleech-gdrive
+cd torrentleech-gdrive
 ```
 
 - Install requirements
@@ -242,11 +242,11 @@ sudo dockerd
 ```
 - Build Docker image:
 ```
-sudo docker build . -t TorrentLeech-Gdrive
+sudo docker build . -t torrentleech-gdrive
 ```
 - Run the image:
 ```
-sudo docker run TorrentLeech-Gdrive
+sudo docker run torrentleech-gdrive
 ```
 
 
