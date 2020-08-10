@@ -35,7 +35,7 @@ b)Find `app.jso`. 🧐
 
 c)Tap on that. 😬
 
-d)Tap to edit and just add `n` at last. ✍️
+d)Tap to edit and just add `n` at last of name (Don't touch code🤦). ✍️
 
 e)It should look like `app.json`. 🎉
 
