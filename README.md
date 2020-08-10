@@ -27,7 +27,7 @@ A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.c
 
 ### The Easy Way
 
-#### STEPS (I did this to avoid using of same button multiple times)
+#### STEPS (I did this to avoid the use of same button multiple times)
 
 a)You have to fork this repo at first(Don't know how to🤔, Then google it😐)
 
