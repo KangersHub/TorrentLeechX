@@ -31,6 +31,12 @@ from tobrot.helper_funcs.upload_to_tg import upload_to_tg, upload_to_gdrive
 async def youtube_dl_call_back(bot, update):
     LOGGER.info(update)
     cb_data = update.data
+    get_cf_name = update.message.caption
+    #LOGGER.info(get_cf_name)
+    cf_name = ""
+    if "|" in get_cf_name:
+        cf_name = get_cf_name.split("|", maxsplit=1)[1]
+        cf_name = cf_name.strip()
     # youtube_dl extractors
     tg_send_type, youtube_dl_format, youtube_dl_ext = cb_data.split("|")
     #
@@ -100,7 +106,9 @@ async def youtube_dl_call_back(bot, update):
     if not os.path.isdir(tmp_directory_for_each_user):
         os.makedirs(tmp_directory_for_each_user)
     download_directory = tmp_directory_for_each_user
+    LOGGER.info(download_directory)
     download_directory = os.path.join(tmp_directory_for_each_user, custom_file_name)
+    LOGGER.info(download_directory)
     command_to_exec = []
     if tg_send_type == "audio":
         command_to_exec = [
@@ -176,7 +184,22 @@ async def youtube_dl_call_back(bot, update):
         )
         user_id = update.from_user.id
         #
-        print(tmp_directory_for_each_user)
+        LOGGER.info(tmp_directory_for_each_user)
+        for a, b, c in os.walk(tmp_directory_for_each_user):
+            LOGGER.info(a)
+            for d in c:
+                e = os.path.join(a, d)
+                LOGGER.info(e)
+                gaut_am = os.path.basename(e)
+                LOGGER.info(gaut_am)
+                fi_le = e
+                if cf_name:
+                    fi_le = os.path.join(a, cf_name)
+                    LOGGER.info(fi_le)
+                    os.rename(e, fi_le)
+                    gaut_am = os.path.basename(fi_le)
+                    LOGGER.info(gaut_am)
+                
         G_DRIVE = False
         txt = update.message.reply_to_message.text
         print(txt)
@@ -186,17 +209,10 @@ async def youtube_dl_call_back(bot, update):
             if g_txt[1] == "gdrive":
                 G_DRIVE = True
         if G_DRIVE:
-            for a, b, c in os.walk(tmp_directory_for_each_user):
-                print(a)
-                for d in c:
-                    e = os.path.join(a, d)
-                    print(e)
-                    gaut_am = os.path.basename(e)
-                    print(gaut_am)
-                    liop = subprocess.Popen(["mv", f'{e}', "/app/"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-                    o, e = liop.communicate()
-                    print(o)
-                    print(e)
+            liop = subprocess.Popen(["mv", f'{fi_le}', "/app/"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            out, err = liop.communicate()
+            LOGGER.info(out)
+            LOGGER.info(err)
             final_response = await upload_to_gdrive(
                 gaut_am,
                 update.message,
