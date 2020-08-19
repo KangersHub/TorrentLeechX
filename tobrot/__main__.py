@@ -93,12 +93,6 @@ if __name__ == "__main__" :
     )
     app.add_handler(incoming_purge_message_handler)
     #
-    incoming_clone_handler = MessageHandler(
-        g_clonee,
-        filters=Filters.command(["gclone"]) & Filters.chat(chats=AUTH_CHANNEL)
-    )
-    app.add_handler(incoming_clone_handler)
-    #
     incoming_size_checker_handler = MessageHandler(
         check_size_g,
         filters=Filters.command([f"{GET_SIZE_G}"]) & Filters.chat(chats=AUTH_CHANNEL)
