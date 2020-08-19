@@ -49,3 +49,4 @@ class Config(object):
     CLEAR_THUMBNAIL = os.environ.get("CLEAR_THUMBNAIL", "clearthumbnail")
     UPLOAD_AS_DOC = os.environ.get("UPLOAD_AS_DOC", "False")
     PYTDL_COMMAND_G = os.environ.get("PYTDL_COMMAND_G", "pytdl")
+    LOG_COMMAND = os.environ.get("LOG_COMMAND", "log")

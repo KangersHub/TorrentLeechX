@@ -32,20 +32,21 @@ from tobrot import (
     STATUS_COMMAND,
     SAVE_THUMBNAIL,
     CLEAR_THUMBNAIL,
-    PYTDL_COMMAND_G
+    PYTDL_COMMAND_G,
+    LOG_COMMAND
 )
 
 from pyrogram import Client, Filters, MessageHandler, CallbackQueryHandler
 
 from tobrot.plugins.new_join_fn import new_join_f, help_message_f, rename_message_f
-from tobrot.plugins.incoming_message_fn import incoming_message_f, incoming_youtube_dl_f, incoming_purge_message_f, incoming_gdrive_message_f, g_yt_playlist
+from tobrot.plugins.incoming_message_fn import incoming_message_f, incoming_youtube_dl_f, incoming_purge_message_f, incoming_gdrive_message_f, g_yt_playlist, g_clonee
 from tobrot.plugins.rclone_size import check_size_g, g_clearme
 from tobrot.plugins.status_message_fn import (
     status_message_f,
     cancel_message_f,
     exec_message_f,
-    upload_document_f
-    #eval_message_f
+    upload_document_f,
+    upload_log_file
 )
 from tobrot.plugins.call_back_button_handler import button
 from tobrot.plugins.custom_thumbnail import (
@@ -91,6 +92,12 @@ if __name__ == "__main__" :
         filters=Filters.command(["purge"]) & Filters.chat(chats=AUTH_CHANNEL)
     )
     app.add_handler(incoming_purge_message_handler)
+    #
+    incoming_clone_handler = MessageHandler(
+        g_clonee,
+        filters=Filters.command(["gclone"]) & Filters.chat(chats=AUTH_CHANNEL)
+    )
+    app.add_handler(incoming_clone_handler)
     #
     incoming_size_checker_handler = MessageHandler(
         check_size_g,
@@ -153,7 +160,13 @@ if __name__ == "__main__" :
         filters=Filters.command(["upload"]) & Filters.chat(chats=AUTH_CHANNEL)
     )
     app.add_handler(upload_document_handler)
-
+    #
+    upload_log_handler = MessageHandler(
+        upload_log_file,
+        filters=Filters.command([f"{LOG_COMMAND}"]) & Filters.chat(chats=AUTH_CHANNEL)
+    )
+    app.add_handler(upload_log_handler)
+    #
     help_text_handler = MessageHandler(
         help_message_f,
         filters=Filters.command(["help"]) & Filters.chat(chats=AUTH_CHANNEL)
