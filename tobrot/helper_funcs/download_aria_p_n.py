@@ -36,7 +36,7 @@ async def aria_start():
     aria2_daemon_start_cmd = []
     # start the daemon, aria2c command
     aria2_daemon_start_cmd.append("aria2c")
-    # aria2_daemon_start_cmd.append("--allow-overwrite=true")
+    aria2_daemon_start_cmd.append("--allow-overwrite=true")
     aria2_daemon_start_cmd.append("--daemon=true")
     # aria2_daemon_start_cmd.append(f"--dir={DOWNLOAD_LOCATION}")
     # TODO: this does not work, need to investigate this.
@@ -51,7 +51,7 @@ async def aria_start():
     aria2_daemon_start_cmd.append("--seed-ratio=0.0")
     aria2_daemon_start_cmd.append("--seed-time=1")
     aria2_daemon_start_cmd.append("--split=10")
-    aria2_daemon_start_cmd.append(f"--bt-stop-timeout={MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START}")
+    #aria2_daemon_start_cmd.append(f"--bt-stop-timeout={MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START}")
     #
     LOGGER.info(aria2_daemon_start_cmd)
     #
