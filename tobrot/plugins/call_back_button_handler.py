@@ -38,13 +38,17 @@ async def button(bot, update: CallbackQuery):
                 LOGGER.info(g_id)
                 try:
                     downloads = aria_i_p.get_download(g_id)
+                    file_name = downloads.name
                     LOGGER.info(downloads)
                     LOGGER.info(downloads.remove(force=True))
+                    if os.path.exists(file_name):
+                        if os.path.isdir(file_name):
+                            shutil.rmtree(file_name)
+                        else:
+                            os.remove(file_name)
                     await i_m_s_e_g.edit_text(f"Leech Cancelled by <a href='tg://user?id={update.from_user.id}'>{update.from_user.first_name}</a>")
                 except Exception as e:
                     await i_m_s_e_g.edit_text("<i>FAILED</i>\n\n" + str(e) + "\n#error")
-                else:
-                    await update.message.delete()
         elif cb_data == "fuckingdo":
             if update.from_user.id in AUTH_CHANNEL:
                 g_d_list = ['app.json', 'venv', 'rclone.conf', '.gitignore', '_config.yml', 'COPYING', 'Dockerfile', 'DOWNLOADS', 'Procfile', '.heroku', '.profile.d', 'rclone.jpg', 'README.md', 'requirements.txt', 'runtime.txt', 'start.sh', 'tobrot', 'vendor']
