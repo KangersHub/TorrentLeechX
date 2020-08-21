@@ -174,6 +174,7 @@ async def call_apropriate_function(
     await asyncio.sleep(1)
     file = aria_instance.get_download(err_message)
     to_upload_file = file.name
+    com_g = file.is_complete
     #
     if is_zip:
         # first check if current free space allows this
@@ -214,13 +215,14 @@ async def call_apropriate_function(
     response = {}
     LOGGER.info(response)
     user_id = user_message.from_user.id
-    print(user_id)
-    final_response = await upload_to_tg(
-        sent_message_to_update_tg_p,
-        to_upload_file,
-        user_id,
-        response
-    )
+    #LOGGER.info(user_id)
+    if com_g:
+        final_response = await upload_to_tg(
+            sent_message_to_update_tg_p,
+            to_upload_file,
+            user_id,
+            response
+        )
     LOGGER.info(final_response)
     try:
         message_to_send = ""
@@ -296,6 +298,7 @@ async def call_apropriate_function_g(
     await asyncio.sleep(1)
     file = aria_instance.get_download(err_message)
     to_upload_file = file.name
+    com_gau = file.is_complete
     #
     if is_zip:
         # first check if current free space allows this
@@ -336,13 +339,14 @@ async def call_apropriate_function_g(
     response = {}
     LOGGER.info(response)
     user_id = user_message.from_user.id
-    print(user_id)
-    final_response = await upload_to_gdrive(
-        to_upload_file,
-        sent_message_to_update_tg_p,
-        user_message,
-        user_id
-    )
+    LOGGER.info(user_id)
+    if com_gau:
+        final_response = await upload_to_gdrive(
+            to_upload_file,
+            sent_message_to_update_tg_p,
+            user_message,
+            user_id
+        )
 #
 async def call_apropriate_function_t(
     to_upload_file_g,
