@@ -442,19 +442,19 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                 except:
                     pass
                 #
-                msg = f"\nDownloading File: `{downloading_dir_name}`"
+                msg = f"\n`{downloading_dir_name}`"
                 msg += f"\nSpeed: {file.download_speed_string()} 🔽 / {file.upload_speed_string()} 🔼"
-                msg += f"\nProgress: {file.progress_string()}"
-                msg += f"\nTotal Size: {file.total_length_string()}"
+                msg += f"\nStatus: {file.progress_string()} of {file.total_length_string()}, ETA: {file.eta_string()}"
+                #msg += f"\nSize: {file.total_length_string()}"
 
                 if is_file is None :
-                   msg += f"\n<b>Connections:</b> {file.connections}"
+                   msg += f"\n<b>Conn:</b> {file.connections}, GID: <code>{gid}</code>"
                 else :
-                   msg += f"\n<b>Info:</b>[ P : {file.connections} || S : {file.num_seeders} ]"
+                   msg += f"\n<b>Info:</b>[ P : {file.connections} | S : {file.num_seeders} ], GID: <code>{gid}</code>"
 
                 # msg += f"\nStatus: {file.status}"
-                msg += f"\nETA: {file.eta_string()}"
-                msg += f"\nGID: <code>{gid}</code>"
+                #msg += f"\nETA: {file.eta_string()}"
+                #msg += f"\nGID: <code>{gid}</code>"
                 inline_keyboard = []
                 ikeyboard = []
                 ikeyboard.append(InlineKeyboardButton("Cancel 🚫", callback_data=(f"cancel {gid}").encode("UTF-8")))
@@ -474,7 +474,7 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
             await check_progress_for_dl(aria2, gid, event, previous_message)
         else:
             await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-            await event.edit(f"File Downloaded Successfully: `{file.name}`")
+            await event.edit(f"Downloaded Successfully: `{file.name}`")
             return True
     except Exception as e:
         LOGGER.info(str(e))
