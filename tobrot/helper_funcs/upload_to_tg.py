@@ -246,6 +246,10 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, e
     #
     if UPLOAD_AS_DOC.upper() == 'TRUE':
         thumb = None
+        thumb_image_path = None
+        if os.path.exists(thumbnail_location):
+        	thumb_image_path = await copy_file(thumbnail_location, os.path.dirname(os.path.abspath(local_file_name)))
+        	thumb = thumb_image_path
         message_for_progress_display = message
         if not edit_media:
             message_for_progress_display = await message.reply_text("starting upload of {}".format(os.path.basename(local_file_name)))
@@ -267,6 +271,8 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, e
         if message.message_id != message_for_progress_display.message_id:
             await message_for_progress_display.delete()
         os.remove(local_file_name)
+        if thumb is not None:
+        	os.remove(thumb)
     else:
         try:
             message_for_progress_display = message
