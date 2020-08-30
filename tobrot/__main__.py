@@ -195,6 +195,5 @@ if __name__ == "__main__" :
         filters=Filters.command([f"{CLEAR_THUMBNAIL}"]) & Filters.chat(chats=AUTH_CHANNEL)
     )
     app.add_handler(clear_thumb_nail_handler)
-    app.DOWNLOAD_WORKERS = 20
     #
     app.run()
