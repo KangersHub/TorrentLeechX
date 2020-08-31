@@ -204,8 +204,8 @@ class CloneHelper:
         LOGGER.info(self.out.decode())
 
         if self.name == "":
-            reg_f = "INFO(..): (\w+.*)(:)"
+            reg_f = "INFO(.*)(:)(.*)(:) (Copied)"
             file_n = re.findall(reg_f, err)
-            LOGGER.info(file_n[0][1].strip())
-            self.name = file_n[0][1].strip()
+            LOGGER.info(file_n[0][2].strip())
+            self.name = file_n[0][2].strip()
             self.filee = self.name
