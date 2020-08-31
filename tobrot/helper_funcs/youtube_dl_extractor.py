@@ -16,7 +16,7 @@ import asyncio
 from tobrot.helper_funcs.display_progress import humanbytes
 import json
 import os
-import pyrogram
+import pyrogram.types as pyrogram
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 from tobrot import (

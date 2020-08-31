@@ -30,6 +30,7 @@ from tobrot.helper_funcs.display_progress import progress_for_pyrogram
 from tobrot.helper_funcs.youtube_dl_extractor import extract_youtube_dl_formats
 from tobrot.helper_funcs.admin_check import AdminCheck
 from tobrot.helper_funcs.ytplaylist import yt_playlist_downg
+from tobrot.helper_funcs.cloneHelper import CloneHelper
 
 async def incoming_purge_message_f(client, message):
     """/purge command"""
@@ -181,7 +182,7 @@ async def incoming_youtube_dl_f(client, message):
         # list the formats, and display in button markup formats
         thumb_image, text_message, reply_markup = await extract_youtube_dl_formats(
             dl_url,
-            cf_name,
+            # cf_name,
             yt_dl_user_name,
             yt_dl_pass_word,
             user_working_dir
@@ -224,3 +225,19 @@ async def g_yt_playlist(client, message):
     
     else:
         await message.reply_text("Reply to youtube playlist link only 🙄")
+        
+ #
+async def g_clonee(client, message):
+    """ /gclone command """
+    g_id = message.from_user.id
+    if message.reply_to_message is not None:
+        LOGGER.info(message.reply_to_message.text)
+        gclone = CloneHelper(message)
+        gclone.config()
+        a, h = gclone.get_id()
+        LOGGER.info(a)
+        LOGGER.info(h)
+        await gclone.gcl()
+        await gclone.link_gen_size()
+    else:
+        await message.reply_text("You should reply to a message, which format should be [ID of Gdrive file/folder Name of the file/folder]\nOr read Github for detailled information")

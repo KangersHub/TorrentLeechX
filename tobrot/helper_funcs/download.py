@@ -19,7 +19,7 @@ import re
 import time
 import subprocess
 from datetime import datetime
-from pyrogram import Client, Filters
+from pyrogram import Client, filters
 
 from tobrot import (
     DOWNLOAD_LOCATION

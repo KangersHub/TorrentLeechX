@@ -26,7 +26,8 @@ from tobrot import (
     EDIT_SLEEP_TIME_OUT,
     CUSTOM_FILE_NAME
 )
-from pyrogram import (
+from pyrogram.errors import MessageNotModified
+from pyrogram.types import (
 	InlineKeyboardButton,
 	InlineKeyboardMarkup,
 	Message
