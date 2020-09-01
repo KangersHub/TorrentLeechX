@@ -6,6 +6,7 @@
 A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.com/pyrogram/pyrogram)
 
 # Benefits :-
+    ✓ Google Drive link cloning using gclone.(wip)
     ✓ Telegram File mirrorring to cloud along with its unzipping, unrar and untar
     ✓ Drive/Teamdrive support/All other cloud services rclone.org supports
     ✓ Unzip
@@ -22,7 +23,10 @@ A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.c
     ✓
     
 # TO-DO
--   [x] Gdrive file clonning using Gclone
+-   ~Gdrive file clonning using Gclone~ `DONE ✓`
+-   [ ] Adding mp3 files support while playlist downloading.
+-   [ ] Password support while Unarchiving the files.
+-   [ ] Selection of required files during leeching the big files using aria(/leech command)
 
 ### Credit goes to SpEcHiDe for his Publicleech repo.
 
@@ -172,10 +176,18 @@ and everythin except `[NAME]`
 
 * `PYTDL_COMMAND_G`
 
+* `CLONE_COMMAND_G`
+
 * `UPLOAD_AS_DOC`: Takes two option True or False. If True file will be uploaded as document. This is for people who wants video files as document instead of streamable.
 
 * `INDEX_LINK`: (Without `/` at last of the link, otherwise u will get error) During creating index, plz fill `Default Root ID` with the id of your `DESTINATION_FOLDER` after creating. Otherwise index will not work properly.
 ## Available Commands
+
+* `/gclone`: This command is used to clone gdrive files or folder using gclone.
+       
+       Syntax:- `[ID of the file or folder][one space][name of your folder only(If the id is of file, don't put anything)]` and then reply /gclone to it.
+       
+* `/log`: This will send you a txt file of the logs.
 
 * `/ytdl`: This command should be used as reply to a [supported link](https://ytdl-org.github.io/youtube-dl/supportedsites.html)
 
@@ -218,10 +230,10 @@ and everythin except `[NAME]`
 * `/renewme`: This will clear the remains of downloads which are not getting deleted after upload of the file or after /cancel command. 
 
 
-* [Only work with direct link for now]It is like u can add custom name as prefix of the original file name.
+* [Only work with direct link and youtube link for now]It is like u can add custom name as prefix of the original file name.
 Like if your file name is `gk.txt` uploaded will be what u add in `CUSTOM_FILE_NAME` + `gk.txt`
 
-Only works with direct link.No magnet or torrent.
+Only works with direct link/youtube link.No magnet or torrent.
 
 And also added custom name like...
 
