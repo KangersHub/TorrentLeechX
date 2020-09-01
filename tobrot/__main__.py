@@ -33,7 +33,8 @@ from tobrot import (
     SAVE_THUMBNAIL,
     CLEAR_THUMBNAIL,
     PYTDL_COMMAND_G,
-    LOG_COMMAND
+    LOG_COMMAND,
+    CLONE_COMMAND_G
 )
 
 from pyrogram import Client, filters
@@ -96,7 +97,7 @@ if __name__ == "__main__" :
     #
     incoming_clone_handler = MessageHandler(
         g_clonee,
-        filters=filters.command(["gclone"]) & filters.chat(chats=AUTH_CHANNEL)
+        filters=filters.command([f"{CLONE_COMMAND_G}"]) & filters.chat(chats=AUTH_CHANNEL)
     )
     app.add_handler(incoming_clone_handler)
     #
