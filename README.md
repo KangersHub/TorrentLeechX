@@ -272,10 +272,10 @@ and everythin except `[NAME]`
 * `/renewme`: This will clear the remains of downloads which are not getting deleted after upload of the file or after /cancel command. 
 
 
-* [Only work with direct link and youtube link for now]It is like u can add custom name as prefix of the original file name.
+* ~Only work with direct link and youtube link for now~It is like u can add custom name as prefix of the original file name.
 Like if your file name is `gk.txt` uploaded will be what u add in `CUSTOM_FILE_NAME` + `gk.txt`
 
-Only works with direct link/youtube link.No magnet or torrent.
+~Only works with direct link/youtube link.No magnet or torrent.~
 
 And also added custom name like...
 
