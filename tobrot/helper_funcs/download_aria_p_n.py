@@ -205,8 +205,17 @@ async def call_apropriate_function(
     #
     if to_upload_file:
         if CUSTOM_FILE_NAME:
-            os.rename(to_upload_file, f"{CUSTOM_FILE_NAME}{to_upload_file}")
-            to_upload_file = f"{CUSTOM_FILE_NAME}{to_upload_file}"
+            if os.path.isfile(to_upload_file):
+                os.rename(to_upload_file, f"{CUSTOM_FILE_NAME}{to_upload_file}")
+                to_upload_file = f"{CUSTOM_FILE_NAME}{to_upload_file}"
+            else:
+                for root, dirs, files in os.walk(to_upload_file):
+                    LOGGER.info(files)
+                    for org in files:
+                        p_name = f"{root}/{org}"
+                        n_name = f"{root}/{CUSTOM_FILE_NAME}{org}"
+                        os.rename(p_name, n_name)
+                to_upload_file = to_upload_file
         else:
             to_upload_file = to_upload_file
 
@@ -219,7 +228,6 @@ async def call_apropriate_function(
     response = {}
     LOGGER.info(response)
     user_id = user_message.from_user.id
-    #LOGGER.info(user_id)
     if com_g:
         final_response = await upload_to_tg(
             sent_message_to_update_tg_p,
@@ -328,8 +336,17 @@ async def call_apropriate_function_g(
     #
     if to_upload_file:
         if CUSTOM_FILE_NAME:
-            os.rename(to_upload_file, f"{CUSTOM_FILE_NAME}{to_upload_file}")
-            to_upload_file = f"{CUSTOM_FILE_NAME}{to_upload_file}"
+            if os.path.isfile(to_upload_file):
+                os.rename(to_upload_file, f"{CUSTOM_FILE_NAME}{to_upload_file}")
+                to_upload_file = f"{CUSTOM_FILE_NAME}{to_upload_file}"
+            else:
+                for root, dirs, files in os.walk(to_upload_file):
+                    LOGGER.info(files)
+                    for org in files:
+                        p_name = f"{root}/{org}"
+                        n_name = f"{root}/{CUSTOM_FILE_NAME}{org}"
+                        os.rename(p_name, n_name)
+                to_upload_file = to_upload_file
         else:
             to_upload_file = to_upload_file
 
@@ -351,78 +368,6 @@ async def call_apropriate_function_g(
             user_id
         )
 #
-async def call_apropriate_function_t(
-    to_upload_file_g,
-    sent_message_to_update_tg_p,
-    is_unzip,
-    is_unrar,
-    is_untar
-):
-    #
-    to_upload_file = to_upload_file_g
-    if is_unzip:
-        check_ifi_file = await unzip_me(to_upload_file_g)
-        if check_ifi_file is not None:
-            to_upload_file = check_ifi_file
-    #
-    if is_unrar:
-        check_ife_file = await unrar_me(to_upload_file_g)
-        if check_ife_file is not None:
-            to_upload_file = check_ife_file
-    #
-    if is_untar:
-        check_ify_file = await untar_me(to_upload_file_g)
-        if check_ify_file is not None:
-            to_upload_file = check_ify_file
-    #
-    response = {}
-    LOGGER.info(response)
-    user_id = sent_message_to_update_tg_p.reply_to_message.from_user.id
-    final_response = await upload_to_gdrive(
-        to_upload_file,
-        sent_message_to_update_tg_p
-    )
-    LOGGER.info(final_response)
-    #if to_upload_file:
-        #if CUSTOM_FILE_NAME:
-            #os.rename(to_upload_file, f"{CUSTOM_FILE_NAME}{to_upload_file}")
-            #to_upload_file = f"{CUSTOM_FILE_NAME}{to_upload_file}"
-        #else:
-            #to_upload_file = to_upload_file
-
-    #if cstom_file_name:
-        #os.rename(to_upload_file, cstom_file_name)
-        #to_upload_file = cstom_file_name
-    #else:
-        #to_upload_file = to_upload_file
-    '''
-    
-    LOGGER.info(final_response)
-    message_to_send = ""
-    for key_f_res_se in final_response:
-        local_file_name = key_f_res_se
-        message_id = final_response[key_f_res_se]
-        channel_id = str(AUTH_CHANNEL)[4:]
-        private_link = f"https://t.me/c/{channel_id}/{message_id}"
-        message_to_send += "👉 <a href='"
-        message_to_send += private_link
-        message_to_send += "'>"
-        message_to_send += local_file_name
-        message_to_send += "</a>"
-        message_to_send += "\n"
-    if message_to_send != "":
-        mention_req_user = f"<a href='tg://user?id={user_id}'>Your Requested Files</a>\n\n"
-        message_to_send = mention_req_user + message_to_send
-        message_to_send = message_to_send + "\n\n" + "#uploads"
-    else:
-        message_to_send = "<i>FAILED</i> to upload files. 😞😞"
-    await sent_message_to_update_tg_p.reply_to_message.reply_text(
-        text=message_to_send,
-        quote=True,
-        disable_web_page_preview=True
-    )
-    return True, None
-    '''
 
 
 # https://github.com/jaskaranSM/UniBorg/blob/6d35cf452bce1204613929d4da7530058785b6b1/stdplugins/aria.py#L136-L164
