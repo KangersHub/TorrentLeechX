@@ -98,8 +98,8 @@ sudo docker run torrentleech-gdrive
 Simply clone the repository and run the main file:
 
 ```sh
-git clone https://github.com/SpEcHiDe/PublicLeech.git
-cd PublicLeech
+git clone https://github.com/gautamajay52/TorrentLeech-Gdrive
+cd TorrentLeech-Gdrive
 python3 -m venv venv
 . ./venv/bin/activate
 pip install -r requirements.txt
