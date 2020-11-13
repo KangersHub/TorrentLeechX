@@ -136,6 +136,8 @@ class Config(Config):
 
 * `OWNER_ID`: ID of the bot owner, He/she can be abled to access bot in bot only mode too(private mode).
 
+* `INDEX_LINK`
+
 ##### Set Rclone
 
 1. Set Rclone locally by following the official repo : https://rclone.org/docs/
@@ -219,6 +221,16 @@ and everythin except `[NAME]`
 * `PYTDL_COMMAND_G`
 
 * `CLONE_COMMAND_G`
+
+* `UPLOAD_COMMAND`
+
+* `RENEWME_COMMAND`
+
+* `SAVE_THUMBNAIL`
+
+* `CLEAR_THUMBNAIL`
+
+* `GET_SIZE_G`
 
 * `UPLOAD_AS_DOC`: Takes two option True or False. If True file will be uploaded as document. This is for people who wants video files as document instead of streamable.
 

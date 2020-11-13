@@ -51,3 +51,5 @@ class Config(object):
     PYTDL_COMMAND_G = os.environ.get("PYTDL_COMMAND_G", "pytdl")
     LOG_COMMAND = os.environ.get("LOG_COMMAND", "log")
     CLONE_COMMAND_G = os.environ.get("CLONE_COMMAND_G", "gclone")
+    UPLOAD_COMMAND = os.environ.get("UPLOAD_COMMAND", "upload")
+    RENEWME_COMMAND = os.environ.get("RENEWME_COMMAND", "renewme")
