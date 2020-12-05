@@ -31,6 +31,8 @@ from tobrot.helper_funcs.youtube_dl_extractor import extract_youtube_dl_formats
 from tobrot.helper_funcs.admin_check import AdminCheck
 from tobrot.helper_funcs.ytplaylist import yt_playlist_downg
 from tobrot.helper_funcs.cloneHelper import CloneHelper
+from tobrot.helper_funcs.download import download_tg
+from tobrot.helper_funcs.upload_to_tg import upload_to_tg
 
 async def incoming_purge_message_f(client, message):
     """/purge command"""
@@ -47,7 +49,7 @@ async def incoming_message_f(client, message):
     """/leech command"""
     g_id = message.from_user.id
     credit = await message.reply_text(f"🧲 Leeching for you <a href='tg://user?id={g_id}'>🤕</a>", parse_mode="html")
-    i_m_sefg = await credit.reply_text("processing", quote=True)
+    i_m_sefg = await message.reply_text("processing", quote=True)
     is_zip = False
     is_unzip = False
     is_unrar = False
@@ -107,7 +109,7 @@ async def incoming_gdrive_message_f(client, message):
     """/gleech command"""
     g_id = message.from_user.id
     credit = await message.reply_text(f"🧲 Leeching for you <a href='tg://user?id={g_id}'>🤕</a>", parse_mode="html")
-    i_m_sefg = await credit.reply_text("processing", quote=True)
+    i_m_sefg = await message.reply_text("processing", quote=True)
     is_zip = False
     is_unzip = False
     is_unrar = False
@@ -165,7 +167,7 @@ async def incoming_youtube_dl_f(client, message):
     """ /ytdl command """
     g_id = message.from_user.id
     credit = await message.reply_text(f"💀 Downloading for you <a href='tg://user?id={g_id}'>🤕</a>", parse_mode="html")
-    i_m_sefg = await credit.reply_text("processing", quote=True)
+    i_m_sefg = await message.reply_text("processing", quote=True)
     # LOGGER.info(message)
     # extract link from message
     dl_url, cf_name, yt_dl_user_name, yt_dl_pass_word = await extract_link(
@@ -247,3 +249,52 @@ async def g_clonee(client, message):
         await gclone.link_gen_size()
     else:
         await message.reply_text("You should reply to a message, which format should be [ID of Gdrive file/folder Name of the file/folder]\nOr read Github for detailled information")
+
+
+async def rename_tg_file(client, message):
+    usr_id = message.from_user.id
+    if len(message.command) > 1:
+        new_name = '/app/' + message.command[1].strip()
+        file = await download_tg(client, message)
+        try:
+            if file:
+                os.rename(file, new_name)
+        except Exception as g_g:
+            await message.reply_text("g_g")
+        response = {}
+        final_response = await upload_to_tg(
+            message,
+            new_name,
+            usr_id,
+            response
+        )
+        LOGGER.info(final_response)
+        try:
+            message_to_send = ""
+            for key_f_res_se in final_response:
+                local_file_name = key_f_res_se
+                message_id = final_response[key_f_res_se]
+                channel_id = str(message.chat.id)[4:]
+                private_link = f"https://t.me/c/{channel_id}/{message_id}"
+                message_to_send += "👉 <a href='"
+                message_to_send += private_link
+                message_to_send += "'>"
+                message_to_send += local_file_name
+                message_to_send += "</a>"
+                message_to_send += "\n"
+            if message_to_send != "":
+                mention_req_user = f"<a href='tg://user?id={usr_id}'>Your Requested Files</a>\n\n"
+                message_to_send = mention_req_user + message_to_send
+                message_to_send = message_to_send + "\n\n" + "#uploads"
+            else:
+                message_to_send = "<i>FAILED</i> to upload files. 😞😞"
+            await message.reply_text(
+                text=message_to_send,
+                quote=True,
+                disable_web_page_preview=True
+            )
+        except Exception as pe:
+            LOGGER.info(pe)
+
+    else:
+        await message.reply_text("Provide new name of the file with extension 😐")

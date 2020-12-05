@@ -208,9 +208,6 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         gautii = f"https://drive.google.com/folderview?id={gautam}"
         gau_link = re.search("(?P<url>https?://[^\s]+)", gautii).group("url")
         LOGGER.info(gau_link)
-        #indexurl = f"{INDEX_LINK}/{file_upload}/"
-        #tam_link = requests.utils.requote_uri(indexurl)
-        #print(tam_link)
         gjay = size(getFolderSize(file_upload))
         LOGGER.info(gjay)
         button = []
@@ -223,11 +220,8 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         button_markup = pyrogram.InlineKeyboardMarkup(button)
         await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
         await messa_ge.reply_text(f"🤖: Folder has been Uploaded successfully to {tt} in your Cloud <a href='tg://user?id={g_id}'>🤒</a>\n📀 Size: {gjay}", reply_markup=button_markup)
-        #await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-        #await messa_ge.reply_text(f"""🤖: Folder has been Uploaded successfully to {tt} in your cloud 🤒\n\n☁️ Cloud URL:  <a href="{gau_link}">FolderLink</a>\nℹ️ Index Url:. <a href="{tam_link}">IndexLink</a>""")
         shutil.rmtree(file_upload)
         await del_it.delete()
-        #os.remove('rclone.conf')
 
 #
 
@@ -248,8 +242,8 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, e
         thumb = None
         thumb_image_path = None
         if os.path.exists(thumbnail_location):
-        	thumb_image_path = await copy_file(thumbnail_location, os.path.dirname(os.path.abspath(local_file_name)))
-        	thumb = thumb_image_path
+            thumb_image_path = await copy_file(thumbnail_location, os.path.dirname(os.path.abspath(local_file_name)))
+            thumb = thumb_image_path
         message_for_progress_display = message
         if not edit_media:
             message_for_progress_display = await message.reply_text("starting upload of {}".format(os.path.basename(local_file_name)))
@@ -284,7 +278,7 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, e
                 metadata = extractMetadata(createParser(local_file_name))
                 duration = 0
                 if metadata.has("duration"):
-                	duration = metadata.get('duration').seconds
+                    duration = metadata.get('duration').seconds
                 width = 0
                 height = 0
                 thumb_image_path = None
@@ -364,7 +358,7 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, e
                 title = ""
                 artist = ""
                 if metadata.has("duration"):
-                	duration = metadata.get('duration').seconds
+                    duration = metadata.get('duration').seconds
                 if metadata.has("title"):
                     title = metadata.get("title")
                 if metadata.has("artist"):

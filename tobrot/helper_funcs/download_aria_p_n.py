@@ -16,6 +16,7 @@ LOGGER = logging.getLogger(__name__)
 import aria2p
 import asyncio
 import os
+import time
 from tobrot.helper_funcs.upload_to_tg import upload_to_tg, upload_to_gdrive
 from tobrot.helper_funcs.create_compressed_archive import create_archive, unzip_me, unrar_me, untar_me
 from tobrot.helper_funcs.extract_link_from_message import extract_link
@@ -28,11 +29,11 @@ from tobrot import (
     EDIT_SLEEP_TIME_OUT,
     CUSTOM_FILE_NAME
 )
-from pyrogram.errors import MessageNotModified
+from pyrogram.errors import MessageNotModified, FloodWait
 from pyrogram.types import (
-	InlineKeyboardButton,
-	InlineKeyboardMarkup,
-	Message
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Message
 )
 
 async def aria_start():
@@ -430,9 +431,12 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
             await event.edit(f"Downloaded Successfully: `{file.name}` 🤒")
             return True
     except aria2p.client.ClientException:
-        pass
-    except MessageNotModified:
-        pass
+        await event.edit("Download Canceled :\n<code>{}</code>".format(file.name))
+    except MessageNotModified as ep:
+        LOGGER.info(ep)
+    except FloodWait as e:
+        LOGGER.info(e)
+        time.sleep(e.x)
     except RecursionError:
         file.remove(force=True)
         await event.edit(
@@ -444,13 +448,15 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
         return False
     except Exception as e:
         LOGGER.info(str(e))
-        if " not found" in str(e) or "'file'" in str(e):
-            await event.edit("Download Canceled :\n<code>{}</code>".format(file.name))
-            return False
-        else:
-            LOGGER.info(str(e))
-            await event.edit("<u>error</u> :\n<code>{}</code> \n\n#error".format(str(e)))
-            return False
+        await event.edit(f'Download cancelled due to {e}')
+        return False
+        # if "not found" in str(e) or "file" in str(e):
+        #     await event.edit("Download Canceled :\n<code>{}</code>".format(file.name))
+        #     return False
+        # else:
+        #     LOGGER.info(str(e))
+        #     await event.edit("<u>error</u> :\n<code>{}</code> \n\n#error".format(str(e)))
+        #     return False
 # https://github.com/jaskaranSM/UniBorg/blob/6d35cf452bce1204613929d4da7530058785b6b1/stdplugins/aria.py#L136-L164
 
 
