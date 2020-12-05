@@ -428,10 +428,10 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
             await check_progress_for_dl(aria2, gid, event, previous_message)
         else:
             await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-            await event.edit(f"Downloaded Successfully: `{file.name}` 🤒")
+            await event.edit(f"Downloaded Successfully: `{file.name} ({file.total_length_string()})` 🤒")
             return True
     except aria2p.client.ClientException:
-        await event.edit("Download Canceled :\n<code>{}</code>".format(file.name))
+        await event.edit(f"Download Canceled :\n<code>{file.name} ({file.total_length_string()})</code>")
     except MessageNotModified as ep:
         LOGGER.info(ep)
     except FloodWait as e:
@@ -448,15 +448,14 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
         return False
     except Exception as e:
         LOGGER.info(str(e))
-        await event.edit(f'Download cancelled due to {e}')
-        return False
-        # if "not found" in str(e) or "file" in str(e):
-        #     await event.edit("Download Canceled :\n<code>{}</code>".format(file.name))
-        #     return False
-        # else:
-        #     LOGGER.info(str(e))
-        #     await event.edit("<u>error</u> :\n<code>{}</code> \n\n#error".format(str(e)))
-        #     return False
+        #await event.edit(f'Download cancelled due to {e}')
+        if "not found" in str(e) or "'file'" in str(e):
+            await event.edit(f"Download Canceled :\n<code>{file.name} ({file.total_length_string()})</code>")
+            return False
+        else:
+            LOGGER.info(str(e))
+            await event.edit("<u>error</u> :\n<code>{}</code> \n\n#error".format(str(e)))
+            return False
 # https://github.com/jaskaranSM/UniBorg/blob/6d35cf452bce1204613929d4da7530058785b6b1/stdplugins/aria.py#L136-L164
 
 

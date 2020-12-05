@@ -53,35 +53,36 @@ async def status_message_f(client, message):
             downloading_dir_name = str(download.name)
         except:
             pass
-        total_length_size = str(download.total_length_string())
-        progress_percent_string = str(download.progress_string())
-        down_speed_string = str(download.download_speed_string())
-        up_speed_string = str(download.upload_speed_string())
-        download_current_status = str(download.status)
-        e_t_a = str(download.eta_string())
-        current_gid = str(download.gid)
-        #
-        msg += f"<u>{downloading_dir_name}</u>"
-        msg += " | "
-        msg += f"{total_length_size}"
-        msg += " | "
-        msg += f"{progress_percent_string}"
-        msg += " | "
-        msg += f"{DOWNLOAD_ICON} {down_speed_string}"
-        msg += " | "
-        msg += f"{UPLOAD_ICON} {up_speed_string}"
-        msg += " | "
-        msg += f"{e_t_a}"
-        msg += " | "
-        msg += f"{download_current_status}"
-        msg += " | "
-        msg += f"<code>/cancel {current_gid}</code>"
-        msg += " | "
-        msg += "\n\n"
-    #LOGGER.info(msg)
+        if download.status == 'active':
+            total_length_size = str(download.total_length_string())
+            progress_percent_string = str(download.progress_string())
+            down_speed_string = str(download.download_speed_string())
+            up_speed_string = str(download.upload_speed_string())
+            download_current_status = str(download.status)
+            e_t_a = str(download.eta_string())
+            current_gid = str(download.gid)
+            #
+            msg += f"<u>{downloading_dir_name}</u>"
+            msg += " | "
+            msg += f"{total_length_size}"
+            msg += " | "
+            msg += f"{progress_percent_string}"
+            msg += " | "
+            msg += f"{DOWNLOAD_ICON} {down_speed_string}"
+            msg += " | "
+            msg += f"{UPLOAD_ICON} {up_speed_string}"
+            msg += " | "
+            msg += f"{e_t_a}"
+            msg += " | "
+            msg += f"{download_current_status}"
+            msg += " | "
+            msg += f"<code>/cancel {current_gid}</code>"
+            msg += " | "
+            msg += "\n\n"
+        #LOGGER.info(msg)
 
-    if msg == "":
-        msg = "🤷‍♂️ No Active, Queued or Paused TORRENTs"
+        if msg == "":
+            msg = "🤷‍♂️ No Active, Queued or Paused TORRENTs"
 
     currentTime = time.strftime("%H:%M:%S", time.gmtime(time.time() - BOT_START_TIME))   #ctrl-c & ctrl-v 😑
     total, used, free = shutil.disk_usage(".")
