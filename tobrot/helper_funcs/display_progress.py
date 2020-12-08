@@ -65,8 +65,8 @@ async def progress_for_pyrogram(
                         tmp
                     )
                 )
-        except:
-            pass
+        except Exception as ou:
+            logger.info(ou)
 
 
 def humanbytes(size):

@@ -38,7 +38,7 @@ from tobrot import (
     INDEX_LINK,
     UPLOAD_AS_DOC
 )
-
+from pyrogram.errors import MessageNotModified, FloodWait
 from pyrogram.types import (
     InputMediaDocument,
     InputMediaVideo,
@@ -133,7 +133,7 @@ async def upload_to_tg(
     # await message.delete()
     return dict_contatining_uploaded_files
 
-#coded by © gautamajay52 thanks to Rclone team for this wonderful tool.🧘
+#© gautamajay52 thanks to Rclone team for this wonderful tool.🧘
 
 async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
     await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
@@ -144,7 +144,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         fole.write(f"{RCLONE_CONFIG}")
     destination = f'{DESTINATION_FOLDER}'
     if os.path.isfile(file_upload):
-        g_au = ['rclone', 'copy', '--config=/app/rclone.conf', f'/app/{file_upload}', 'DRIVE:'f'{destination}', '-v']
+        g_au = ['rclone', 'copy', '--config=./rclone.conf', f'./{file_upload}', 'DRIVE:'f'{destination}', '-v']
         tmp = await asyncio.create_subprocess_exec(*g_au, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
         pro, cess = await tmp.communicate()
         LOGGER.info(pro.decode('utf-8'))
@@ -154,7 +154,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         with open('filter.txt', 'w+', encoding = 'utf-8') as filter:
             print(f"+ {gk_file}\n- *", file=filter)
             
-        t_a_m = ['rclone', 'lsf', '--config=/app/rclone.conf', '-F', 'i', "--filter-from=/app/filter.txt", "--files-only", 'DRIVE:'f'{destination}']
+        t_a_m = ['rclone', 'lsf', '--config=./rclone.conf', '-F', 'i', "--filter-from=./filter.txt", "--files-only", 'DRIVE:'f'{destination}']
         gau_tam = await asyncio.create_subprocess_exec(*t_a_m, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
         #os.remove("filter.txt")
         gau, tam = await gau_tam.communicate()
@@ -166,8 +166,6 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         gauti = f"https://drive.google.com/file/d/{gautam}/view?usp=drivesdk"
         gau_link = re.search("(?P<url>https?://[^\s]+)", gauti).group("url")
         LOGGER.info(gau_link)
-        #indexurl = f"{INDEX_LINK}/{file_upload}"
-        #tam_link = requests.utils.requote_uri(indexurl)
         gjay = size(os.path.getsize(file_upload))
         LOGGER.info(gjay)
         button = []
@@ -179,14 +177,13 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
             button.append([pyrogram.InlineKeyboardButton(text="ℹ️ IndexUrl ℹ️", url=f"{tam_link}")])
         button_markup = pyrogram.InlineKeyboardMarkup(button)
         await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-        await messa_ge.reply_text(f"🤖: {file_upload} has been Uploaded successfully to your Cloud <a href='tg://user?id={g_id}'>🤒</a>\n📀 Size: {gjay}", reply_markup=button_markup)
-        #await message.edit_text(f"""🤖: {file_upload} has been Uploaded successfully to your cloud 🤒\n\n☁️ Cloud URL:  <a href="{gau_link}">FileLink</a>\nℹ️ Direct URL:  <a href="{tam_link}">IndexLink</a>""")
+        await messa_ge.reply_text(f"🤖: Uploaded successfully `{file_upload}` <a href='tg://user?id={g_id}'>🤒</a>\n📀 Size: {gjay}", reply_markup=button_markup)
         os.remove(file_upload)
         await del_it.delete()
     else:
         tt= os.path.join(destination, file_upload)
         LOGGER.info(tt)
-        t_am = ['rclone', 'copy', '--config=/app/rclone.conf', f'/app/{file_upload}', 'DRIVE:'f'{tt}', '-v']
+        t_am = ['rclone', 'copy', '--config=./rclone.conf', f'./{file_upload}', 'DRIVE:'f'{tt}', '-v']
         tmp = await asyncio.create_subprocess_exec(*t_am, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
         pro, cess = await tmp.communicate()
         LOGGER.info(pro.decode('utf-8'))
@@ -196,7 +193,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         with open('filter1.txt', 'w+', encoding = 'utf-8') as filter1:
             print(f"+ {g_file}/\n- *", file=filter1)
             
-        g_a_u = ['rclone', 'lsf', '--config=/app/rclone.conf', '-F', 'i', "--filter-from=/app/filter1.txt", "--dirs-only", 'DRIVE:'f'{destination}']
+        g_a_u = ['rclone', 'lsf', '--config=./rclone.conf', '-F', 'i', "--filter-from=./filter1.txt", "--dirs-only", 'DRIVE:'f'{destination}']
         gau_tam = await asyncio.create_subprocess_exec(*g_a_u, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
         #os.remove("filter1.txt")
         gau, tam = await gau_tam.communicate()
@@ -219,7 +216,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
             button.append([pyrogram.InlineKeyboardButton(text="ℹ️ IndexUrl ℹ️", url=f"{tam_link}")])
         button_markup = pyrogram.InlineKeyboardMarkup(button)
         await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-        await messa_ge.reply_text(f"🤖: Folder has been Uploaded successfully to {tt} in your Cloud <a href='tg://user?id={g_id}'>🤒</a>\n📀 Size: {gjay}", reply_markup=button_markup)
+        await messa_ge.reply_text(f"🤖: Uploaded successfully `{file_upload}` <a href='tg://user?id={g_id}'>🤒</a>\n📀 Size: {gjay}", reply_markup=button_markup)
         shutil.rmtree(file_upload)
         await del_it.delete()
 
@@ -228,6 +225,8 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
 
 async def upload_single_file(message, local_file_name, caption_str, from_user, edit_media):
     await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
+    local_file_name = f"./{local_file_name}"
+    LOGGER.info(local_file_name)
     sent_message = None
     start_time = time.time()
     #
@@ -249,12 +248,12 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, e
             message_for_progress_display = await message.reply_text("starting upload of {}".format(os.path.basename(local_file_name)))
         sent_message = await message.reply_document(
             document=local_file_name,
-    	    # quote=True,
+            # quote=True,
             thumb=thumb,
             caption=caption_str,
             parse_mode="html",
             disable_notification=True,
-    	    #reply_to_message_id=message.reply_to_message.message_id,
+            #reply_to_message_id=message.reply_to_message.message_id,
             progress=progress_for_pyrogram,
             progress_args=(
                 "trying to upload",
@@ -266,7 +265,7 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, e
             await message_for_progress_display.delete()
         os.remove(local_file_name)
         if thumb is not None:
-        	os.remove(thumb)
+            os.remove(thumb)
     else:
         try:
             message_for_progress_display = message
@@ -331,7 +330,7 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, e
                         # quote=True,
                     )
                 else:
-                	sent_message = await message.reply_video(
+                    sent_message = await message.reply_video(
                         video=local_file_name,
                         # quote=True,
                         caption=caption_str,
@@ -423,7 +422,7 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, e
                 #
                 # send document
                 if edit_media and message.photo:
-                	sent_message = await message.edit_media(
+                    sent_message = await message.edit_media(
                         media=InputMediaDocument(
                             media=local_file_name,
                             thumb=thumb,
@@ -450,7 +449,13 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, e
                     )
                 if thumb is not None:
                     os.remove(thumb)
+        except MessageNotModified as oY:
+            LOGGER.info(oY)
+        except FloodWait as g:
+            LOGGER.info(g)
+            time.sleep(g.x)
         except Exception as e:
+            LOGGER.info(e)
             await message_for_progress_display.edit_text("**FAILED**\n" + str(e))
         else:
             if message.message_id != message_for_progress_display.message_id:

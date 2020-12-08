@@ -42,7 +42,7 @@ async def aria_start():
     aria2_daemon_start_cmd.append("aria2c")
     aria2_daemon_start_cmd.append("--allow-overwrite=true")
     aria2_daemon_start_cmd.append("--daemon=true")
-    # aria2_daemon_start_cmd.append(f"--dir={DOWNLOAD_LOCATION}")
+    #aria2_daemon_start_cmd.append(f"--dir={DOWNLOAD_LOCATION}")
     # TODO: this does not work, need to investigate this.
     # but for now, https://t.me/TrollVoiceBot?start=858
     aria2_daemon_start_cmd.append("--enable-rpc")
@@ -415,7 +415,7 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                 inline_keyboard.append(ikeyboard)
                 reply_markup = InlineKeyboardMarkup(inline_keyboard)
                 #msg += reply_markup
-                LOGGER.info(msg)
+                #LOGGER.info(msg)
                 if msg != previous_message:
                     await event.edit(msg, reply_markup=reply_markup)
                     previous_message = msg
@@ -427,6 +427,7 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
             await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
             await check_progress_for_dl(aria2, gid, event, previous_message)
         else:
+            LOGGER.info(f"Downloaded Successfully: `{file.name} ({file.total_length_string()})` 🤒")
             await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
             await event.edit(f"Downloaded Successfully: `{file.name} ({file.total_length_string()})` 🤒")
             return True
