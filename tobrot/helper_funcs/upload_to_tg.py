@@ -14,6 +14,7 @@ LOGGER = logging.getLogger(__name__)
 import asyncio
 import pyrogram.types as pyrogram
 import os
+from pathlib import Path
 import time
 import subprocess
 import re
@@ -225,7 +226,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
 
 async def upload_single_file(message, local_file_name, caption_str, from_user, edit_media):
     await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-    local_file_name = f"./{local_file_name}"
+    local_file_name = str(Path(local_file_name).resolve())
     LOGGER.info(local_file_name)
     sent_message = None
     start_time = time.time()
