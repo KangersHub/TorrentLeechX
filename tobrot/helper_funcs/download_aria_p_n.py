@@ -175,7 +175,7 @@ async def call_apropriate_function(
                 None
             )
         else:
-            return False, "can't get metadata \n\n#stopped"
+            return False, "can't get metadata \n\n#MetaDataError"
     await asyncio.sleep(1)
     file = aria_instance.get_download(err_message)
     to_upload_file = file.name
@@ -306,7 +306,7 @@ async def call_apropriate_function_g(
                 None
             )
         else:
-            return False, "can't get metadata \n\n#stopped"
+            return False, "can't get metadata \n\n#MetaDataError"
     await asyncio.sleep(1)
     file = aria_instance.get_download(err_message)
     to_upload_file = file.name
@@ -414,13 +414,18 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                 ikeyboard.append(InlineKeyboardButton("Cancel 🚫", callback_data=(f"cancel {gid}").encode("UTF-8")))
                 inline_keyboard.append(ikeyboard)
                 reply_markup = InlineKeyboardMarkup(inline_keyboard)
-                #msg += reply_markup
-                #LOGGER.info(msg)
                 if msg != previous_message:
-                    await event.edit(msg, reply_markup=reply_markup)
-                    previous_message = msg
+                    if not file.has_failed:
+                        await event.edit(msg, reply_markup=reply_markup)
+                        previous_message = msg
+                    else:
+                        LOGGER.info(f"Cancelling downloading of {file.name} may be due to slow torrent")
+                        await event.edit(f"Download cancelled :\n<code>{file.name}</code>\n\n #MetaDataError")
+                        file.remove(force=True, files=True)
+                        return False
             else:
                 msg = file.error_message
+                LOGGER.info(msg)
                 await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
                 await event.edit(f"`{msg}`")
                 return False
@@ -432,14 +437,14 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
             await event.edit(f"Downloaded Successfully: `{file.name} ({file.total_length_string()})` 🤒")
             return True
     except aria2p.client.ClientException:
-        await event.edit(f"Download Canceled :\n<code>{file.name} ({file.total_length_string()})</code>")
+        await event.edit(f"Download cancelled :\n<code>{file.name} ({file.total_length_string()})</code>")
     except MessageNotModified as ep:
         LOGGER.info(ep)
     except FloodWait as e:
         LOGGER.info(e)
         time.sleep(e.x)
     except RecursionError:
-        file.remove(force=True)
+        file.remove(force=True, files=True)
         await event.edit(
             "Download Auto Canceled :\n\n"
             "Your Torrent/Link is Dead.".format(
@@ -449,9 +454,8 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
         return False
     except Exception as e:
         LOGGER.info(str(e))
-        #await event.edit(f'Download cancelled due to {e}')
         if "not found" in str(e) or "'file'" in str(e):
-            await event.edit(f"Download Canceled :\n<code>{file.name} ({file.total_length_string()})</code>")
+            await event.edit(f"Download cancelled :\n<code>{file.name} ({file.total_length_string()})</code>")
             return False
         else:
             LOGGER.info(str(e))
@@ -461,11 +465,14 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
 
 
 async def check_metadata(aria2, gid):
-    file = aria2.get_download(gid)
-    LOGGER.info(file)
-    if not file.followed_by_ids:
-        # https://t.me/c/1213160642/496
-        return None
-    new_gid = file.followed_by_ids[0]
-    LOGGER.info("Changing GID " + gid + " to " + new_gid)
-    return new_gid
+    try:
+        file = aria2.get_download(gid)
+        LOGGER.info(file)
+        if not file.followed_by_ids:
+            # https://t.me/c/1213160642/496
+            return None
+        new_gid = file.followed_by_ids[0]
+        LOGGER.info("Changing GID " + gid + " to " + new_gid)
+        return new_gid
+    except aria2p.client.ClientException:
+        LOGGER.info("Download cancelled somehow :)")
