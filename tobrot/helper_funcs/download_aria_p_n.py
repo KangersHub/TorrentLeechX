@@ -52,8 +52,7 @@ async def aria_start():
     aria2_daemon_start_cmd.append("--rpc-listen-all=false")
     aria2_daemon_start_cmd.append(f"--rpc-listen-port={ARIA_TWO_STARTED_PORT}")
     aria2_daemon_start_cmd.append("--rpc-max-request-size=1024M")
-    #aria2_daemon_start_cmd.append("--seed-ratio=0.0")
-    #aria2_daemon_start_cmd.append("--seed-time=1")
+    aria2_daemon_start_cmd.append("--seed-time=0")
     aria2_daemon_start_cmd.append("--max-overall-upload-limit=1K")
     aria2_daemon_start_cmd.append("--split=10")
     aria2_daemon_start_cmd.append(f"--bt-stop-timeout={MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START}")
@@ -465,14 +464,11 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
 
 
 async def check_metadata(aria2, gid):
-    try:
-        file = aria2.get_download(gid)
-        LOGGER.info(file)
-        if not file.followed_by_ids:
-            # https://t.me/c/1213160642/496
-            return None
-        new_gid = file.followed_by_ids[0]
-        LOGGER.info("Changing GID " + gid + " to " + new_gid)
-        return new_gid
-    except aria2p.client.ClientException:
-        LOGGER.info("Download cancelled somehow :)")
+    file = aria2.get_download(gid)
+    LOGGER.info(file)
+    if not file.followed_by_ids:
+        # https://t.me/c/1213160642/496
+        return None
+    new_gid = file.followed_by_ids[0]
+    LOGGER.info("Changing GID " + gid + " to " + new_gid)
+    return new_gid
