@@ -56,7 +56,7 @@ async def button(bot, update: CallbackQuery):
                 #     await update.message.delete()
     elif cb_data == "fuckingdo":
         if update.from_user.id in AUTH_CHANNEL:
-            g_d_list = ['app.json', 'venv', 'rclone.conf', '.gitignore', '_config.yml', 'COPYING', 'Dockerfile', 'DOWNLOADS', 'Procfile', '.heroku', '.profile.d', 'rclone.jpg', 'README.md', 'requirements.txt', 'runtime.txt', 'start.sh', 'tobrot', 'gautam', 'Torrentleech-Gdrive.txt', 'vendor']
+            g_d_list = ['app.json', 'venv', 'rclone.conf', '.gitignore', '_config.yml', 'COPYING', 'Dockerfile', 'Procfile', '.heroku', '.profile.d', 'rclone.jpg', 'README.md', 'requirements.txt', 'runtime.txt', 'start.sh', 'tobrot', 'gautam', 'Torrentleech-Gdrive.txt', 'vendor']
             LOGGER.info(g_d_list)
             g_list = os.listdir()
             LOGGER.info(g_list)
