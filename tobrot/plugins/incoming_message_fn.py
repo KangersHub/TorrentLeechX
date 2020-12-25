@@ -254,7 +254,7 @@ async def g_clonee(client, message):
 async def rename_tg_file(client, message):
     usr_id = message.from_user.id
     if len(message.command) > 1:
-        new_name = '/app/' + message.command[1].strip()
+        new_name = '/app/' + message.text.split(" ", maxsplit=1)[1].strip()
         file = await download_tg(client, message)
         try:
             if file:

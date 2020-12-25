@@ -20,6 +20,7 @@ A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.c
     ✓ Option to select either video will be uploaded as document or streamable
     ✓ Added /renewme command to clear the downloads which are not deleted automatically.
     ✓ Added support for youtube playlist 😐
+    ✓ Renaming of Telegram files support added. 😐
     ✓
     
 # TO-DO
@@ -281,7 +282,9 @@ and everythin except `[NAME]`
 
 * `/getsize`: This will give you total size of your destination folder in cloud.
 
-* `/renewme`: This will clear the remains of downloads which are not getting deleted after upload of the file or after /cancel command. 
+* `/renewme`: This will clear the remains of downloads which are not getting deleted after upload of the file or after /cancel command.
+
+* `/rename`: To rename the telegram files.
 
 
 * ~Only work with direct link and youtube link for now~It is like u can add custom name as prefix of the original file name.
