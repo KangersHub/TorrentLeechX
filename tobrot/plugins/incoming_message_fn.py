@@ -55,13 +55,13 @@ async def incoming_message_f(client, message):
     is_unrar = False
     is_untar = False
     if len(message.command) > 1:
-        if message.command[1] == "archive":
+        if message.command[1].lower() == "archive":
             is_zip = True
-        elif message.command[1] == "unzip":
+        elif message.command[1].lower() == "unzip":
             is_unzip = True
-        elif message.command[1] == "unrar":
+        elif message.command[1].lower() == "unrar":
             is_unrar = True
-        elif message.command[1] == "untar":
+        elif message.command[1].lower() == "untar":
             is_untar = True
     # get link from the incoming message
     dl_url, cf_name, _, _ = await extract_link(message.reply_to_message, "LEECH")
@@ -115,13 +115,13 @@ async def incoming_gdrive_message_f(client, message):
     is_unrar = False
     is_untar = False
     if len(message.command) > 1:
-        if message.command[1] == "archive":
+        if message.command[1].lower() == "archive":
             is_zip = True
-        elif message.command[1] == "unzip":
+        elif message.command[1].lower() == "unzip":
             is_unzip = True
-        elif message.command[1] == "unrar":
+        elif message.command[1].lower() == "unrar":
             is_unrar = True
-        elif message.command[1] == "untar":
+        elif message.command[1].lower() == "untar":
             is_untar = True
     # get link from the incoming message
     dl_url, cf_name, _, _ = await extract_link(message.reply_to_message, "GLEECH")
