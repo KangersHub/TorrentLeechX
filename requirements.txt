@@ -2,7 +2,7 @@ aiohttp
 aria2p
 hachoir
 Pillow
-pyrogram
+pyrogram==1.0.7
 tgcrypto
 youtube_dl==2020.11.12
 hurry.filesize
