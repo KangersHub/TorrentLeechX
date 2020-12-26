@@ -57,10 +57,10 @@ LOG_COMMAND = Config.LOG_COMMAND
 CLONE_COMMAND_G = Config.CLONE_COMMAND_G
 UPLOAD_COMMAND = Config.UPLOAD_COMMAND
 RENEWME_COMMAND = Config.RENEWME_COMMAND
-
+SP_LIT_ALGO_RITH_M = Config.SP_LIT_ALGO_RITH_M
 if os.path.exists("TorrentLeech-Gdrive.txt"):
-	with open("Torrentleech-Gdrive.txt", "r+") as f_d:
-		f_d.truncate(0)
+    with open("Torrentleech-Gdrive.txt", "r+") as f_d:
+        f_d.truncate(0)
 
 # the logging things
 logging.basicConfig(

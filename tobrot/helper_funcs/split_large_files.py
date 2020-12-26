@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# (c) Shrimadhav U K
+# (c) Akshay C / Shrimadhav U K / YK
 
 # the logging things
 import logging
@@ -19,7 +19,8 @@ from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 
 from tobrot import (
-    MAX_TG_SPLIT_FILE_SIZE
+    MAX_TG_SPLIT_FILE_SIZE,
+    SP_LIT_ALGO_RITH_M
 )
 
 
@@ -35,7 +36,7 @@ async def split_large_files(input_file):
     # if input_file.upper().endswith(("MKV", "MP4", "WEBM", "MP3", "M4A", "FLAC", "WAV")):
     """The below logic is DERPed, so removing temporarily
     """
-    if False:
+    if input_file.upper().endswith(("MKV", "MP4", "WEBM")):
         # handle video / audio files here
         metadata = extractMetadata(createParser(input_file))
         total_duration = 0
@@ -45,7 +46,14 @@ async def split_large_files(input_file):
         LOGGER.info(total_duration)
         total_file_size = os.path.getsize(input_file)
         LOGGER.info(total_file_size)
-        minimum_duration = (total_duration / total_file_size) * (MAX_TG_SPLIT_FILE_SIZE)
+        minimum_duration = (
+            total_duration / total_file_size
+        ) * (
+            MAX_TG_SPLIT_FILE_SIZE
+        )
+        # casting to int cuz float Time Stamp can cause errors
+        minimum_duration = int(minimum_duration)
+        
         LOGGER.info(minimum_duration)
         # END: proprietary
         start_time = 0
@@ -53,16 +61,15 @@ async def split_large_files(input_file):
         base_name = os.path.basename(input_file)
         input_extension = base_name.split(".")[-1]
         LOGGER.info(input_extension)
+        
         i = 0
-        while end_time < total_duration:
+        flag = False
+        
+        while end_time <= total_duration:
             LOGGER.info(i)
-            parted_file_name = ""
-            parted_file_name += str(i).zfill(5)
-            parted_file_name += str(base_name)
-            parted_file_name += "_PART_"
-            parted_file_name += str(start_time)
-            parted_file_name += "."
-            parted_file_name += str(input_extension)
+            # file name generate
+            parted_file_name = "{}_PART_{}.{}".format(str(base_name),str(i).zfill(5),str(input_extension))
+
             output_file = os.path.join(new_working_directory, parted_file_name)
             LOGGER.info(output_file)
             LOGGER.info(await cult_small_video(
@@ -71,10 +78,22 @@ async def split_large_files(input_file):
                 str(start_time),
                 str(end_time)
             ))
-            start_time = end_time
+            LOGGER.info(
+                f"Start time {start_time}, End time {end_time}, Itr {i}"
+            )
+
+            # adding offset of 3 seconds to ensure smooth playback 
+            start_time = end_time - 3
             end_time = end_time + minimum_duration
             i = i + 1
-    else:
+
+            if (end_time > total_duration) and not flag:
+                 end_time = total_duration
+                 flag = True
+            elif flag:
+                break
+
+    elif SP_LIT_ALGO_RITH_M.lower() == "hjs":
         # handle normal files here
         o_d_t = os.path.join(
             new_working_directory,
@@ -89,16 +108,24 @@ async def split_large_files(input_file):
             input_file,
             o_d_t
         ]
-        process = await asyncio.create_subprocess_exec(
-            *file_genertor_command,
-            # stdout must a pipe to be accessible as process.stdout
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE,
+        await run_comman_d(file_genertor_command)
+        
+    elif SP_LIT_ALGO_RITH_M.lower() == "rar":
+        o_d_t = os.path.join(
+            new_working_directory,
+            os.path.basename(input_file),
         )
-        # Wait for the subprocess to finish
-        stdout, stderr = await process.communicate()
-        e_response = stderr.decode().strip()
-        t_response = stdout.decode().strip()
+        LOGGER.info(o_d_t)
+        file_genertor_command = [
+            "rar",
+            "a",
+            f"-v{MAX_TG_SPLIT_FILE_SIZE}b",
+            "-m0",
+            o_d_t,
+            input_file
+        ]
+        await run_comman_d(file_genertor_command)
+
     return new_working_directory
 
 
@@ -132,3 +159,17 @@ async def cult_small_video(video_file, out_put_file_name, start_time, end_time):
     t_response = stdout.decode().strip()
     LOGGER.info(t_response)
     return out_put_file_name
+
+
+async def run_comman_d(command_list):
+    process = await asyncio.create_subprocess_exec(
+        *command_list,
+        # stdout must a pipe to be accessible as process.stdout
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE,
+    )
+    # Wait for the subprocess to finish
+    stdout, stderr = await process.communicate()
+    e_response = stderr.decode().strip()
+    t_response = stdout.decode().strip()
+    return t_response, e_response
