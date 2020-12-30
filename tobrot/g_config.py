@@ -1,5 +1,8 @@
 from tobrot.sample_config import Config
+
 #Fill your all data, read readme for reference
+
+#FOR CUSTOM COMMANDS READ REAME AND FILL THEM...
 
 class Config(Config):
     TG_BOT_TOKEN= "1268fill---your----data"
@@ -8,6 +11,13 @@ class Config(Config):
     OWNER_ID = 12537936
     AUTH_CHANNEL = [-10082786282972]
     DESTINATION_FOLDER = "TorrentLeech-Gdrive" #Name of your folder read readme(not id of the folder)
-    RCLONE_CONFIG = """type = drive\nscope = drive\ntoken = {"access_token":"ya29.fill---your---data----7gGcxnYr71RBuoMVlzhAM_-fil your davxrOpIuvZ-S5lo4YzhYqP:"Bearer","refresh_token":"1//0gnh0j3fUzRITCgYIARAAGBASNwF-L9IrbbYT1QkJg6UCEo3AksHDp6DqUBrhcTBIwUWtlgmbnBQPZKvSAEOTl098VTt8zEojRnY","expiry":"2fill--your--data-07-13T10:4fillyourdata758376Z"}"""
-    #fill taking reference of this config, dont remove """ from both side of the RCLONE_CONFIG variable 
-    #FOR CUSTOM COMMANDS READ REAME AND FILL THEM...
+    #fill your rclone config like this(Your config may have some extra value or less. so Don't worry)
+    RCLONE_CONFIG = """
+type = drive
+client_id = 2528638dslkgjsdl-fill-your-details-apps.googleusercontent.com
+client_secret = 6Tib48-fill-your-details-KuXXDX-eWgnRBYc
+scope = drive
+root_folder_id =
+token = {"access_token":"ya29.a-fill-your-details-af4ychuHswBt8X0nf2oWmczsHg6MYPSE6hXo-PJ-fill-your-details-s06KAecfw_H-tYThBtbs6hdozP8FirzX3nFcL8r2jMlD3UweBZ98s02iRLP1SqUyM","token_type":"Bearer","refresh_token":"1//0glXMXhjkkjmgbgt45667yhuhgghMdxJ33ACgYIARAAGBASNwsdlfkjg'sdjgs[djg[dsjgpjiF-L9IrJOgCcBWW2SkbuI61ljipRrGxKo6IxchtcUBoTHKvOvbExtojhgCDm6c5SlkNeoW0prw","expiry":"2020-12-30T11097m09u:20:25.430920315Z"}
+team_drive = 0AB0q-fill-your-details-sdrgsgsdUk9PVA
+"""

@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # (c) gautamajay52
-
+import logging
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+logging.getLogger("pyrogram").setLevel(logging.WARNING)
+LOGGER = logging.getLogger(__name__)
 import subprocess
 import os
 import asyncio
@@ -22,18 +28,18 @@ async def check_size_g(client, message):
     del_it = await message.reply_text("🔊 Checking size...wait!!!")
     if not os.path.exists('rclone.conf'):
         #subprocess.Popen(('touch', 'rclone.conf'), stdout = subprocess.PIPE)
-        with open('rclone.conf', 'a', newline="\n", encoding = 'utf-8') as fole:
-            fole.write("[DRIVE]\n")
+        with open('rclone.conf', 'w+', newline="\n", encoding = 'utf-8') as fole:
+            fole.write("[DRIVE]")
             fole.write(f"{RCLONE_CONFIG}")
     destination = f'{DESTINATION_FOLDER}'
     cmd = ['rclone', 'size', '--config=./rclone.conf', 'DRIVE:'f'{destination}']
     gau_tam = await asyncio.create_subprocess_exec(*cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
     gau, tam = await gau_tam.communicate()
-    print(gau)
-    print(tam)
-    print(tam.decode("utf-8"))
+    LOGGER.info(gau)
+    LOGGER.info(tam)
+    LOGGER.info(tam.decode("utf-8"))
     gautam = gau.decode("utf-8")
-    print(gautam)
+    LOGGER.info(gautam)
     await asyncio.sleep(5)
     await message.reply_text(f"🔊CloudInfo:\n\n{gautam}")
     await del_it.delete()
