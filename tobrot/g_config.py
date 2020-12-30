@@ -12,12 +12,14 @@ class Config(Config):
     AUTH_CHANNEL = [-10082786282972]
     DESTINATION_FOLDER = "TorrentLeech-Gdrive" #Name of your folder read readme(not id of the folder)
     #fill your rclone config like this(Your config may have some extra value or less. so Don't worry)
+    # Do not delete [DRIVE] #do not delete [DRIVE] but replace remaining part
     RCLONE_CONFIG = """
+[DRIVE]
 type = drive
-client_id = 2528638dslkgjsdl-fill-your-details-apps.googleusercontent.com
+client_id = 28dslkgjsdl-fill-your-details-apps.googleusercontent.com
 client_secret = 6Tib48-fill-your-details-KuXXDX-eWgnRBYc
 scope = drive
 root_folder_id =
-token = {"access_token":"ya29.a-fill-your-details-af4ychuHswBt8X0nf2oWmczsHg6MYPSE6hXo-PJ-fill-your-details-s06KAecfw_H-tYThBtbs6hdozP8FirzX3nFcL8r2jMlD3UweBZ98s02iRLP1SqUyM","token_type":"Bearer","refresh_token":"1//0glXMXhjkkjmgbgt45667yhuhgghMdxJ33ACgYIARAAGBASNwsdlfkjg'sdjgs[djg[dsjgpjiF-L9IrJOgCcBWW2SkbuI61ljipRrGxKo6IxchtcUBoTHKvOvbExtojhgCDm6c5SlkNeoW0prw","expiry":"2020-12-30T11097m09u:20:25.430920315Z"}
+token = {"access_token":"ya29.a-fill-your-details-af4ychuHswBt8X0nf2oWmczsHg6MYPSE6hXo-PJ-fill-your-details-s06KAecfw_H-tYThBtbs:20:25.430920315Z"}
 team_drive = 0AB0q-fill-your-details-sdrgsgsdUk9PVA
 """

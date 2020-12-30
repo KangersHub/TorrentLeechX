@@ -141,7 +141,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
     del_it = await message.edit_text(f"<a href='tg://user?id={g_id}'>🔊</a> Now Uploading to ☁️ Cloud!!!")
     #subprocess.Popen(('touch', 'rclone.conf'), stdout = subprocess.PIPE)
     with open('rclone.conf', 'w+', newline="\n", encoding = 'utf-8') as fole:
-        fole.write("[DRIVE]")
+        #fole.write("[DRIVE]")
         fole.write(f"{RCLONE_CONFIG}")
     destination = f'{DESTINATION_FOLDER}'
     if os.path.isfile(file_upload):

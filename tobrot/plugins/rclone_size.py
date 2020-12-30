@@ -27,9 +27,8 @@ async def check_size_g(client, message):
     #await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
     del_it = await message.reply_text("🔊 Checking size...wait!!!")
     if not os.path.exists('rclone.conf'):
-        #subprocess.Popen(('touch', 'rclone.conf'), stdout = subprocess.PIPE)
         with open('rclone.conf', 'w+', newline="\n", encoding = 'utf-8') as fole:
-            fole.write("[DRIVE]")
+            #fole.write("[DRIVE]")
             fole.write(f"{RCLONE_CONFIG}")
     destination = f'{DESTINATION_FOLDER}'
     cmd = ['rclone', 'size', '--config=./rclone.conf', 'DRIVE:'f'{destination}']
