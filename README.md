@@ -80,6 +80,22 @@ Follow and fill all the required variables that were already filled in the sampl
 
 If you need more explanation about any variable then read [app.jso](https://github.com/gautamajay52/TorrentLeech-Gdrive/blob/master/app.jso)
 
+##### Set Rclone
+
+1. Set Rclone locally by following the official repo : https://rclone.org/docs/
+2. Get your `rclone.conf` file.
+will look like this
+```
+[NAME]
+type = 
+scope =
+token =
+client_id = 
+client_secret = 
+
+```
+2 Copy `rclone.conf` file in the root directory (Where `Dockerfile` exists).
+
 ## Deploying
 
 - Start docker daemon (skip if already running):
@@ -138,44 +154,6 @@ class Config(Config):
 * `OWNER_ID`: ID of the bot owner, He/she can be abled to access bot in bot only mode too(private mode).
 
 * `INDEX_LINK`
-
-##### Set Rclone
-
-1. Set Rclone locally by following the official repo : https://rclone.org/docs/
-2. Get your `rclone.conf` file.
-will look like this
-```
-[NAME]
-type = 
-scope =
-token =
-client_id = 
-client_secret = 
-
-```
-3. Only copy the config of drive u want to upload file.
-4. Copy the entries of `rclone.conf` 
-5. Your copied config should look like this:
- ```
-type = 
-scope =
-token =
-client_id = 
-client_secret = 
-
-and everythin except `[NAME]`
-
-```
-
-6. Paste copied config in `RCLONE_CONFIG`
-
-7. Hit deploy button.
-8. Examples:-
-<p align="center">
-
-  <img src="https://raw.githubusercontent.com/gautamajay52/TorrentLeech-Gdrive/master/rclone.jpg" width="470" height="150">
-
-</p>
 
 ## FAQ
 
