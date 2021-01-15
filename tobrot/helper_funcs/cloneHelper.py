@@ -41,19 +41,17 @@ class CloneHelper:
         self.lsg = ""
         self.filee = ""
         self.u_id = self.mess.from_user.id
+        self.dname = ""
         
     
     def config(self):
-        with open(
-            'rclone.conf',
-            'a',
-            newline="\n",
-            encoding= 'utf-8'
-        ) as fole:
-            fole.write("[DRIVE]\n")
-            fole.write(f"{RCLONE_CONFIG}")
-            
-            
+        if not os.path.exists('rclone.conf'):
+            with open('rclone.conf', 'w+', newline="\n", encoding = 'utf-8') as fole:
+                fole.write(f"{RCLONE_CONFIG}")
+        if os.path.exists("rclone.conf"):
+            with open("rclone.conf", "r+") as file:
+                con = file.read()
+                self.dname = re.findall("\[(.*)\]", con)[0]
     def get_id(self):
         mes = self.mess
         txt= mes.reply_to_message.text
@@ -104,7 +102,7 @@ class CloneHelper:
                 'i',
                 "--filter-from=./filter1.txt",
                 f"{_flag}",
-                f'DRIVE:{destination}'
+                f'{self.dname}:{destination}'
             ]
             LOGGER.info(g_a_u)
             gau_tam = await asyncio.create_subprocess_exec(
@@ -154,7 +152,7 @@ class CloneHelper:
                 'rclone',
                 'size',
                 '--config=rclone.conf',
-                f'DRIVE:{destination}/{self.name}'
+                f'{self.dname}:{destination}/{self.name}'
             ]
             LOGGER.info(g_cmd)
             gaut_am = await asyncio.create_subprocess_exec(
@@ -173,18 +171,17 @@ class CloneHelper:
                 reply_markup=button_markup,
                 parse_mode="html"
             )
-            
-            
-		
+
     async def gcl(self):
         self.lsg = await self.mess.reply_text(f"Cloning...you should wait 🤒")
         destination = f'{DESTINATION_FOLDER}'
+        idd = '{'f'{self.g_id}''}'
         cmd = [
             "/app/gautam/gclone",
             "copy",
             "--config=rclone.conf",
-            "DRIVE:{"f"{self.g_id}""}",
-            f"DRIVE:{destination}/{self.name}",
+            f"{self.dname}:{idd}",
+            f"{self.dname}:{destination}/{self.name}",
             "-v",
             "--drive-server-side-across-configs",
             "--transfers=16",

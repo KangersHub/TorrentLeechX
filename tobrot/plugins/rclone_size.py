@@ -11,7 +11,7 @@ LOGGER = logging.getLogger(__name__)
 import subprocess
 import os
 import asyncio
-
+import re
 from tobrot import (
     EDIT_SLEEP_TIME_OUT,
     DESTINATION_FOLDER,
@@ -28,10 +28,14 @@ async def check_size_g(client, message):
     del_it = await message.reply_text("🔊 Checking size...wait!!!")
     if not os.path.exists('rclone.conf'):
         with open('rclone.conf', 'w+', newline="\n", encoding = 'utf-8') as fole:
-            #fole.write("[DRIVE]")
             fole.write(f"{RCLONE_CONFIG}")
+    if os.path.exists("rclone.conf"):
+        with open("rclone.conf", "r+") as file:
+            con = file.read()
+            gUP = re.findall("\[(.*)\]", con)[0]
+            LOGGER.info(gUP)
     destination = f'{DESTINATION_FOLDER}'
-    cmd = ['rclone', 'size', '--config=./rclone.conf', 'DRIVE:'f'{destination}']
+    cmd = ['rclone', 'size', '--config=./rclone.conf', f'{gUP}:{destination}']
     gau_tam = await asyncio.create_subprocess_exec(*cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
     gau, tam = await gau_tam.communicate()
     LOGGER.info(gau)
