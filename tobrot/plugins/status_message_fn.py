@@ -250,6 +250,8 @@ async def aexec(code, client, message):
     return await locals()['__aexec'](client, message)
 '''
 async def upload_log_file(client, message):
-    await message.reply_document(
-        "Torrentleech-Gdrive.txt"
-    )
+    g = await AdminCheck(client, message.chat.id, message.from_user.id)
+    if g:
+        await message.reply_document(
+            "Torrentleech-Gdrive.txt"
+        )
