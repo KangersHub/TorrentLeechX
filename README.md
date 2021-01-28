@@ -21,6 +21,7 @@ A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.c
     ✓ Added /renewme command to clear the downloads which are not deleted automatically.
     ✓ Added support for youtube playlist 😐
     ✓ Renaming of Telegram files support added. 😐
+    ✓ Changing rclone destination config on fly (By using `/rlcone` in private mode)
     ✓
     
 # TO-DO
@@ -95,6 +96,8 @@ client_secret =
 
 ```
 2 Copy `rclone.conf` file in the root directory (Where `Dockerfile` exists).
+
+3 Your config can contains multiple drive entries.(Default: First one and change using `/rclone` command)
 
 ## Deploying
 
@@ -215,6 +218,8 @@ class Config(Config):
 
 * `INDEX_LINK`: (Without `/` at last of the link, otherwise u will get error) During creating index, plz fill `Default Root ID` with the id of your `DESTINATION_FOLDER` after creating. Otherwise index will not work properly.
 ## Available Commands
+
+* `/rclone`: This will change your drive config on fly.(First one will be default)
 
 * `/gclone`: This command is used to clone gdrive files or folder using gclone.
        
