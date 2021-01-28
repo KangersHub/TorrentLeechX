@@ -59,6 +59,8 @@ from tobrot.plugins.custom_thumbnail import (
 )
 from tobrot.helper_funcs.download import down_load_media_f
 
+from tobrot.plugins.choose_rclone_config import rclone_command_f
+
 
 if __name__ == "__main__" :
     # create download directory, if not exist
@@ -205,5 +207,11 @@ if __name__ == "__main__" :
         filters=filters.command([f"{CLEAR_THUMBNAIL}"]) & filters.chat(chats=AUTH_CHANNEL)
     )
     app.add_handler(clear_thumb_nail_handler)
+    #
+    rclone_config_handler = MessageHandler(
+        rclone_command_f,
+        filters=filters.command(["rclone"])
+    )
+    app.add_handler(rclone_config_handler)
     #
     app.run()

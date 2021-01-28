@@ -19,6 +19,9 @@ from tobrot import (
     MAX_MESSAGE_LENGTH,
     AUTH_CHANNEL
 )
+
+from tobrot.plugins.choose_rclone_config import rclone_button_callback
+
 async def button(bot, update: CallbackQuery):
     cb_data = update.data
     LOGGER.info(cb_data)
@@ -29,6 +32,9 @@ async def button(bot, update: CallbackQuery):
         LOGGER.info(ee)
     if "|" in cb_data:
         await youtube_dl_call_back(bot, update)
+    if cb_data.startswith("rclone"):
+        await rclone_button_callback(bot, update)
+        return
     LOGGER.info(update.from_user.id)
     LOGGER.info(update.message.reply_to_message.from_user.id)
     if cb_data.startswith("cancel"):
@@ -56,7 +62,7 @@ async def button(bot, update: CallbackQuery):
                 #     await update.message.delete()
     elif cb_data == "fuckingdo":
         if update.from_user.id in AUTH_CHANNEL:
-            g_d_list = ['app.json', 'venv', 'rclone.conf', '.gitignore', '_config.yml', 'COPYING', 'Dockerfile', 'Procfile', '.heroku', '.profile.d', 'rclone.jpg', 'README.md', 'requirements.txt', 'runtime.txt', 'start.sh', 'tobrot', 'gautam', 'Torrentleech-Gdrive.txt', 'vendor']
+            g_d_list = ['app.json', 'venv', 'rclone.conf', 'rclone_bak.conf', '.gitignore', '_config.yml', 'COPYING', 'Dockerfile', 'Procfile', '.heroku', '.profile.d', 'rclone.jpg', 'README.md', 'requirements.txt', 'runtime.txt', 'start.sh', 'tobrot', 'gautam', 'Torrentleech-Gdrive.txt', 'vendor', 'LeechBot.session', 'LeechBot.session-journal']
             LOGGER.info(g_d_list)
             g_list = os.listdir()
             LOGGER.info(g_list)
@@ -75,4 +81,3 @@ async def button(bot, update: CallbackQuery):
             await update.message.edit_text("You are not allowed to do that 🤭")
     elif cb_data == "fuckoff":
         await update.message.edit_text("Okay! fine 🤬")
-                
