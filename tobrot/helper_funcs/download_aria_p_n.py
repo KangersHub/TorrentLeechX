@@ -3,8 +3,23 @@
 # (c) Shrimadhav U K | gautamajay52
 
 # the logging things
+from tobrot.helper_funcs.upload_to_tg import upload_to_gdrive, upload_to_tg
+from tobrot.helper_funcs.extract_link_from_message import extract_link
+from tobrot.helper_funcs.create_compressed_archive import (create_archive,
+                                                           unrar_me, untar_me,
+                                                           unzip_me)
+from tobrot import (ARIA_TWO_STARTED_PORT, AUTH_CHANNEL, CUSTOM_FILE_NAME,
+                    DOWNLOAD_LOCATION, EDIT_SLEEP_TIME_OUT,
+                    MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START)
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from pyrogram.errors import FloodWait, MessageNotModified
+import aria2p
+import time
+import os
+import asyncio
 import logging
 import sys
+
 sys.setrecursionlimit(10**4)
 logging.basicConfig(
     level=logging.DEBUG,
@@ -13,28 +28,6 @@ logging.basicConfig(
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
 
-import aria2p
-import asyncio
-import os
-import time
-from tobrot.helper_funcs.upload_to_tg import upload_to_tg, upload_to_gdrive
-from tobrot.helper_funcs.create_compressed_archive import create_archive, unzip_me, unrar_me, untar_me
-from tobrot.helper_funcs.extract_link_from_message import extract_link
-
-from tobrot import (
-    ARIA_TWO_STARTED_PORT,
-    MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START,
-    AUTH_CHANNEL,
-    DOWNLOAD_LOCATION,
-    EDIT_SLEEP_TIME_OUT,
-    CUSTOM_FILE_NAME
-)
-from pyrogram.errors import MessageNotModified, FloodWait
-from pyrogram.types import (
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-    Message
-)
 
 async def aria_start():
     aria2_daemon_start_cmd = []
@@ -42,7 +35,7 @@ async def aria_start():
     aria2_daemon_start_cmd.append("aria2c")
     aria2_daemon_start_cmd.append("--allow-overwrite=true")
     aria2_daemon_start_cmd.append("--daemon=true")
-    #aria2_daemon_start_cmd.append(f"--dir={DOWNLOAD_LOCATION}")
+    # aria2_daemon_start_cmd.append(f"--dir={DOWNLOAD_LOCATION}")
     # TODO: this does not work, need to investigate this.
     # but for now, https://t.me/TrollVoiceBot?start=858
     aria2_daemon_start_cmd.append("--enable-rpc")
@@ -55,7 +48,8 @@ async def aria_start():
     aria2_daemon_start_cmd.append("--seed-time=0")
     aria2_daemon_start_cmd.append("--max-overall-upload-limit=1K")
     aria2_daemon_start_cmd.append("--split=10")
-    aria2_daemon_start_cmd.append(f"--bt-stop-timeout={MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START}")
+    aria2_daemon_start_cmd.append(
+        f"--bt-stop-timeout={MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START}")
     #
     LOGGER.info(aria2_daemon_start_cmd)
     #
@@ -146,11 +140,13 @@ async def call_apropriate_function(
     user_message
 ):
     if incoming_link.lower().startswith("magnet:"):
-        sagtus, err_message = add_magnet(aria_instance, incoming_link, c_file_name)
+        sagtus, err_message = add_magnet(
+            aria_instance, incoming_link, c_file_name)
     elif incoming_link.lower().endswith(".torrent"):
         sagtus, err_message = add_torrent(aria_instance, incoming_link)
     else:
-        sagtus, err_message = add_url(aria_instance, incoming_link, c_file_name)
+        sagtus, err_message = add_url(
+            aria_instance, incoming_link, c_file_name)
     if not sagtus:
         return sagtus, err_message
     LOGGER.info(err_message)
@@ -206,7 +202,8 @@ async def call_apropriate_function(
     if to_upload_file:
         if CUSTOM_FILE_NAME:
             if os.path.isfile(to_upload_file):
-                os.rename(to_upload_file, f"{CUSTOM_FILE_NAME}{to_upload_file}")
+                os.rename(to_upload_file,
+                          f"{CUSTOM_FILE_NAME}{to_upload_file}")
                 to_upload_file = f"{CUSTOM_FILE_NAME}{to_upload_file}"
             else:
                 for root, dirs, files in os.walk(to_upload_file):
@@ -264,6 +261,7 @@ async def call_apropriate_function(
     return True, None
 #
 
+
 async def call_apropriate_function_g(
     aria_instance,
     incoming_link,
@@ -277,11 +275,13 @@ async def call_apropriate_function_g(
     user_message
 ):
     if incoming_link.lower().startswith("magnet:"):
-        sagtus, err_message = add_magnet(aria_instance, incoming_link, c_file_name)
+        sagtus, err_message = add_magnet(
+            aria_instance, incoming_link, c_file_name)
     elif incoming_link.lower().endswith(".torrent"):
         sagtus, err_message = add_torrent(aria_instance, incoming_link)
     else:
-        sagtus, err_message = add_url(aria_instance, incoming_link, c_file_name)
+        sagtus, err_message = add_url(
+            aria_instance, incoming_link, c_file_name)
     if not sagtus:
         return sagtus, err_message
     LOGGER.info(err_message)
@@ -337,7 +337,8 @@ async def call_apropriate_function_g(
     if to_upload_file:
         if CUSTOM_FILE_NAME:
             if os.path.isfile(to_upload_file):
-                os.rename(to_upload_file, f"{CUSTOM_FILE_NAME}{to_upload_file}")
+                os.rename(to_upload_file,
+                          f"{CUSTOM_FILE_NAME}{to_upload_file}")
                 to_upload_file = f"{CUSTOM_FILE_NAME}{to_upload_file}"
             else:
                 for root, dirs, files in os.walk(to_upload_file):
@@ -391,26 +392,27 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                 except:
                     pass
                 #
-                if is_file is None :
-                   msgg = f"Conn: {file.connections} <b>|</b> GID: <code>{gid}</code>"
-                else :
-                   msgg = f"P: {file.connections} | S: {file.num_seeders} <b>|</b> GID: <code>{gid}</code>"
+                if is_file is None:
+                    msgg = f"Conn: {file.connections} <b>|</b> GID: <code>{gid}</code>"
+                else:
+                    msgg = f"P: {file.connections} | S: {file.num_seeders} <b>|</b> GID: <code>{gid}</code>"
                 msg = f"\n`{downloading_dir_name}`"
                 msg += f"\n<b>Speed</b>: {file.download_speed_string()}"
                 msg += f"\n<b>Status</b>: {file.progress_string()} <b>of</b> {file.total_length_string()} <b>|</b> {file.eta_string()} <b>|</b> {msgg}"
                 #msg += f"\nSize: {file.total_length_string()}"
 
-                #if is_file is None :
-                   #msg += f"\n<b>Conn:</b> {file.connections}, GID: <code>{gid}</code>"
-                #else :
-                   #msg += f"\n<b>Info:</b>[ P : {file.connections} | S : {file.num_seeders} ], GID: <code>{gid}</code>"
+                # if is_file is None :
+                #msg += f"\n<b>Conn:</b> {file.connections}, GID: <code>{gid}</code>"
+                # else :
+                #msg += f"\n<b>Info:</b>[ P : {file.connections} | S : {file.num_seeders} ], GID: <code>{gid}</code>"
 
                 #msg += f"\nStatus: {file.status}"
                 #msg += f"\nETA: {file.eta_string()}"
                 #msg += f"\nGID: <code>{gid}</code>"
                 inline_keyboard = []
                 ikeyboard = []
-                ikeyboard.append(InlineKeyboardButton("Cancel 🚫", callback_data=(f"cancel {gid}").encode("UTF-8")))
+                ikeyboard.append(InlineKeyboardButton(
+                    "Cancel 🚫", callback_data=(f"cancel {gid}").encode("UTF-8")))
                 inline_keyboard.append(ikeyboard)
                 reply_markup = InlineKeyboardMarkup(inline_keyboard)
                 if msg != previous_message:
@@ -418,7 +420,8 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                         await event.edit(msg, reply_markup=reply_markup)
                         previous_message = msg
                     else:
-                        LOGGER.info(f"Cancelling downloading of {file.name} may be due to slow torrent")
+                        LOGGER.info(
+                            f"Cancelling downloading of {file.name} may be due to slow torrent")
                         await event.edit(f"Download cancelled :\n<code>{file.name}</code>\n\n #MetaDataError")
                         file.remove(force=True, files=True)
                         return False
@@ -431,7 +434,8 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
             await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
             await check_progress_for_dl(aria2, gid, event, previous_message)
         else:
-            LOGGER.info(f"Downloaded Successfully: `{file.name} ({file.total_length_string()})` 🤒")
+            LOGGER.info(
+                f"Downloaded Successfully: `{file.name} ({file.total_length_string()})` 🤒")
             await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
             await event.edit(f"Downloaded Successfully: `{file.name} ({file.total_length_string()})` 🤒")
             return True

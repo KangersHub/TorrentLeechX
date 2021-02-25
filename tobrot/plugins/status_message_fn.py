@@ -2,40 +2,29 @@
 # -*- coding: utf-8 -*-
 # (c) Shrimadhav U K | gautamajay52
 
-# the logging things
+import asyncio
+import io
 import logging
+import os
+import shutil
+import sys
+import time
+import traceback
+
+from tobrot import AUTH_CHANNEL, BOT_START_TIME, LOGGER, MAX_MESSAGE_LENGTH
+from tobrot.helper_funcs.admin_check import AdminCheck
+# the logging things
+from tobrot.helper_funcs.display_progress import TimeFormatter, humanbytes
+from tobrot.helper_funcs.download_aria_p_n import (aria_start,
+                                                   call_apropriate_function)
+from tobrot.helper_funcs.upload_to_tg import upload_to_tg
+
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
-
-import asyncio
-import os
-import time
-import sys
-import traceback
-import shutil
-import io
-
-from tobrot import (
-    MAX_MESSAGE_LENGTH,
-    AUTH_CHANNEL,
-    BOT_START_TIME,
-    LOGGER
-)
-
-
-from tobrot.helper_funcs.admin_check import AdminCheck
-from tobrot.helper_funcs.download_aria_p_n import call_apropriate_function, aria_start
-from tobrot.helper_funcs.upload_to_tg import upload_to_tg
-
-
-from tobrot.helper_funcs.display_progress import (
-    TimeFormatter,
-    humanbytes
-)
 
 
 async def status_message_f(client, message):
@@ -79,12 +68,13 @@ async def status_message_f(client, message):
             msg += f"<code>/cancel {current_gid}</code>"
             msg += " | "
             msg += "\n\n"
-        #LOGGER.info(msg)
+        # LOGGER.info(msg)
 
         if msg == "":
             msg = "🤷‍♂️ No Active, Queued or Paused TORRENTs"
 
-    currentTime = time.strftime("%H:%M:%S", time.gmtime(time.time() - BOT_START_TIME))   #ctrl-c & ctrl-v 😑
+    currentTime = time.strftime("%H:%M:%S", time.gmtime(
+        time.time() - BOT_START_TIME))  # ctrl-c & ctrl-v 😑
     total, used, free = shutil.disk_usage(".")
     total = humanbytes(total)
     used = humanbytes(used)
@@ -94,7 +84,7 @@ async def status_message_f(client, message):
         f"<b>Total disk space</b>: <code>{total}</code>\n" \
         f"<b>Used</b>: <code>{used}</code>\n" \
         f"<b>Free</b>: <code>{free}</code>\n"
-    #LOGGER.info(ms_g)
+    # LOGGER.info(ms_g)
 
     msg = ms_g + "\n" + msg
     LOGGER.info(msg)
@@ -107,6 +97,7 @@ async def status_message_f(client, message):
             )
     else:
         await message.reply_text(msg, quote=True)
+
 
 async def cancel_message_f(client, message):
     if len(message.command) > 1:
@@ -128,6 +119,7 @@ async def cancel_message_f(client, message):
             )
     else:
         await message.delete()
+
 
 async def exec_message_f(client, message):
     if message.from_user.id in AUTH_CHANNEL:
@@ -249,6 +241,8 @@ async def aexec(code, client, message):
     )
     return await locals()['__aexec'](client, message)
 '''
+
+
 async def upload_log_file(client, message):
     g = await AdminCheck(client, message.chat.id, message.from_user.id)
     if g:

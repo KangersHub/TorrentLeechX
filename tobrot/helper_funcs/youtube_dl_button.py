@@ -2,37 +2,34 @@
 # -*- coding: utf-8 -*-
 # (c) Shrimadhav U K | gautamjay52
 
-# the logging things
+import asyncio
+import json
 import logging
+import math
+import os
+import shutil
+import subprocess
+import time
+from datetime import datetime
+
+import pyrogram
+from tobrot import AUTH_CHANNEL, DOWNLOAD_LOCATION
+# the logging things
+from tobrot.helper_funcs.upload_to_tg import upload_to_gdrive, upload_to_tg
+
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 LOGGER = logging.getLogger(__name__)
 
-import asyncio
-import json
-import math
-import os
-import shutil
-import time
-import subprocess
-from datetime import datetime
 
-from tobrot import (
-    DOWNLOAD_LOCATION,
-    AUTH_CHANNEL
-)
-
-import pyrogram
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
-
-from tobrot.helper_funcs.upload_to_tg import upload_to_tg, upload_to_gdrive
 
 
 async def youtube_dl_call_back(bot, update):
     LOGGER.info(update)
     cb_data = update.data
     get_cf_name = update.message.caption
-    #LOGGER.info(get_cf_name)
+    # LOGGER.info(get_cf_name)
     cf_name = ""
     if "|" in get_cf_name:
         cf_name = get_cf_name.split("|", maxsplit=1)[1]
@@ -107,7 +104,8 @@ async def youtube_dl_call_back(bot, update):
         os.makedirs(tmp_directory_for_each_user)
     download_directory = tmp_directory_for_each_user
     LOGGER.info(download_directory)
-    download_directory = os.path.join(tmp_directory_for_each_user, custom_file_name)
+    download_directory = os.path.join(
+        tmp_directory_for_each_user, custom_file_name)
     LOGGER.info(download_directory)
     command_to_exec = []
     if tg_send_type == "audio":
@@ -176,7 +174,7 @@ async def youtube_dl_call_back(bot, update):
         # LOGGER.info(t_response)
         # os.remove(save_ytdl_json_path)
         end_one = datetime.now()
-        time_taken_for_download = (end_one -start).seconds
+        time_taken_for_download = (end_one - start).seconds
         dir_contents = len(os.listdir(tmp_directory_for_each_user))
         # dir_contents.sort()
         await update.message.edit_caption(
@@ -199,7 +197,7 @@ async def youtube_dl_call_back(bot, update):
                     os.rename(e, fi_le)
                     gaut_am = os.path.basename(fi_le)
                     LOGGER.info(gaut_am)
-                
+
         G_DRIVE = False
         txt = update.message.reply_to_message.text
         print(txt)
@@ -209,7 +207,8 @@ async def youtube_dl_call_back(bot, update):
             if g_txt[1] == "gdrive":
                 G_DRIVE = True
         if G_DRIVE:
-            liop = subprocess.Popen(["mv", f'{fi_le}', "/app/"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            liop = subprocess.Popen(
+                ["mv", f'{fi_le}', "/app/"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             out, err = liop.communicate()
             LOGGER.info(out)
             LOGGER.info(err)
@@ -227,7 +226,7 @@ async def youtube_dl_call_back(bot, update):
                 {},
                 True
             )
-          
+
         '''  
         final_response = await upload_to_tg(
             update.message,

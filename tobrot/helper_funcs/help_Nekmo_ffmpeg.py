@@ -2,20 +2,20 @@
 # -*- coding: utf-8 -*-
 # (c) Shrimadhav U K
 
-# the logging things
+import asyncio
 import logging
+import os
+import time
+
+# the logging things
+from tobrot.helper_funcs.copy_similar_file import copy_file
+
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
-
-
-import asyncio
-import os
-import time
-from tobrot.helper_funcs.copy_similar_file import copy_file
 
 
 async def take_screen_shot(video_file, output_directory, ttl):

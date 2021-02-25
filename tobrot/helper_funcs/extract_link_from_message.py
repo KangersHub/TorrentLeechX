@@ -2,22 +2,19 @@
 # -*- coding: utf-8 -*-
 # (c) Shrimadhav U K
 
-# the logging things
 import logging
+
+import aiohttp
+from pyrogram.types import MessageEntity
+# the logging things
+from tobrot import TG_OFFENSIVE_API
+
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
-
-import aiohttp
-
-from pyrogram.types import MessageEntity
-
-from tobrot import (
-    TG_OFFENSIVE_API
-)
 
 
 def extract_url_from_entity(entities: MessageEntity, text: str):
@@ -30,7 +27,6 @@ def extract_url_from_entity(entities: MessageEntity, text: str):
             l = entity.length
             url = text[o:o + l]
     return url
-
 
 
 async def extract_link(message, type_o_request):
@@ -82,14 +78,14 @@ async def extract_link(message, type_o_request):
                 youtube_dl_password = url_parts[3]
 
         elif message.caption_entities is not None:
-            url = extract_url_from_entity(message.caption_entities, message.caption)
+            url = extract_url_from_entity(
+                message.caption_entities, message.caption)
 
         else:
             url = message.caption.strip()
 
     elif message.entities is not None:
         url = message.text
-
 
     # trim blank spaces from the URL
     # might have some issues with #45
@@ -102,7 +98,6 @@ async def extract_link(message, type_o_request):
         youtube_dl_username = youtube_dl_username.strip()
     if youtube_dl_password is not None:
         youtube_dl_password = youtube_dl_password.strip()
-
 
     # additional conditional check,
     # here to FILTER out BAD URLs

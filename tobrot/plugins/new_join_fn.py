@@ -2,21 +2,18 @@
 # -*- coding: utf-8 -*-
 # (c) Shrimadhav U K
 
-# the logging things
 import logging
+
+import pyrogram
+# the logging things
+from tobrot import AUTH_CHANNEL
+
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
-
-import pyrogram
-
-
-from tobrot import (
-    AUTH_CHANNEL
-)
 
 
 async def new_join_f(client, message):
@@ -37,7 +34,7 @@ async def help_message_f(client, message):
     #channel_id = str(AUTH_CHANNEL)[4:]
     #message_id = 99
     # display the /help
-    
+
     await message.reply_text("""join this group forr help-- @GbotStoreSupport\n\n And also don't forget to fork this repo: <a href="https://github.com/gautamajay52/TorrentLeech-Gdrive">TorrentLeech-Gdrive</a>""", disable_web_page_preview=True)
 
 

@@ -2,26 +2,22 @@
 # -*- coding: utf-8 -*-
 # (c) Akshay C / Shrimadhav U K / YK
 
-# the logging things
+import asyncio
 import logging
+import os
+import time
+
+from hachoir.metadata import extractMetadata
+from hachoir.parser import createParser
+# the logging things
+from tobrot import MAX_TG_SPLIT_FILE_SIZE, SP_LIT_ALGO_RITH_M
+
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
-
-
-import asyncio
-import os
-import time
-from hachoir.metadata import extractMetadata
-from hachoir.parser import createParser
-
-from tobrot import (
-    MAX_TG_SPLIT_FILE_SIZE,
-    SP_LIT_ALGO_RITH_M
-)
 
 
 async def split_large_files(input_file):
@@ -53,7 +49,7 @@ async def split_large_files(input_file):
         )
         # casting to int cuz float Time Stamp can cause errors
         minimum_duration = int(minimum_duration)
-        
+
         LOGGER.info(minimum_duration)
         # END: proprietary
         start_time = 0
@@ -61,14 +57,15 @@ async def split_large_files(input_file):
         base_name = os.path.basename(input_file)
         input_extension = base_name.split(".")[-1]
         LOGGER.info(input_extension)
-        
+
         i = 0
         flag = False
-        
+
         while end_time <= total_duration:
             LOGGER.info(i)
             # file name generate
-            parted_file_name = "{}_PART_{}.{}".format(str(base_name),str(i).zfill(5),str(input_extension))
+            parted_file_name = "{}_PART_{}.{}".format(
+                str(base_name), str(i).zfill(5), str(input_extension))
 
             output_file = os.path.join(new_working_directory, parted_file_name)
             LOGGER.info(output_file)
@@ -82,14 +79,14 @@ async def split_large_files(input_file):
                 f"Start time {start_time}, End time {end_time}, Itr {i}"
             )
 
-            # adding offset of 3 seconds to ensure smooth playback 
+            # adding offset of 3 seconds to ensure smooth playback
             start_time = end_time - 3
             end_time = end_time + minimum_duration
             i = i + 1
 
             if (end_time > total_duration) and not flag:
-                 end_time = total_duration
-                 flag = True
+                end_time = total_duration
+                flag = True
             elif flag:
                 break
 
@@ -109,7 +106,7 @@ async def split_large_files(input_file):
             o_d_t
         ]
         await run_comman_d(file_genertor_command)
-        
+
     elif SP_LIT_ALGO_RITH_M.lower() == "rar":
         o_d_t = os.path.join(
             new_working_directory,

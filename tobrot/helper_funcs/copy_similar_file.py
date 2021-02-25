@@ -2,19 +2,18 @@
 # -*- coding: utf-8 -*-
 # (c) Shrimadhav U K
 
-# the logging things
 import logging
+import os
+# the logging things
+import time
+from shutil import copyfile
+
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
-
-
-from shutil import copyfile
-import os
-import time
 
 
 async def copy_file(input_file, output_dir):

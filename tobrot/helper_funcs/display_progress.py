@@ -2,20 +2,17 @@
 # -*- coding: utf-8 -*-
 # (c) Shrimadhav U K
 
-# the logging things
 import logging
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
-
 import math
 import os
 import time
 
-from tobrot import (
-    FINISHED_PROGRESS_STR,
-    UN_FINISHED_PROGRESS_STR
-)
+# the logging things
+from tobrot import FINISHED_PROGRESS_STR, UN_FINISHED_PROGRESS_STR
+
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 
 async def progress_for_pyrogram(
@@ -39,8 +36,10 @@ async def progress_for_pyrogram(
         estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)
 
         progress = "[{0}{1}] \nP: {2}%\n".format(
-            ''.join([FINISHED_PROGRESS_STR for i in range(math.floor(percentage / 5))]),
-            ''.join([UN_FINISHED_PROGRESS_STR for i in range(20 - math.floor(percentage / 5))]),
+            ''.join([FINISHED_PROGRESS_STR for i in range(
+                math.floor(percentage / 5))]),
+            ''.join([UN_FINISHED_PROGRESS_STR for i in range(
+                20 - math.floor(percentage / 5))]),
             round(percentage, 2))
 
         tmp = progress + "{0} of {1}\nSpeed: {2}/s\nETA: {3}\n".format(

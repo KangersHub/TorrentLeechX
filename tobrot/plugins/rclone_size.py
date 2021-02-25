@@ -1,33 +1,28 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # (c) gautamajay52
+import asyncio
 import logging
+import os
+import re
+import subprocess
+
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from tobrot import DESTINATION_FOLDER, EDIT_SLEEP_TIME_OUT, RCLONE_CONFIG
+
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
-import subprocess
-import os
-import asyncio
-import re
-from tobrot import (
-    EDIT_SLEEP_TIME_OUT,
-    DESTINATION_FOLDER,
-    RCLONE_CONFIG
-)
-from pyrogram.types import (
-    InlineKeyboardButton,
-    InlineKeyboardMarkup
-)
 
 
 async def check_size_g(client, message):
-    #await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
+    # await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
     del_it = await message.reply_text("🔊 Checking size...wait!!!")
     if not os.path.exists('rclone.conf'):
-        with open('rclone.conf', 'w+', newline="\n", encoding = 'utf-8') as fole:
+        with open('rclone.conf', 'w+', newline="\n", encoding='utf-8') as fole:
             fole.write(f"{RCLONE_CONFIG}")
     if os.path.exists("rclone.conf"):
         with open("rclone.conf", "r+") as file:
@@ -47,13 +42,16 @@ async def check_size_g(client, message):
     await message.reply_text(f"🔊CloudInfo:\n\n{gautam}")
     await del_it.delete()
 
-#gautamajay52
+# gautamajay52
+
 
 async def g_clearme(client, message):
     inline_keyboard = []
     ikeyboard = []
-    ikeyboard.append(InlineKeyboardButton("Yes 🚫", callback_data=("fuckingdo").encode("UTF-8")))
-    ikeyboard.append(InlineKeyboardButton("No 🤗", callback_data=("fuckoff").encode("UTF-8")))
+    ikeyboard.append(InlineKeyboardButton(
+        "Yes 🚫", callback_data=("fuckingdo").encode("UTF-8")))
+    ikeyboard.append(InlineKeyboardButton(
+        "No 🤗", callback_data=("fuckoff").encode("UTF-8")))
     inline_keyboard.append(ikeyboard)
     reply_markup = InlineKeyboardMarkup(inline_keyboard)
     await message.reply_text("Are you sure? 🚫 This will delete all your downloads locally 🚫", reply_markup=reply_markup, quote=True)
