@@ -24,12 +24,12 @@ LOGGER = logging.getLogger(__name__)
 config = configparser.ConfigParser()
 
 
-def multi_rclone_init():
-    if not os.path.exists('rclone_bak.conf'):  # backup rclone.conf file
-        with open('rclone_bak.conf', 'w+', newline="\n", encoding='utf-8') as fole:
-            with open('rclone.conf', 'r') as f:
-                fole.write(f.read())
-        LOGGER.info("rclone.conf backuped to rclone_bak.conf!")
+# def multi_rclone_init():
+#     if not os.path.exists('rclone_bak.conf'):  # backup rclone.conf file
+#         with open('rclone_bak.conf', 'w+', newline="\n", encoding='utf-8') as fole:
+#             with open('rclone.conf', 'r') as f:
+#                 fole.write(f.read())
+#         LOGGER.info("rclone.conf backuped to rclone_bak.conf!")
 
 
 async def rclone_command_f(client, message):
