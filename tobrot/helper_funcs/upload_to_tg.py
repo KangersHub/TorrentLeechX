@@ -282,10 +282,13 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, e
                         os.path.basename(local_file_name))
                 )
             if local_file_name.upper().endswith(("MKV", "MP4", "WEBM")):
-                metadata = extractMetadata(createParser(local_file_name))
                 duration = 0
-                if metadata.has("duration"):
-                    duration = metadata.get('duration').seconds
+                try:
+                    metadata = extractMetadata(createParser(local_file_name))
+                    if metadata.has("duration"):
+                        duration = metadata.get('duration').seconds
+                except Exception as g_e:
+                    LOGGER.info(g_e)
                 width = 0
                 height = 0
                 thumb_image_path = None
