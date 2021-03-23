@@ -81,7 +81,14 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
 
+
 def multi_rclone_init():
+    if RCLONE_CONFIG:
+        LOGGER.warning(
+            "Don't use this var now, put your rclone.conf in root directory")
+    if not os.path.exists("rclone.conf"):
+        LOGGER.warning("Sed, No rclone.conf found in root directory")
+        return
     if not os.path.exists('rclone_bak.conf'):  # backup rclone.conf file
         with open('rclone_bak.conf', 'w+', newline="\n", encoding='utf-8') as fole:
             with open('rclone.conf', 'r') as f:

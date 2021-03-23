@@ -417,7 +417,14 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                 reply_markup = InlineKeyboardMarkup(inline_keyboard)
                 if msg != previous_message:
                     if not file.has_failed:
-                        await event.edit(msg, reply_markup=reply_markup)
+                        try:
+                            await event.edit(msg, reply_markup=reply_markup)
+                        except FloodWait as e_e:
+                            LOGGER.warning(f"Trying to sleep for {e_e}")
+                            time.sleep(e_e.x)
+                        except MessageNotModified as e_p:
+                          LOGGER.info(e_p)
+                          await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
                         previous_message = msg
                     else:
                         LOGGER.info(
@@ -443,6 +450,8 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
         await event.edit(f"Download cancelled :\n<code>{file.name} ({file.total_length_string()})</code>")
     except MessageNotModified as ep:
         LOGGER.info(ep)
+        await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
+        await check_progress_for_dl(aria2, gid, event, previous_message)
     except FloodWait as e:
         LOGGER.info(e)
         time.sleep(e.x)

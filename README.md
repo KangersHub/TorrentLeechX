@@ -150,13 +150,7 @@ class Config(Config):
 
 * `AUTH_CHANNEL`: Create a Super Group in Telegram, add `@GoogleIMGBot` to the group, and send /id in the chat, to get this value.
 
-* `RCLONE_CONFIG`: Create the rclone config using the rclone.org and read the rclone section for the next.
-
-* `DESTINATION_FOLDER`: Name of your folder in ur respective drive where you want to upload the files using the bot.
-
 * `OWNER_ID`: ID of the bot owner, He/she can be abled to access bot in bot only mode too(private mode).
-
-* `INDEX_LINK`
 
 ## FAQ
 
@@ -217,6 +211,9 @@ class Config(Config):
 * `UPLOAD_AS_DOC`: Takes two option True or False. If True file will be uploaded as document. This is for people who wants video files as document instead of streamable.
 
 * `INDEX_LINK`: (Without `/` at last of the link, otherwise u will get error) During creating index, plz fill `Default Root ID` with the id of your `DESTINATION_FOLDER` after creating. Otherwise index will not work properly.
+
+* `DESTINATION_FOLDER`: Name of your folder in ur respective drive where you want to upload the files using the bot.
+
 ## Available Commands
 
 * `/rclone`: This will change your drive config on fly.(First one will be default)

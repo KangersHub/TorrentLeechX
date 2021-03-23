@@ -6,9 +6,9 @@ import logging
 import math
 import os
 import time
-
+from pyrogram.errors.exceptions import FloodWait
 # the logging things
-from tobrot import FINISHED_PROGRESS_STR, UN_FINISHED_PROGRESS_STR
+from tobrot import FINISHED_PROGRESS_STR, UN_FINISHED_PROGRESS_STR, EDIT_SLEEP_TIME_OUT
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -24,7 +24,8 @@ async def progress_for_pyrogram(
 ):
     now = time.time()
     diff = now - start
-    if round(diff % 10.00) == 0 or current == total:
+
+    if round(diff % float(EDIT_SLEEP_TIME_OUT)) == 0 or current == total:
         # if round(current / total * 100, 0) % 5 == 0:
         percentage = current * 100 / total
         speed = current / diff
@@ -64,6 +65,9 @@ async def progress_for_pyrogram(
                         tmp
                     )
                 )
+        except FloodWait as fd:
+            logger.warning(f"Sleeping for {fd}")
+            time.sleep(fd.x)
         except Exception as ou:
             logger.info(ou)
 

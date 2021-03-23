@@ -269,7 +269,12 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, e
             )
         )
         if message.message_id != message_for_progress_display.message_id:
-            await message_for_progress_display.delete()
+            try:
+                await message_for_progress_display.delete()
+            except FloodWait as gf:
+                time.sleep(gf.x)
+            except Exception as rr:
+                LOGGER.warning(str(rr))
         os.remove(local_file_name)
         if thumb is not None:
             os.remove(thumb)
@@ -471,6 +476,11 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, e
             await message_for_progress_display.edit_text("**FAILED**\n" + str(e))
         else:
             if message.message_id != message_for_progress_display.message_id:
-                await message_for_progress_display.delete()
+                try:
+                    await message_for_progress_display.delete()
+                except FloodWait as gf:
+                    time.sleep(gf.x)
+                except Exception as rr:
+                    LOGGER.warning(str(rr))
         os.remove(local_file_name)
     return sent_message

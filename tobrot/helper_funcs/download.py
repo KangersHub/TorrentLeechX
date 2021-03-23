@@ -48,7 +48,9 @@ async def down_load_media_f(client, message):
                 )
             )
         except Exception as g_e:
-            LOGGER.info(g_e)
+            await mess_age.edit(str(g_e))
+            LOGGER.error(g_e)
+            return
         end_t = datetime.now()
         ms = (end_t - start_t).seconds
         LOGGER.info(the_real_download_location)
@@ -102,7 +104,9 @@ async def download_tg(client, message):
                 )
             )
         except Exception as g_e:
-            LOGGER.info(g_e)
+            await mess_age.edit(str(g_e))
+            LOGGER.error(g_e)
+            return
         end_t = datetime.now()
         ms = (end_t - start_t).seconds
         LOGGER.info(the_real_download_location)
