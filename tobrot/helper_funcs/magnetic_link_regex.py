@@ -4,15 +4,7 @@
 
 import logging
 import os
-# the logging things
 import re
-
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
-logging.getLogger("pyrogram").setLevel(logging.WARNING)
-LOGGER = logging.getLogger(__name__)
 
 
 MAGNETIC_LINK_REGEX = r"magnet\:\?xt\=urn\:btih\:([A-F\d]+)"

@@ -73,11 +73,11 @@ Install Docker by following the [official docker docs](https://docs.docker.com/e
 
 ## Setting up config file
 ```
-cp tobrot/g_config.py tobrot/config.py
+cp sample_config.env config.env
 ```
-After this step you will see a new file named ```config.py``` in tobrot directory.
+After this step you will see a new file named ```config.env``` in root directory.
 
-Follow and fill all the required variables that were already filled in the sample config file, but with your details. And you can also fill all other variables according to your need and all those are explained below.
+Fill those compulsory variables.
 
 If you need more explanation about any variable then read [app.jso](https://github.com/gautamajay52/TorrentLeech-Gdrive/blob/master/app.jso)
 
@@ -126,18 +126,6 @@ pip install -r requirements.txt
 # <Create config.py appropriately>
 python3 -m tobrot
 ```
-
-### an example config.py 👇
-```py
-from tobrot.sample_config import Config
-
-class Config(Config):
-  TG_BOT_TOKEN = ""
-  APP_ID = 6
-  API_HASH = "eb06d4abfb49dc3eeb1aeb98ae0f581e"
-  AUTH_CHANNEL = [-1001234567890]
-```
-
 ### Variable Explanations
 
 ##### Mandatory Variables

@@ -6,15 +6,7 @@ import logging
 
 import aiohttp
 from pyrogram.types import MessageEntity
-# the logging things
-from tobrot import TG_OFFENSIVE_API
-
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
-logging.getLogger("pyrogram").setLevel(logging.WARNING)
-LOGGER = logging.getLogger(__name__)
+from tobrot import TG_OFFENSIVE_API, LOGGER
 
 
 def extract_url_from_entity(entities: MessageEntity, text: str):
@@ -25,7 +17,7 @@ def extract_url_from_entity(entities: MessageEntity, text: str):
         elif entity.type == "url":
             o = entity.offset
             l = entity.length
-            url = text[o:o + l]
+            url = text[o : o + l]
     return url
 
 
@@ -78,8 +70,7 @@ async def extract_link(message, type_o_request):
                 youtube_dl_password = url_parts[3]
 
         elif message.caption_entities is not None:
-            url = extract_url_from_entity(
-                message.caption_entities, message.caption)
+            url = extract_url_from_entity(message.caption_entities, message.caption)
 
         else:
             url = message.caption.strip()
@@ -106,9 +97,7 @@ async def extract_link(message, type_o_request):
         try:
             async with aiohttp.ClientSession() as session:
                 api_url = TG_OFFENSIVE_API.format(
-                    i=url,
-                    m=custom_file_name,
-                    t=type_o_request
+                    i=url, m=custom_file_name, t=type_o_request
                 )
                 LOGGER.info(api_url)
                 async with session.get(api_url) as resp:
