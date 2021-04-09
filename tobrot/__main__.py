@@ -21,17 +21,24 @@ from tobrot import (
     DOWNLOAD_LOCATION,
     GET_SIZE_G,
     GLEECH_COMMAND,
+    GLEECH_UNZIP_COMMAND,
+    GLEECH_ZIP_COMMAND,
     LEECH_COMMAND,
+    LEECH_UNZIP_COMMAND,
+    LEECH_ZIP_COMMAND,
     LOG_COMMAND,
     LOGGER,
-    PYTDL_COMMAND_G,
+    PYTDL_COMMAND,
     RENEWME_COMMAND,
     SAVE_THUMBNAIL,
     STATUS_COMMAND,
-    TELEGRAM_LEECH_COMMAND_G,
+    TELEGRAM_LEECH_UNZIP_COMMAND,
+    TELEGRAM_LEECH_COMMAND,
     TG_BOT_TOKEN,
     UPLOAD_COMMAND,
     YTDL_COMMAND,
+    GYTDL_COMMAND,
+    GPYTDL_COMMAND,
 )
 from tobrot.helper_funcs.download import down_load_media_f
 from tobrot.plugins.call_back_button_handler import button
@@ -42,7 +49,6 @@ from tobrot.plugins.custom_thumbnail import clear_thumb_nail, save_thumb_nail
 from tobrot.plugins.incoming_message_fn import (
     g_clonee,
     g_yt_playlist,
-    incoming_gdrive_message_f,
     incoming_message_f,
     incoming_purge_message_f,
     incoming_youtube_dl_f,
@@ -74,21 +80,23 @@ if __name__ == "__main__":
     #
     incoming_message_handler = MessageHandler(
         incoming_message_f,
-        filters=filters.command([f"{LEECH_COMMAND}"])
+        filters=filters.command(
+            [
+                LEECH_COMMAND,
+                LEECH_UNZIP_COMMAND,
+                LEECH_ZIP_COMMAND,
+                GLEECH_COMMAND,
+                GLEECH_UNZIP_COMMAND,
+                GLEECH_ZIP_COMMAND,
+            ]
+        )
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(incoming_message_handler)
     #
-    incoming_gdrive_message_handler = MessageHandler(
-        incoming_gdrive_message_f,
-        filters=filters.command([f"{GLEECH_COMMAND}"])
-        & filters.chat(chats=AUTH_CHANNEL),
-    )
-    app.add_handler(incoming_gdrive_message_handler)
-    #
     incoming_telegram_download_handler = MessageHandler(
         down_load_media_f,
-        filters=filters.command([f"{TELEGRAM_LEECH_COMMAND_G}"])
+        filters=filters.command([TELEGRAM_LEECH_COMMAND, TELEGRAM_LEECH_UNZIP_COMMAND])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(incoming_telegram_download_handler)
@@ -121,13 +129,14 @@ if __name__ == "__main__":
     #
     incoming_youtube_dl_handler = MessageHandler(
         incoming_youtube_dl_f,
-        filters=filters.command([f"{YTDL_COMMAND}"]) & filters.chat(chats=AUTH_CHANNEL),
+        filters=filters.command([YTDL_COMMAND, GYTDL_COMMAND])
+        & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(incoming_youtube_dl_handler)
     #
     incoming_youtube_playlist_dl_handler = MessageHandler(
         g_yt_playlist,
-        filters=filters.command([f"{PYTDL_COMMAND_G}"])
+        filters=filters.command([PYTDL_COMMAND, GPYTDL_COMMAND])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(incoming_youtube_playlist_dl_handler)

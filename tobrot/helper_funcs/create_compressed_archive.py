@@ -36,8 +36,7 @@ async def create_archive(input_directory):
         )
         # Wait for the subprocess to finish
         stdout, stderr = await process.communicate()
-        e_response = stderr.decode().strip()
-        t_response = stdout.decode().strip()
+        LOGGER.error(stderr.decode().strip())
         if os.path.exists(compressed_file_name):
             try:
                 shutil.rmtree(input_directory)
@@ -54,30 +53,23 @@ async def unzip_me(input_directory):
     return_name = None
     if os.path.exists(input_directory):
         base_dir_name = os.path.basename(input_directory)
-        uncompressed_file_name = os.path.splitext(base_dir_name)[0]
-        # #BlameTelegram
-        # suffix_extention_length = 1 + 3 + 1 + 2
-        # if len(base_dir_name) > (64 - suffix_extention_length):
-        # compressed_file_name = base_dir_name[0:(64 - suffix_extention_length)]
-        # compressed_file_name += ".tar.gz"
-        # fix for https://t.me/c/1434259219/13344
-        g_cmd = ["unzip", "-o", f"{base_dir_name}", "-d", f"{uncompressed_file_name}"]
+        # uncompressed_file_name = os.path.splitext(base_dir_name)[0]
+        uncompressed_file_name = get_base_name(base_dir_name)
+        LOGGER.info(uncompressed_file_name)
+        g_cmd = ["./extract", f"{input_directory}"]
         ga_utam = await asyncio.create_subprocess_exec(
             *g_cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
         # Wait for the subprocess to finish
         gau, tam = await ga_utam.communicate()
-        LOGGER.info(gau)
-        LOGGER.info(tam)
-        # e_response = stderr.decode().strip()
-        # t_response = stdout.decode().strip()
+        LOGGER.info(gau.decode().strip())
+        LOGGER.info(tam.decode().strip())
         if os.path.exists(uncompressed_file_name):
             try:
                 os.remove(input_directory)
             except:
                 pass
             return_name = uncompressed_file_name
-            print(return_name)
     return return_name
 
 
@@ -151,3 +143,30 @@ async def unrar_me(input_directory):
             return_name = uncompressed_file_name
             LOGGER.info(return_name)
     return return_name
+
+
+def get_base_name(orig_path: str):
+    if orig_path.endswith(".tar.bz2"):
+        return orig_path.replace(".tar.bz2", "")
+    elif orig_path.endswith(".tar.gz"):
+        return orig_path.replace(".tar.gz", "")
+    elif orig_path.endswith(".bz2"):
+        return orig_path.replace(".bz2", "")
+    elif orig_path.endswith(".gz"):
+        return orig_path.replace(".gz", "")
+    elif orig_path.endswith(".tar"):
+        return orig_path.replace(".tar", "")
+    elif orig_path.endswith(".tbz2"):
+        return orig_path.replace("tbz2", "")
+    elif orig_path.endswith(".tgz"):
+        return orig_path.replace(".tgz", "")
+    elif orig_path.endswith(".zip"):
+        return orig_path.replace(".zip", "")
+    elif orig_path.endswith(".7z"):
+        return orig_path.replace(".7z", "")
+    elif orig_path.endswith(".Z"):
+        return orig_path.replace(".Z", "")
+    elif orig_path.endswith(".rar"):
+        return orig_path.replace(".rar", "")
+    else:
+        raise Exception("File format not supported for extraction")

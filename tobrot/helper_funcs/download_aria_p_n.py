@@ -22,8 +22,7 @@ from tobrot import (
 )
 from tobrot.helper_funcs.create_compressed_archive import (
     create_archive,
-    unrar_me,
-    untar_me,
+    get_base_name,
     unzip_me,
 )
 from tobrot.helper_funcs.extract_link_from_message import extract_link
@@ -141,9 +140,8 @@ async def call_apropriate_function(
     sent_message_to_update_tg_p,
     is_zip,
     cstom_file_name,
+    is_cloud,
     is_unzip,
-    is_unrar,
-    is_untar,
     user_message,
 ):
     if incoming_link.lower().startswith("magnet:"):
@@ -176,183 +174,79 @@ async def call_apropriate_function(
     com_g = file.is_complete
     #
     if is_zip:
-        # first check if current free space allows this
-        # ref: https://github.com/out386/aria-telegram-mirror-bot/blob/master/src/download_tools/aria-tools.ts#L194
-        # archive the contents
         check_if_file = await create_archive(to_upload_file)
         if check_if_file is not None:
             to_upload_file = check_if_file
     #
     if is_unzip:
-        check_ifi_file = await unzip_me(to_upload_file)
-        if check_ifi_file is not None:
-            to_upload_file = check_ifi_file
-    #
-    if is_unrar:
-        check_ife_file = await unrar_me(to_upload_file)
-        if check_ife_file is not None:
-            to_upload_file = check_ife_file
-    #
-    if is_untar:
-        check_ify_file = await untar_me(to_upload_file)
-        if check_ify_file is not None:
-            to_upload_file = check_ify_file
-    #
+        try:
+            check_ifi_file = get_base_name(to_upload_file)
+            await unzip_me(to_upload_file)
+            if os.path.exists(check_ifi_file):
+                to_upload_file = check_ifi_file
+        except Exception as ge:
+            LOGGER.info(ge)
+            LOGGER.info(
+                f"Can't extract {os.path.basename(to_upload_file)}, Uploading the same file"
+            )
+
     if to_upload_file:
         if CUSTOM_FILE_NAME:
             if os.path.isfile(to_upload_file):
                 os.rename(to_upload_file, f"{CUSTOM_FILE_NAME}{to_upload_file}")
                 to_upload_file = f"{CUSTOM_FILE_NAME}{to_upload_file}"
             else:
-                for root, dirs, files in os.walk(to_upload_file):
+                for root, _, files in os.walk(to_upload_file):
                     LOGGER.info(files)
                     for org in files:
                         p_name = f"{root}/{org}"
                         n_name = f"{root}/{CUSTOM_FILE_NAME}{org}"
                         os.rename(p_name, n_name)
                 to_upload_file = to_upload_file
-        else:
-            to_upload_file = to_upload_file
 
     if cstom_file_name:
         os.rename(to_upload_file, cstom_file_name)
         to_upload_file = cstom_file_name
-    else:
-        to_upload_file = to_upload_file
     #
     response = {}
     LOGGER.info(response)
     user_id = user_message.from_user.id
     if com_g:
-        final_response = await upload_to_tg(
-            sent_message_to_update_tg_p, to_upload_file, user_id, response
-        )
-    try:
-        message_to_send = ""
-        for key_f_res_se in final_response:
-            local_file_name = key_f_res_se
-            message_id = final_response[key_f_res_se]
-            channel_id = str(sent_message_to_update_tg_p.chat.id)[4:]
-            private_link = f"https://t.me/c/{channel_id}/{message_id}"
-            message_to_send += "👉 <a href='"
-            message_to_send += private_link
-            message_to_send += "'>"
-            message_to_send += local_file_name
-            message_to_send += "</a>"
-            message_to_send += "\n"
-        if message_to_send != "":
-            mention_req_user = (
-                f"<a href='tg://user?id={user_id}'>Your Requested Files</a>\n\n"
+        if is_cloud:
+            await upload_to_gdrive(
+                to_upload_file, sent_message_to_update_tg_p, user_message, user_id
             )
-            message_to_send = mention_req_user + message_to_send
-            message_to_send = message_to_send + "\n\n" + "#uploads"
         else:
-            message_to_send = "<i>FAILED</i> to upload files. 😞😞"
-        await user_message.reply_text(
-            text=message_to_send, quote=True, disable_web_page_preview=True
-        )
-    except:
-        pass
+            final_response = await upload_to_tg(
+                sent_message_to_update_tg_p, to_upload_file, user_id, response
+            )
+            try:
+                message_to_send = ""
+                for key_f_res_se in final_response:
+                    local_file_name = key_f_res_se
+                    message_id = final_response[key_f_res_se]
+                    channel_id = str(sent_message_to_update_tg_p.chat.id)[4:]
+                    private_link = f"https://t.me/c/{channel_id}/{message_id}"
+                    message_to_send += "👉 <a href='"
+                    message_to_send += private_link
+                    message_to_send += "'>"
+                    message_to_send += local_file_name
+                    message_to_send += "</a>"
+                    message_to_send += "\n"
+                if message_to_send != "":
+                    mention_req_user = (
+                        f"<a href='tg://user?id={user_id}'>Your Requested Files</a>\n\n"
+                    )
+                    message_to_send = mention_req_user + message_to_send
+                    message_to_send = message_to_send + "\n\n" + "#uploads"
+                else:
+                    message_to_send = "<i>FAILED</i> to upload files. 😞😞"
+                await user_message.reply_text(
+                    text=message_to_send, quote=True, disable_web_page_preview=True
+                )
+            except Exception as go:
+                LOGGER.error(go)
     return True, None
-
-
-#
-
-
-async def call_apropriate_function_g(
-    aria_instance,
-    incoming_link,
-    c_file_name,
-    sent_message_to_update_tg_p,
-    is_zip,
-    cstom_file_name,
-    is_unzip,
-    is_unrar,
-    is_untar,
-    user_message,
-):
-    if incoming_link.lower().startswith("magnet:"):
-        sagtus, err_message = add_magnet(aria_instance, incoming_link, c_file_name)
-    elif incoming_link.lower().endswith(".torrent"):
-        sagtus, err_message = add_torrent(aria_instance, incoming_link)
-    else:
-        sagtus, err_message = add_url(aria_instance, incoming_link, c_file_name)
-    if not sagtus:
-        return sagtus, err_message
-    LOGGER.info(err_message)
-    # https://stackoverflow.com/a/58213653/4723940
-    await check_progress_for_dl(
-        aria_instance, err_message, sent_message_to_update_tg_p, None
-    )
-    if incoming_link.startswith("magnet:"):
-        #
-        err_message = await check_metadata(aria_instance, err_message)
-        #
-        await asyncio.sleep(1)
-        if err_message is not None:
-            await check_progress_for_dl(
-                aria_instance, err_message, sent_message_to_update_tg_p, None
-            )
-        else:
-            return False, "can't get metadata \n\n#MetaDataError"
-    await asyncio.sleep(1)
-    file = aria_instance.get_download(err_message)
-    to_upload_file = file.name
-    com_gau = file.is_complete
-    #
-    if is_zip:
-        # first check if current free space allows this
-        # ref: https://github.com/out386/aria-telegram-mirror-bot/blob/master/src/download_tools/aria-tools.ts#L194
-        # archive the contents
-        check_if_file = await create_archive(to_upload_file)
-        if check_if_file is not None:
-            to_upload_file = check_if_file
-    #
-    if is_unzip:
-        check_ifi_file = await unzip_me(to_upload_file)
-        if check_ifi_file is not None:
-            to_upload_file = check_ifi_file
-    #
-    if is_unrar:
-        check_ife_file = await unrar_me(to_upload_file)
-        if check_ife_file is not None:
-            to_upload_file = check_ife_file
-    #
-    if is_untar:
-        check_ify_file = await untar_me(to_upload_file)
-        if check_ify_file is not None:
-            to_upload_file = check_ify_file
-    #
-    if to_upload_file:
-        if CUSTOM_FILE_NAME:
-            if os.path.isfile(to_upload_file):
-                os.rename(to_upload_file, f"{CUSTOM_FILE_NAME}{to_upload_file}")
-                to_upload_file = f"{CUSTOM_FILE_NAME}{to_upload_file}"
-            else:
-                for root, dirs, files in os.walk(to_upload_file):
-                    LOGGER.info(files)
-                    for org in files:
-                        p_name = f"{root}/{org}"
-                        n_name = f"{root}/{CUSTOM_FILE_NAME}{org}"
-                        os.rename(p_name, n_name)
-                to_upload_file = to_upload_file
-        else:
-            to_upload_file = to_upload_file
-
-    if cstom_file_name:
-        os.rename(to_upload_file, cstom_file_name)
-        to_upload_file = cstom_file_name
-    else:
-        to_upload_file = to_upload_file
-    #
-    response = {}
-    LOGGER.info(response)
-    user_id = user_message.from_user.id
-    LOGGER.info(user_id)
-    if com_gau:
-        final_response = await upload_to_gdrive(
-            to_upload_file, sent_message_to_update_tg_p, user_message, user_id
-        )
 
 
 #

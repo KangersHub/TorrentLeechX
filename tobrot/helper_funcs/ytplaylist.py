@@ -13,7 +13,11 @@ from tobrot.helper_funcs.upload_to_tg import upload_to_gdrive, upload_to_tg
 
 
 async def yt_playlist_downg(message, i_m_sefg, G_DRIVE):
-    url = message.text
+    url = None
+    if message.reply_to_message:
+        url = message.reply_to_message.text
+    else:
+        url = message.text.split()[1]
     usr = message.message_id
     messa_ge = i_m_sefg.reply_to_message
     fol_der = f"{usr}youtube"
@@ -46,12 +50,9 @@ async def yt_playlist_downg(message, i_m_sefg, G_DRIVE):
         get_g = os.listdir(fol_der)
         for ga_u in get_g:
             ta_m = os.path.join(fol_der, ga_u)
-            LOGGER.info(ta_m)
-            shutil.move(ta_m, "./")
-            await upload_to_gdrive(ga_u, i_m_sefg, message, usr)
+            await upload_to_gdrive(ta_m, i_m_sefg, message, usr)
     else:
         final_response = await upload_to_tg(i_m_sefg, fol_der, usr, {})
-        LOGGER.info(final_response)
     try:
         shutil.rmtree(fol_der)
     except:

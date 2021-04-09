@@ -13,7 +13,7 @@ import time
 from datetime import datetime
 
 import pyrogram
-from tobrot import AUTH_CHANNEL, DOWNLOAD_LOCATION, LOGGER
+from tobrot import AUTH_CHANNEL, DOWNLOAD_LOCATION, LOGGER, GYTDL_COMMAND
 from tobrot.helper_funcs.upload_to_tg import upload_to_gdrive, upload_to_tg
 
 
@@ -187,23 +187,14 @@ async def youtube_dl_call_back(bot, update):
                     gaut_am = os.path.basename(fi_le)
                     LOGGER.info(gaut_am)
 
-        G_DRIVE = False
-        txt = update.message.reply_to_message.text
-        print(txt)
-        g_txt = txt.split()
-        print(g_txt)
-        if len(g_txt) > 1:
-            if g_txt[1] == "gdrive":
-                G_DRIVE = True
-        if G_DRIVE:
-            liop = subprocess.Popen(
-                ["mv", f"{fi_le}", "/app/"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-            )
-            out, err = liop.communicate()
-            LOGGER.info(out)
-            LOGGER.info(err)
+        is_cloud = False
+        comd = update.message.reply_to_message.text
+        LOGGER.info(comd)
+        user_command = comd.split()[0]
+        if user_command == "/" + GYTDL_COMMAND:
+            is_cloud = True
+        if is_cloud:
+            shutil.move(fi_le, "./")
             final_response = await upload_to_gdrive(
                 gaut_am, update.message, update.message.reply_to_message, user_id
             )
@@ -211,16 +202,6 @@ async def youtube_dl_call_back(bot, update):
             final_response = await upload_to_tg(
                 update.message, tmp_directory_for_each_user, user_id, {}, True
             )
-
-        """  
-        final_response = await upload_to_tg(
-            update.message,
-            tmp_directory_for_each_user,
-            user_id,
-            {},
-            True
-        )
-        """
         LOGGER.info(final_response)
         #
         try:

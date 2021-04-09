@@ -25,11 +25,10 @@ async def button(bot, update: CallbackQuery):
         LOGGER.info(ee)
     if "|" in cb_data:
         await youtube_dl_call_back(bot, update)
+        return
     if cb_data.startswith("rclone"):
         await rclone_button_callback(bot, update)
         return
-    LOGGER.info(update.from_user.id)
-    LOGGER.info(update.message.reply_to_message.from_user.id)
     if cb_data.startswith("cancel"):
         if (update.from_user.id == update.message.reply_to_message.from_user.id) or g:
             if len(cb_data) > 1:

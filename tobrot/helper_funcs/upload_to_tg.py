@@ -140,12 +140,14 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
             gUP = re.findall("\[(.*)\]", con)[0]
             LOGGER.info(gUP)
     destination = f"{DESTINATION_FOLDER}"
+    file_upload = str(Path(file_upload).resolve())
+    LOGGER.info(file_upload)
     if os.path.isfile(file_upload):
         g_au = [
             "rclone",
             "copy",
-            "--config=./rclone.conf",
-            f"./{file_upload}",
+            "--config=rclone.conf",
+            f"{file_upload}",
             f"{gUP}:{destination}",
             "-v",
         ]
@@ -156,7 +158,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         pro, cess = await tmp.communicate()
         LOGGER.info(pro.decode("utf-8"))
         LOGGER.info(cess.decode("utf-8"))
-        gk_file = re.escape(file_upload)
+        gk_file = re.escape(os.path.basename(file_upload))
         LOGGER.info(gk_file)
         with open("filter.txt", "w+", encoding="utf-8") as filter:
             print(f"+ {gk_file}\n- *", file=filter)
@@ -164,10 +166,10 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         t_a_m = [
             "rclone",
             "lsf",
-            "--config=./rclone.conf",
+            "--config=rclone.conf",
             "-F",
             "i",
-            "--filter-from=./filter.txt",
+            "--filter-from=filter.txt",
             "--files-only",
             f"{gUP}:{destination}",
         ]
@@ -176,20 +178,18 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         )
         # os.remove("filter.txt")
         gau, tam = await gau_tam.communicate()
-        gautam = gau.decode("utf-8")
-        LOGGER.info(tam.decode("utf-8"))
+        gautam = gau.decode().strip()
+        LOGGER.info(gau.decode())
+        LOGGER.info(tam.decode())
         # os.remove("filter.txt")
         gauti = f"https://drive.google.com/file/d/{gautam}/view?usp=drivesdk"
-        gau_link = re.search("(?P<url>https?://[^\s]+)", gauti).group("url")
-        LOGGER.info(gau_link)
         gjay = size(os.path.getsize(file_upload))
-        LOGGER.info(gjay)
         button = []
         button.append(
-            [pyrogram.InlineKeyboardButton(text="☁️ CloudUrl ☁️", url=f"{gau_link}")]
+            [pyrogram.InlineKeyboardButton(text="☁️ CloudUrl ☁️", url=f"{gauti}")]
         )
         if INDEX_LINK:
-            indexurl = f"{INDEX_LINK}/{file_upload}"
+            indexurl = f"{INDEX_LINK}/{os.path.basename(file_upload)}"
             tam_link = requests.utils.requote_uri(indexurl)
             LOGGER.info(tam_link)
             button.append(
@@ -202,19 +202,19 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         button_markup = pyrogram.InlineKeyboardMarkup(button)
         await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
         await messa_ge.reply_text(
-            f"🤖: Uploaded successfully `{file_upload}` <a href='tg://user?id={g_id}'>🤒</a>\n📀 Size: {gjay}",
+            f"🤖: Uploaded successfully `{os.path.basename(file_upload)}` <a href='tg://user?id={g_id}'>🤒</a>\n📀 Size: {gjay}",
             reply_markup=button_markup,
         )
         os.remove(file_upload)
         await del_it.delete()
     else:
-        tt = os.path.join(destination, file_upload)
+        tt = os.path.join(destination, os.path.basename(file_upload))
         LOGGER.info(tt)
         t_am = [
             "rclone",
             "copy",
-            "--config=./rclone.conf",
-            f"./{file_upload}",
+            "--config=rclone.conf",
+            f"{file_upload}",
             f"{gUP}:{tt}",
             "-v",
         ]
@@ -225,7 +225,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         pro, cess = await tmp.communicate()
         LOGGER.info(pro.decode("utf-8"))
         LOGGER.info(cess.decode("utf-8"))
-        g_file = re.escape(file_upload)
+        g_file = re.escape(os.path.basename(file_upload))
         LOGGER.info(g_file)
         with open("filter1.txt", "w+", encoding="utf-8") as filter1:
             print(f"+ {g_file}/\n- *", file=filter1)
@@ -233,10 +233,10 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         g_a_u = [
             "rclone",
             "lsf",
-            "--config=./rclone.conf",
+            "--config=rclone.conf",
             "-F",
             "i",
-            "--filter-from=./filter1.txt",
+            "--filter-from=filter1.txt",
             "--dirs-only",
             f"{gUP}:{destination}",
         ]
@@ -250,16 +250,14 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         LOGGER.info(tam.decode("utf-8"))
         # os.remove("filter1.txt")
         gautii = f"https://drive.google.com/folderview?id={gautam}"
-        gau_link = re.search("(?P<url>https?://[^\s]+)", gautii).group("url")
-        LOGGER.info(gau_link)
         gjay = size(getFolderSize(file_upload))
         LOGGER.info(gjay)
         button = []
         button.append(
-            [pyrogram.InlineKeyboardButton(text="☁️ CloudUrl ☁️", url=f"{gau_link}")]
+            [pyrogram.InlineKeyboardButton(text="☁️ CloudUrl ☁️", url=f"{gautii}")]
         )
         if INDEX_LINK:
-            indexurl = f"{INDEX_LINK}/{file_upload}/"
+            indexurl = f"{INDEX_LINK}/{os.path.basename(file_upload)}/"
             tam_link = requests.utils.requote_uri(indexurl)
             LOGGER.info(tam_link)
             button.append(
@@ -272,7 +270,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         button_markup = pyrogram.InlineKeyboardMarkup(button)
         await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
         await messa_ge.reply_text(
-            f"🤖: Uploaded successfully `{file_upload}` <a href='tg://user?id={g_id}'>🤒</a>\n📀 Size: {gjay}",
+            f"🤖: Uploaded successfully `{os.path.basename(file_upload)}` <a href='tg://user?id={g_id}'>🤒</a>\n📀 Size: {gjay}",
             reply_markup=button_markup,
         )
         shutil.rmtree(file_upload)

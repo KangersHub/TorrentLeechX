@@ -65,7 +65,7 @@ AUTH_CHANNEL.append(OWNER_ID)
 CHUNK_SIZE = int(os.environ.get("CHUNK_SIZE", "128"))
 # default thumbnail to be used in the videos
 DEF_THUMB_NAIL_VID_S = os.environ.get(
-    "DEF_THUMB_NAIL_VID_S", "https://placehold.it/90x90"
+    "DEF_THUMB_NAIL_VID_S", "https://via.placeholder.com/90"
 )
 # maximum message length in Telegram
 MAX_MESSAGE_LENGTH = 4096
@@ -86,19 +86,28 @@ UN_FINISHED_PROGRESS_STR = os.environ.get("UN_FINISHED_PROGRESS_STR", "░")
 TG_OFFENSIVE_API = os.environ.get("TG_OFFENSIVE_API", None)
 CUSTOM_FILE_NAME = os.environ.get("CUSTOM_FILE_NAME", "")
 LEECH_COMMAND = os.environ.get("LEECH_COMMAND", "leech")
+LEECH_UNZIP_COMMAND = os.environ.get("LEECH_UNZIP_COMMAND", "leechunzip")
+LEECH_ZIP_COMMAND = os.environ.get("LEECH_ZIP_COMMAND", "leechzip")
+GLEECH_COMMAND = os.environ.get("GLEECH_COMMAND", "gleech")
+GLEECH_UNZIP_COMMAND = os.environ.get("GLEECH_UNZIP_COMMAND", "gleechunzip")
+GLEECH_ZIP_COMMAND = os.environ.get("GLEECH_ZIP_COMMAND", "gleechzip")
 YTDL_COMMAND = os.environ.get("YTDL_COMMAND", "ytdl")
+GYTDL_COMMAND = os.environ.get("GYTDL_COMMAND", "gytdl")
 RCLONE_CONFIG = os.environ.get("RCLONE_CONFIG", "")
 DESTINATION_FOLDER = os.environ.get("DESTINATION_FOLDER", "TorrentLeech-Gdrive")
-GLEECH_COMMAND = os.environ.get("GLEECH_COMMAND", "gleech")
 INDEX_LINK = os.environ.get("INDEX_LINK", "")
-TELEGRAM_LEECH_COMMAND_G = os.environ.get("TELEGRAM_LEECH_COMMAND_G", "tleech")
+TELEGRAM_LEECH_COMMAND = os.environ.get("TELEGRAM_LEECH_COMMAND", "tleech")
+TELEGRAM_LEECH_UNZIP_COMMAND = os.environ.get(
+    "TELEGRAM_LEECH_UNZIP_COMMAND", "tleechunzip"
+)
 CANCEL_COMMAND_G = os.environ.get("CANCEL_COMMAND_G", "cancel")
 GET_SIZE_G = os.environ.get("GET_SIZE_G", "getsize")
 STATUS_COMMAND = os.environ.get("STATUS_COMMAND", "status")
 SAVE_THUMBNAIL = os.environ.get("SAVE_THUMBNAIL", "savethumbnail")
 CLEAR_THUMBNAIL = os.environ.get("CLEAR_THUMBNAIL", "clearthumbnail")
 UPLOAD_AS_DOC = os.environ.get("UPLOAD_AS_DOC", "False")
-PYTDL_COMMAND_G = os.environ.get("PYTDL_COMMAND_G", "pytdl")
+PYTDL_COMMAND = os.environ.get("PYTDL_COMMAND", "pytdl")
+GPYTDL_COMMAND = os.environ.get("GPYTDL_COMMAND", "gpytdl")
 LOG_COMMAND = os.environ.get("LOG_COMMAND", "log")
 CLONE_COMMAND_G = os.environ.get("CLONE_COMMAND_G", "gclone")
 UPLOAD_COMMAND = os.environ.get("UPLOAD_COMMAND", "upload")

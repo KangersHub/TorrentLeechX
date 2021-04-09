@@ -10,15 +10,17 @@ import re
 import subprocess
 import time
 from datetime import datetime
+from pathlib import Path
 
 from pyrogram import Client, filters
-from tobrot import DOWNLOAD_LOCATION, LOGGER
-from tobrot.helper_funcs.create_compressed_archive import unrar_me, untar_me, unzip_me
+from tobrot import DOWNLOAD_LOCATION, LOGGER, TELEGRAM_LEECH_UNZIP_COMMAND
+from tobrot.helper_funcs.create_compressed_archive import unzip_me, get_base_name
 from tobrot.helper_funcs.display_progress import progress_for_pyrogram
 from tobrot.helper_funcs.upload_to_tg import upload_to_gdrive
 
 
 async def down_load_media_f(client, message):
+    user_command = message.command[0]
     user_id = message.from_user.id
     LOGGER.info(user_id)
     mess_age = await message.reply_text("...", quote=True)
@@ -26,7 +28,7 @@ async def down_load_media_f(client, message):
         os.makedirs(DOWNLOAD_LOCATION)
     if message.reply_to_message is not None:
         start_t = datetime.now()
-        download_location = "/app/"
+        download_location = str(Path().resolve()) + "/"
         c_time = time.time()
         try:
             the_real_download_location = await client.download_media(
@@ -46,37 +48,19 @@ async def down_load_media_f(client, message):
         await mess_age.edit_text(
             f"Downloaded to <code>{the_real_download_location}</code> in <u>{ms}</u> seconds"
         )
-        the_real_download_location_g = os.path.basename(the_real_download_location)
-        LOGGER.info(the_real_download_location_g)
-        if len(message.command) > 1:
-            if message.command[1].lower() == "unzip":
-                file_upload = await unzip_me(the_real_download_location_g)
-                if file_upload is not None:
-                    g_response = await upload_to_gdrive(
-                        file_upload, mess_age, message, user_id
-                    )
-                    LOGGER.info(g_response)
-
-            elif message.command[1].lower() == "unrar":
-                file_uploade = await unrar_me(the_real_download_location_g)
-                if file_uploade is not None:
-                    gk_response = await upload_to_gdrive(
-                        file_uploade, mess_age, message, user_id
-                    )
-                    LOGGER.info(gk_response)
-
-            elif message.command[1].lower() == "untar":
-                file_uploadg = await untar_me(the_real_download_location_g)
-                if file_uploadg is not None:
-                    gau_response = await upload_to_gdrive(
-                        file_uploadg, mess_age, message, user_id
-                    )
-                    LOGGER.info(gau_response)
-        else:
-            gaut_response = await upload_to_gdrive(
-                the_real_download_location_g, mess_age, message, user_id
-            )
-            LOGGER.info(gaut_response)
+        the_real_download_location_g = the_real_download_location
+        if user_command == TELEGRAM_LEECH_UNZIP_COMMAND.lower():
+            try:
+                check_ifi_file = get_base_name(the_real_download_location)
+                file_up = await unzip_me(the_real_download_location)
+                if os.path.exists(check_ifi_file):
+                    the_real_download_location_g = file_up
+            except Exception as ge:
+                LOGGER.info(ge)
+                LOGGER.info(
+                    f"Can't extract {os.path.basename(the_real_download_location)}, Uploading the same file"
+                )
+        await upload_to_gdrive(the_real_download_location_g, mess_age, message, user_id)
     else:
         await mess_age.edit_text(
             "Reply to a Telegram Media, to upload to the Cloud Drive."
@@ -91,7 +75,7 @@ async def download_tg(client, message):
         os.makedirs(DOWNLOAD_LOCATION)
     if message.reply_to_message is not None:
         start_t = datetime.now()
-        download_location = "/app/"
+        download_location = str(Path("./").resolve()) + "/"
         c_time = time.time()
         try:
             the_real_download_location = await client.download_media(

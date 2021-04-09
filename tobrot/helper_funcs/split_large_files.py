@@ -102,7 +102,10 @@ async def split_large_files(input_file):
             input_file,
         ]
         await run_comman_d(file_genertor_command)
-
+    try:
+        os.remove(input_file)
+    except Exception as r:
+        LOGGER.error(r)
     return new_working_directory
 
 
