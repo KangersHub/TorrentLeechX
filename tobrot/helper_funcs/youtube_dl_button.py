@@ -113,15 +113,15 @@ async def youtube_dl_call_back(bot, update):
     else:
         # command_to_exec = ["youtube-dl", "-f", youtube_dl_format, "--hls-prefer-ffmpeg", "--recode-video", "mp4", "-k", youtube_dl_url, "-o", download_directory]
         minus_f_format = youtube_dl_format
-        if "youtu" in youtube_dl_url:
-            for for_mat in response_json["formats"]:
-                format_id = for_mat.get("format_id")
-                if format_id == youtube_dl_format:
-                    acodec = for_mat.get("acodec")
-                    vcodec = for_mat.get("vcodec")
-                    if acodec == "none" or vcodec == "none":
-                        minus_f_format = youtube_dl_format + "+bestaudio"
-                    break
+        # if "youtu" in youtube_dl_url:
+        for for_mat in response_json["formats"]:
+            format_id = for_mat.get("format_id")
+            if format_id == youtube_dl_format:
+                acodec = for_mat.get("acodec")
+                vcodec = for_mat.get("vcodec")
+                if acodec == "none" or vcodec == "none":
+                    minus_f_format = youtube_dl_format + "+bestaudio"
+                break
         command_to_exec = [
             "youtube-dl",
             "-c",
