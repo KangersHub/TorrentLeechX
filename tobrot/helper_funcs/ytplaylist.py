@@ -12,7 +12,7 @@ from tobrot import DOWNLOAD_LOCATION, LOGGER
 from tobrot.helper_funcs.upload_to_tg import upload_to_gdrive, upload_to_tg
 
 
-async def yt_playlist_downg(message, i_m_sefg, G_DRIVE):
+async def yt_playlist_downg(message, i_m_sefg, client, G_DRIVE):
     url = None
     if message.reply_to_message:
         url = message.reply_to_message.text
@@ -52,7 +52,7 @@ async def yt_playlist_downg(message, i_m_sefg, G_DRIVE):
             ta_m = os.path.join(fol_der, ga_u)
             await upload_to_gdrive(ta_m, i_m_sefg, message, usr)
     else:
-        final_response = await upload_to_tg(i_m_sefg, fol_der, usr, {})
+        final_response = await upload_to_tg(i_m_sefg, fol_der, usr, {}, client)
     try:
         shutil.rmtree(fol_der)
     except:

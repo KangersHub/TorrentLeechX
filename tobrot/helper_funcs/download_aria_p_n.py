@@ -143,6 +143,7 @@ async def call_apropriate_function(
     is_cloud,
     is_unzip,
     user_message,
+    client,
 ):
     if incoming_link.lower().startswith("magnet:"):
         sagtus, err_message = add_magnet(aria_instance, incoming_link, c_file_name)
@@ -218,8 +219,10 @@ async def call_apropriate_function(
             )
         else:
             final_response = await upload_to_tg(
-                sent_message_to_update_tg_p, to_upload_file, user_id, response
+                sent_message_to_update_tg_p, to_upload_file, user_id, response, client
             )
+            if not final_response:
+                return True, None
             try:
                 message_to_send = ""
                 for key_f_res_se in final_response:

@@ -158,7 +158,7 @@ async def upload_document_f(client, message):
         if " " in message.text:
             recvd_command, local_file_name = message.text.split(" ", 1)
             recvd_response = await upload_to_tg(
-                imsegd, local_file_name, message.from_user.id, {}
+                imsegd, local_file_name, message.from_user.id, {}, client
             )
             LOGGER.info(recvd_response)
     await imsegd.delete()

@@ -73,6 +73,7 @@ async def extract_youtube_dl_formats(
         #
         thumb_image = DEF_THUMB_NAIL_VID_S
         #
+        # LOGGER.info(response_json)
         for current_r_json in response_json:
             #
             thumb_image = current_r_json.get("thumbnail", thumb_image)

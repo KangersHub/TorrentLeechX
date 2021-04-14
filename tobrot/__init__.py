@@ -6,6 +6,7 @@ import logging
 import os
 import time
 from logging.handlers import RotatingFileHandler
+from collections import defaultdict
 from sys import exit
 
 import dotenv
@@ -28,6 +29,7 @@ logging.basicConfig(
 )
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
+logging.getLogger("PIL").setLevel(logging.WARNING)
 
 LOGGER = logging.getLogger(__name__)
 
@@ -65,7 +67,7 @@ AUTH_CHANNEL.append(OWNER_ID)
 CHUNK_SIZE = int(os.environ.get("CHUNK_SIZE", "128"))
 # default thumbnail to be used in the videos
 DEF_THUMB_NAIL_VID_S = os.environ.get(
-    "DEF_THUMB_NAIL_VID_S", "https://via.placeholder.com/90"
+    "DEF_THUMB_NAIL_VID_S", "https://via.placeholder.com/90.jpg"
 )
 # maximum message length in Telegram
 MAX_MESSAGE_LENGTH = 4096
@@ -113,6 +115,10 @@ CLONE_COMMAND_G = os.environ.get("CLONE_COMMAND_G", "gclone")
 UPLOAD_COMMAND = os.environ.get("UPLOAD_COMMAND", "upload")
 RENEWME_COMMAND = os.environ.get("RENEWME_COMMAND", "renewme")
 BOT_START_TIME = time.time()
+# dict to control uploading and downloading
+gDict = defaultdict(lambda: [])
+# user settings dict #ToDo
+user_settings = defaultdict(lambda: {})
 
 
 def multi_rclone_init():

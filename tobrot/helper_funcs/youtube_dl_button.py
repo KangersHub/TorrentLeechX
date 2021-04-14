@@ -80,11 +80,7 @@ async def youtube_dl_call_back(bot, update):
     LOGGER.info(custom_file_name)
     #
     await update.message.edit_caption(caption="trying to download")
-    description = "@PublicLeech"
-    if "fulltitle" in response_json:
-        description = response_json["fulltitle"][0:1021]
-        # escape Markdown and special characters
-    #
+
     tmp_directory_for_each_user = os.path.join(
         DOWNLOAD_LOCATION, str(update.message.message_id)
     )
@@ -95,6 +91,9 @@ async def youtube_dl_call_back(bot, update):
     download_directory = os.path.join(tmp_directory_for_each_user, custom_file_name)
     LOGGER.info(download_directory)
     command_to_exec = []
+    # to keep default thumbnail of video which has its thumbnail
+    thumb_image = None
+    thumb_image = response_json.get("thumbnail", thumb_image)
     if tg_send_type == "audio":
         command_to_exec = [
             "youtube-dl",
@@ -108,31 +107,26 @@ async def youtube_dl_call_back(bot, update):
             youtube_dl_url,
             "-o",
             download_directory,
-            # "--external-downloader", "aria2c"
         ]
     else:
-        # command_to_exec = ["youtube-dl", "-f", youtube_dl_format, "--hls-prefer-ffmpeg", "--recode-video", "mp4", "-k", youtube_dl_url, "-o", download_directory]
-        minus_f_format = youtube_dl_format
-        # if "youtu" in youtube_dl_url:
         for for_mat in response_json["formats"]:
             format_id = for_mat.get("format_id")
             if format_id == youtube_dl_format:
                 acodec = for_mat.get("acodec")
-                vcodec = for_mat.get("vcodec")
-                if acodec == "none" or vcodec == "none":
-                    minus_f_format = youtube_dl_format + "+bestaudio"
+                if acodec == "none":
+                    youtube_dl_format += "+bestaudio"
                 break
+
         command_to_exec = [
             "youtube-dl",
             "-c",
             "--embed-subs",
             "-f",
-            minus_f_format,
+            youtube_dl_format,
             "--hls-prefer-ffmpeg",
             youtube_dl_url,
             "-o",
             download_directory,
-            # "--external-downloader", "aria2c"
         ]
     #
     command_to_exec.append("--no-warnings")
@@ -143,7 +137,6 @@ async def youtube_dl_call_back(bot, update):
         command_to_exec.append("--geo-bypass-country")
         command_to_exec.append("IN")
     LOGGER.info(command_to_exec)
-    start = datetime.now()
     process = await asyncio.create_subprocess_exec(
         *command_to_exec,
         # stdout must a pipe to be accessible as process.stdout
@@ -162,30 +155,20 @@ async def youtube_dl_call_back(bot, update):
         await update.message.edit_caption(caption=error_message)
         return False, None
     if t_response:
-        # LOGGER.info(t_response)
-        # os.remove(save_ytdl_json_path)
-        end_one = datetime.now()
-        time_taken_for_download = (end_one - start).seconds
         dir_contents = len(os.listdir(tmp_directory_for_each_user))
-        # dir_contents.sort()
         await update.message.edit_caption(caption=f"found {dir_contents} files")
         user_id = update.from_user.id
         #
         LOGGER.info(tmp_directory_for_each_user)
-        for a, b, c in os.walk(tmp_directory_for_each_user):
-            LOGGER.info(a)
+        for a, _, c in os.walk(tmp_directory_for_each_user):
             for d in c:
                 e = os.path.join(a, d)
-                LOGGER.info(e)
                 gaut_am = os.path.basename(e)
-                LOGGER.info(gaut_am)
                 fi_le = e
                 if cf_name:
                     fi_le = os.path.join(a, cf_name)
-                    LOGGER.info(fi_le)
                     os.rename(e, fi_le)
                     gaut_am = os.path.basename(fi_le)
-                    LOGGER.info(gaut_am)
 
         is_cloud = False
         comd = update.message.reply_to_message.text
@@ -200,7 +183,13 @@ async def youtube_dl_call_back(bot, update):
             )
         else:
             final_response = await upload_to_tg(
-                update.message, tmp_directory_for_each_user, user_id, {}, True
+                update.message,
+                tmp_directory_for_each_user,
+                user_id,
+                {},
+                bot,
+                True,
+                yt_thumb=thumb_image,
             )
         LOGGER.info(final_response)
         #

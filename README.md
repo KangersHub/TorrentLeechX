@@ -30,8 +30,6 @@ A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.c
 -   [ ] Password support while Unarchiving the files.
 -   [ ] Selection of required files during leeching the big files using aria(/leech command)
 
-### Credit goes to SpEcHiDe for his Publicleech repo.
-
 ## installing...
 
 ### The Easy Way
@@ -111,7 +109,7 @@ sudo docker build . -t torrentleech-gdrive
 ```
 sudo docker run torrentleech-gdrive
 ```
-
+Follow this [Video Tutorial](https://youtu.be/J3tMbngA9DE)
 ### The Legacy Way
 Simply clone the repository and run the main file:
 

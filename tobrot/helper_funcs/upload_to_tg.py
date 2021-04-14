@@ -19,7 +19,7 @@ from hachoir.parser import createParser
 from hurry.filesize import size
 from PIL import Image
 from pyrogram.errors import FloodWait, MessageNotModified
-
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from pyrogram.types import InputMediaAudio, InputMediaDocument, InputMediaVideo
 from requests.utils import requote_uri
 from tobrot import (
@@ -31,12 +31,12 @@ from tobrot import (
     RCLONE_CONFIG,
     TG_MAX_FILE_SIZE,
     UPLOAD_AS_DOC,
+    gDict,
 )
 from tobrot.helper_funcs.copy_similar_file import copy_file
-from tobrot.helper_funcs.display_progress import humanbytes, progress_for_pyrogram
+from tobrot.helper_funcs.display_progress import humanbytes, Progress
 from tobrot.helper_funcs.help_Nekmo_ffmpeg import take_screen_shot
 from tobrot.helper_funcs.split_large_files import split_large_files
-
 
 # stackoverflow🤐
 def getFolderSize(p):
@@ -54,9 +54,10 @@ async def upload_to_tg(
     local_file_name,
     from_user,
     dict_contatining_uploaded_files,
+    client,
     edit_media=False,
+    yt_thumb=None,
 ):
-    LOGGER.info(local_file_name)
     base_file_name = os.path.basename(local_file_name)
     caption_str = ""
     caption_str += "<code>"
@@ -81,7 +82,9 @@ async def upload_to_tg(
                 os.path.join(local_file_name, single_file),
                 from_user,
                 dict_contatining_uploaded_files,
+                client,
                 edit_media,
+                yt_thumb,
             )
     else:
         if os.path.getsize(local_file_name) > TG_MAX_FILE_SIZE:
@@ -110,15 +113,27 @@ async def upload_to_tg(
                     os.path.join(splitted_dir, le_file),
                     from_user,
                     dict_contatining_uploaded_files,
+                    client,
+                    edit_media,
+                    yt_thumb,
                 )
         else:
+            sizze = os.path.getsize(local_file_name)
             sent_message = await upload_single_file(
-                message, local_file_name, caption_str, from_user, edit_media
+                message,
+                local_file_name,
+                caption_str,
+                from_user,
+                client,
+                edit_media,
+                yt_thumb,
             )
             if sent_message is not None:
                 dict_contatining_uploaded_files[
                     os.path.basename(local_file_name)
                 ] = sent_message.message_id
+            else:
+                return
     # await message.delete()
     return dict_contatining_uploaded_files
 
@@ -281,20 +296,18 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
 
 
 async def upload_single_file(
-    message, local_file_name, caption_str, from_user, edit_media
+    message, local_file_name, caption_str, from_user, client, edit_media, yt_thumb
 ):
     await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
     local_file_name = str(Path(local_file_name).resolve())
-    LOGGER.info(local_file_name)
     sent_message = None
     start_time = time.time()
     #
     thumbnail_location = os.path.join(
         DOWNLOAD_LOCATION, "thumbnails", str(from_user) + ".jpg"
     )
-    LOGGER.info(thumbnail_location)
-    #
-    if UPLOAD_AS_DOC.upper() == "TRUE":
+    # LOGGER.info(thumbnail_location)
+    if UPLOAD_AS_DOC.upper() == "TRUE":  # todo
         thumb = None
         thumb_image_path = None
         if os.path.exists(thumbnail_location):
@@ -307,18 +320,16 @@ async def upload_single_file(
             message_for_progress_display = await message.reply_text(
                 "starting upload of {}".format(os.path.basename(local_file_name))
             )
+            prog = Progress(from_user, client, message_for_progress_display)
         sent_message = await message.reply_document(
             document=local_file_name,
-            # quote=True,
             thumb=thumb,
             caption=caption_str,
             parse_mode="html",
             disable_notification=True,
-            # reply_to_message_id=message.reply_to_message.message_id,
-            progress=progress_for_pyrogram,
+            progress=prog.progress_for_pyrogram,
             progress_args=(
-                "trying to upload",
-                message_for_progress_display,
+                f"{os.path.basename(local_file_name)}",
                 start_time,
             ),
         )
@@ -339,6 +350,7 @@ async def upload_single_file(
                 message_for_progress_display = await message.reply_text(
                     "starting upload of {}".format(os.path.basename(local_file_name))
                 )
+                prog = Progress(from_user, client, message_for_progress_display)
             if local_file_name.upper().endswith(("MKV", "MP4", "WEBM")):
                 duration = 0
                 try:
@@ -356,11 +368,22 @@ async def upload_single_file(
                         os.path.dirname(os.path.abspath(local_file_name)),
                     )
                 else:
-                    thumb_image_path = await take_screen_shot(
-                        local_file_name,
-                        os.path.dirname(os.path.abspath(local_file_name)),
-                        (duration / 2),
-                    )
+                    if not yt_thumb:
+                        thumb_image_path = await take_screen_shot(
+                            local_file_name,
+                            os.path.dirname(os.path.abspath(local_file_name)),
+                            (duration / 2),
+                        )
+                    else:
+                        req = requests.get(yt_thumb)
+                        thumb_image_path = os.path.join(
+                            os.path.dirname(os.path.abspath(local_file_name)),
+                            str(time.time()) + ".jpg",
+                        )
+                        with open(thumb_image_path, "wb") as thum:
+                            thum.write(req.content)
+                        img = Image.open(thumb_image_path).convert("RGB")
+                        img.save(thumb_image_path, format="jpeg")
                     # get the correct width, height, and duration for videos greater than 10MB
                     if os.path.exists(thumb_image_path):
                         metadata = extractMetadata(createParser(thumb_image_path))
@@ -401,7 +424,6 @@ async def upload_single_file(
                 else:
                     sent_message = await message.reply_video(
                         video=local_file_name,
-                        # quote=True,
                         caption=caption_str,
                         parse_mode="html",
                         duration=duration,
@@ -410,11 +432,9 @@ async def upload_single_file(
                         thumb=thumb,
                         supports_streaming=True,
                         disable_notification=True,
-                        # reply_to_message_id=message.reply_to_message.message_id,
-                        progress=progress_for_pyrogram,
+                        progress=prog.progress_for_pyrogram,
                         progress_args=(
-                            "trying to upload",
-                            message_for_progress_display,
+                            f"{os.path.basename(local_file_name)}",
                             start_time,
                         ),
                     )
@@ -453,12 +473,10 @@ async def upload_single_file(
                             performer=artist,
                             title=title,
                         )
-                        # quote=True,
                     )
                 else:
                     sent_message = await message.reply_audio(
                         audio=local_file_name,
-                        # quote=True,
                         caption=caption_str,
                         parse_mode="html",
                         duration=duration,
@@ -466,11 +484,9 @@ async def upload_single_file(
                         title=title,
                         thumb=thumb,
                         disable_notification=True,
-                        # reply_to_message_id=message.reply_to_message.message_id,
-                        progress=progress_for_pyrogram,
+                        progress=prog.progress_for_pyrogram,
                         progress_args=(
-                            "trying to upload",
-                            message_for_progress_display,
+                            f"{os.path.basename(local_file_name)}",
                             start_time,
                         ),
                     )
@@ -498,26 +514,23 @@ async def upload_single_file(
                             caption=caption_str,
                             parse_mode="html",
                         )
-                        # quote=True,
                     )
                 else:
                     sent_message = await message.reply_document(
                         document=local_file_name,
-                        # quote=True,
                         thumb=thumb,
                         caption=caption_str,
                         parse_mode="html",
                         disable_notification=True,
-                        # reply_to_message_id=message.reply_to_message.message_id,
-                        progress=progress_for_pyrogram,
+                        progress=prog.progress_for_pyrogram,
                         progress_args=(
-                            "trying to upload",
-                            message_for_progress_display,
+                            f"{os.path.basename(local_file_name)}",
                             start_time,
                         ),
                     )
                 if thumb is not None:
                     os.remove(thumb)
+
         except MessageNotModified as oY:
             LOGGER.info(oY)
         except FloodWait as g:
@@ -529,7 +542,8 @@ async def upload_single_file(
         else:
             if message.message_id != message_for_progress_display.message_id:
                 try:
-                    await message_for_progress_display.delete()
+                    if sent_message is not None:
+                        await message_for_progress_display.delete()
                 except FloodWait as gf:
                     time.sleep(gf.x)
                 except Exception as rr:

@@ -24,7 +24,6 @@ from tobrot import (
 )
 from tobrot.helper_funcs.admin_check import AdminCheck
 from tobrot.helper_funcs.cloneHelper import CloneHelper
-from tobrot.helper_funcs.display_progress import progress_for_pyrogram
 from tobrot.helper_funcs.download import download_tg
 from tobrot.helper_funcs.download_aria_p_n import (
     aria_start,
@@ -39,6 +38,7 @@ from tobrot.helper_funcs.ytplaylist import yt_playlist_downg
 
 async def incoming_purge_message_f(client, message):
     """/purge command"""
+    print(message.client)
     i_m_sefg2 = await message.reply_text("Purging...", quote=True)
     if await AdminCheck(client, message.chat.id, message.from_user.id):
         aria_i_p = await aria_start()
@@ -111,6 +111,7 @@ async def incoming_message_f(client, message):
             is_cloud,
             is_unzip,
             message,
+            client,
         )
         if not sagtus:
             # if FAILED, display the error message
@@ -160,13 +161,13 @@ async def incoming_youtube_dl_f(client, message):
             dl_url, cf_name, yt_dl_user_name, yt_dl_pass_word, user_working_dir
         )
         if thumb_image is not None:
-            print(thumb_image)
             req = requests.get(f"{thumb_image}")
-            gau_tam = f"{current_user_id}.jpg"
-            open(gau_tam, "wb").write(req.content)
+            thumb_img = f"{current_user_id}.jpg"
+            with open(thumb_img, "wb") as thumb:
+                thumb.write(req.content)
             await message.reply_photo(
                 # text_message,
-                photo=gau_tam,
+                photo=thumb_img,
                 quote=True,
                 caption=text_message,
                 reply_markup=reply_markup,
@@ -204,7 +205,7 @@ async def g_yt_playlist(client, message):
             f"💀 Downloading for you <a href='tg://user?id={usr_id}'>🤗</a>",
             parse_mode="html",
         )
-        await yt_playlist_downg(message, i_m_sefg, is_cloud)
+        await yt_playlist_downg(message, i_m_sefg, client, is_cloud)
 
     else:
         await message.reply_text("YouTube playlist link only 🙄", quote=True)
@@ -240,17 +241,22 @@ async def rename_tg_file(client, message):
         new_name = (
             str(Path().resolve()) + "/" + message.text.split(" ", maxsplit=1)[1].strip()
         )
-        file = await download_tg(client, message)
+        file, mess_age = await download_tg(client, message)
         try:
             if file:
                 os.rename(file, new_name)
             else:
                 return
         except Exception as g_g:
+            LOGGER.error(g_g)
             await message.reply_text("g_g")
         response = {}
-        final_response = await upload_to_tg(message, new_name, usr_id, response)
+        final_response = await upload_to_tg(
+            mess_age, new_name, usr_id, response, client
+        )
         LOGGER.info(final_response)
+        if not final_response:
+            return
         try:
             message_to_send = ""
             for key_f_res_se in final_response:
