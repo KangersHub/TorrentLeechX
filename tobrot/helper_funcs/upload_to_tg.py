@@ -39,6 +39,8 @@ from tobrot.helper_funcs.help_Nekmo_ffmpeg import take_screen_shot
 from tobrot.helper_funcs.split_large_files import split_large_files
 
 # stackoverflow🤐
+
+
 def getFolderSize(p):
     prepend = partial(os.path.join, p)
     return sum(
@@ -201,7 +203,8 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         gjay = size(os.path.getsize(file_upload))
         button = []
         button.append(
-            [pyrogram.InlineKeyboardButton(text="☁️ CloudUrl ☁️", url=f"{gauti}")]
+            [pyrogram.InlineKeyboardButton(
+                text="☁️ CloudUrl ☁️", url=f"{gauti}")]
         )
         if INDEX_LINK:
             indexurl = f"{INDEX_LINK}/{os.path.basename(file_upload)}"
@@ -269,7 +272,8 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         LOGGER.info(gjay)
         button = []
         button.append(
-            [pyrogram.InlineKeyboardButton(text="☁️ CloudUrl ☁️", url=f"{gautii}")]
+            [pyrogram.InlineKeyboardButton(
+                text="☁️ CloudUrl ☁️", url=f"{gautii}")]
         )
         if INDEX_LINK:
             indexurl = f"{INDEX_LINK}/{os.path.basename(file_upload)}/"
@@ -307,20 +311,22 @@ async def upload_single_file(
         DOWNLOAD_LOCATION, "thumbnails", str(from_user) + ".jpg"
     )
     # LOGGER.info(thumbnail_location)
-    if UPLOAD_AS_DOC.upper() == "TRUE":  # todo
+    if UPLOAD_AS_DOC.upper() == "TRUE":  # todo: this code will be removed in future
         thumb = None
         thumb_image_path = None
         if os.path.exists(thumbnail_location):
             thumb_image_path = await copy_file(
-                thumbnail_location, os.path.dirname(os.path.abspath(local_file_name))
+                thumbnail_location, os.path.dirname(
+                    os.path.abspath(local_file_name))
             )
             thumb = thumb_image_path
         message_for_progress_display = message
         if not edit_media:
             message_for_progress_display = await message.reply_text(
-                "starting upload of {}".format(os.path.basename(local_file_name))
+                "starting upload of {}".format(
+                    os.path.basename(local_file_name))
             )
-            prog = Progress(from_user, client, message_for_progress_display)
+        prog = Progress(from_user, client, message_for_progress_display)
         sent_message = await message.reply_document(
             document=local_file_name,
             thumb=thumb,
@@ -333,6 +339,8 @@ async def upload_single_file(
                 start_time,
             ),
         )
+        if edit_media:
+            await message_for_progress_display.delete()
         if message.message_id != message_for_progress_display.message_id:
             try:
                 await message_for_progress_display.delete()
@@ -348,9 +356,11 @@ async def upload_single_file(
             message_for_progress_display = message
             if not edit_media:
                 message_for_progress_display = await message.reply_text(
-                    "starting upload of {}".format(os.path.basename(local_file_name))
+                    "starting upload of {}".format(
+                        os.path.basename(local_file_name))
                 )
-                prog = Progress(from_user, client, message_for_progress_display)
+                prog = Progress(from_user, client,
+                                message_for_progress_display)
             if local_file_name.upper().endswith(("MKV", "MP4", "WEBM")):
                 duration = 0
                 try:
@@ -386,7 +396,8 @@ async def upload_single_file(
                         img.save(thumb_image_path, format="jpeg")
                     # get the correct width, height, and duration for videos greater than 10MB
                     if os.path.exists(thumb_image_path):
-                        metadata = extractMetadata(createParser(thumb_image_path))
+                        metadata = extractMetadata(
+                            createParser(thumb_image_path))
                         if metadata.has("width"):
                             width = metadata.get("width")
                         if metadata.has("height"):
