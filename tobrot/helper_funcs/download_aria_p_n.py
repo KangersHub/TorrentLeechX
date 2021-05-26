@@ -7,6 +7,10 @@ import logging
 import os
 import sys
 import time
+import re
+from re import search
+import subprocess
+import hashlib
 
 import aria2p
 from pyrogram.errors import FloodWait, MessageNotModified
@@ -27,32 +31,36 @@ from tobrot.helper_funcs.create_compressed_archive import (
 )
 from tobrot.helper_funcs.extract_link_from_message import extract_link
 from tobrot.helper_funcs.upload_to_tg import upload_to_gdrive, upload_to_tg
+from tobrot.helper_funcs.direct_link_generator import direct_link_generator
+from tobrot.helper_funcs.exceptions import DirectDownloadLinkException
 
 sys.setrecursionlimit(10 ** 4)
+
 
 
 async def aria_start():
     aria2_daemon_start_cmd = []
     # start the daemon, aria2c command
     aria2_daemon_start_cmd.append("aria2c")
+    aria2_daemon_start_cmd.append("--conf-path=/app/aria2.conf")
     aria2_daemon_start_cmd.append("--allow-overwrite=true")
     aria2_daemon_start_cmd.append("--daemon=true")
     # aria2_daemon_start_cmd.append(f"--dir={DOWNLOAD_LOCATION}")
     # TODO: this does not work, need to investigate this.
     # but for now, https://t.me/TrollVoiceBot?start=858
     aria2_daemon_start_cmd.append("--enable-rpc")
+    aria2_daemon_start_cmd.append("--disk-cache=0")
     aria2_daemon_start_cmd.append("--follow-torrent=mem")
-    aria2_daemon_start_cmd.append("--max-connection-per-server=10")
+    aria2_daemon_start_cmd.append("--max-connection-per-server=16")
     aria2_daemon_start_cmd.append("--min-split-size=10M")
     aria2_daemon_start_cmd.append("--rpc-listen-all=false")
     aria2_daemon_start_cmd.append(f"--rpc-listen-port={ARIA_TWO_STARTED_PORT}")
     aria2_daemon_start_cmd.append("--rpc-max-request-size=1024M")
-    aria2_daemon_start_cmd.append("--seed-time=0")
-    aria2_daemon_start_cmd.append("--max-overall-upload-limit=1K")
-    aria2_daemon_start_cmd.append("--split=10")
-    aria2_daemon_start_cmd.append(
-        f"--bt-stop-timeout={MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START}"
-    )
+    aria2_daemon_start_cmd.append("--seed-ratio=0.01")
+    aria2_daemon_start_cmd.append("--seed-time=1")
+    aria2_daemon_start_cmd.append("--max-overall-upload-limit=2M")
+    aria2_daemon_start_cmd.append("--split=16")
+    aria2_daemon_start_cmd.append(f"--bt-stop-timeout={MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START}")
     #
     LOGGER.info(aria2_daemon_start_cmd)
     #
@@ -120,7 +128,20 @@ def add_url(aria_instance, text_url, c_file_name):
     #     options = {
     #         "dir": c_file_name
     #     }
-    uris = [text_url]
+    if "zippyshare.com" in text_url \
+        or "osdn.net" in text_url \
+        or "mediafire.com" in text_url \
+        or "cloud.mail.ru" in text_url \
+        or "github.com" in text_url \
+        or "yadi.sk" in text_url  \
+        or "racaty.net" in text_url:
+            try:
+                urisitring = direct_link_generator(text_url)
+                uris = [urisitring]
+            except DirectDownloadLinkException as e:
+                LOGGER.info(f'{text_url}: {e}')
+    else:
+        uris = [text_url]
     # Add URL Into Queue
     try:
         download = aria_instance.add_uris(uris, options=options)
@@ -145,6 +166,19 @@ async def call_apropriate_function(
     user_message,
     client,
 ):
+    regexp = re.compile(r'^https?:\/\/.*(\.torrent|\/torrent|\/jav.php|nanobytes\.org).*')
+    if incoming_link.lower().startswith("magnet:"):
+        sagtus, err_message = add_magnet(aria_instance, incoming_link, c_file_name)
+    elif incoming_link.lower().endswith(".torrent") and not incoming_link.lower().startswith("http"):
+        sagtus, err_message = add_torrent(aria_instance, incoming_link)
+    else:
+        if regexp.search(incoming_link):
+            var = incoming_link.encode('utf-8')
+            file = hashlib.md5(var).hexdigest()
+            subprocess.run(f"wget -O /app/{file}.torrent '{incoming_link}'", shell=True)
+            sagtus, err_message = add_torrent(aria_instance, f"/app/{file}.torrent")
+        else:
+            sagtus, err_message = add_url(aria_instance, incoming_link, c_file_name)
     if incoming_link.lower().startswith("magnet:"):
         sagtus, err_message = add_magnet(aria_instance, incoming_link, c_file_name)
     elif incoming_link.lower().endswith(".torrent"):
