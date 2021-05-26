@@ -67,6 +67,8 @@
 | EDIT_SLEEP_TIME_OUT | bot msg update interval | `15` | True | enter a integer Value for Bot MSg Update
 | MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START | Max Timeout for dead torrents in seconds | `300` | True  | Max Timeout for dead torrents |
 | UPLOAD_AS_DOC | takes two options `true`/`false`  | `false`/`true` | True | Set this to true if you want the TG upload to be uploaded as DOC file or Set this to false if not wanted |
+| MAX_TG_SPLIT_FILE_SIZE | max size for splitting files in TG Upload should be in bytes | 2000000000 | True | max size for splitting files in TG Upload should be in bytes |
+
 
 ### [Not Required Environment Variables..Click Here..](README.md#optional-configuration-variables--not-mandatory)
 > **note:- If you want to set these then go to `Settings` -> `Secrets` and Add the ENV and Secret like we did in [step-2](#steps) of gh actions deployment..**
