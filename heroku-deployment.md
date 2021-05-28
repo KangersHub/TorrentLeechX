@@ -61,7 +61,7 @@
 | APP_ID | Telegram APP_ID | Your TG account's APP_ID | True | Get this value from [TELEGRAM](https://my.telegram.org/apps). |
 | API_HASH | Telegram API_HASH | Your TG account's API_HASH | True | Get this value from [TELEGRAM](https://my.telegram.org/apps). |
 | OWNER_ID | TG account's ID | Your TG account's ID | True | ID of the bot owner, He/she can be abled to access bot in bot only mode too(private mode). |
-| AUTH_CHANNELS | Authorized Chats | Your Group Chats ID | True | Create a Super Group in Telegram, add `@missrose_bot` to the group, and send /id in the chat, to get this value. |
+| AUTH_CHANNEL | Authorized Chats | Your Group Chats ID | True | Create a Super Group in Telegram, add `@missrose_bot` to the group, and send /id in the chat, to get this value. |
 | ARIA_TWO_STARTED_PORT | Aria2 Started Port | `6800` | True | Enter a Value for Aria2 started port for listening to default is `6800` so put that.. |
 | CHUNK_SIZE | DEV | `128` | True | Enter chunk size value default is `128` so put that. |
 | EDIT_SLEEP_TIME_OUT | bot msg update interval | `15` | True | enter a integer Value for Bot MSg Update
