@@ -25,31 +25,8 @@ jobs:
           HD_CHUNK_SIZE: ${{secrets.CHUNK_SIZE}}
           HD_EDIT_SLEEP_TIME_OUT: ${{secrets.EDIT_SLEEP_TIME_OUT}} 
           HD_MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START: ${{secrets.MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START}}
-          HD_RCLONE_CONFIG: ${{secrets.RCLONE_CONFIG}}
-          HD_DOWNLOAD_LOCATION: ${{secrets.DOWNLOAD_LOCATION}}
-          HD_MAX_FILE_SIZE: ${{secrets.MAX_FILE_SIZE}}
           HD_TG_MAX_FILE_SIZE: ${{secrets.TG_MAX_FILE_SIZE}}
-          HD_FREE_USER_MAX_FILE_SIZE: ${{secrets.FREE_USER_MAX_FILE_SIZE}}
           HD_MAX_TG_SPLIT_FILE_SIZE: ${{secrets.MAX_TG_SPLIT_FILE_SIZE}}
-          HD_MAX_MESSAGE_LENGTH: ${{secrets.MAX_MESSAGE_LENGTH}}
-          HD_PROCESS_MAX_TIMEOUT: ${{secrets.PROCESS_MAX_TIMEOUT}}
           HD_ARIA_TWO_STARTED_PORT: ${{secrets.ARIA_TWO_STARTED_PORT}}
-          HD_FINISHED_PROGRESS_STR: ${{secrets.FINISHED_PROGRESS_STR}}
-          HD_UN_FINISHED_PROGRESS_STR: ${{secrets.UN_FINISHED_PROGRESS_STR}}
-          HD_CUSTOM_FILE_NAME: ${{secrets.CUSTOM_FILE_NAME}}
-          HD_LEECH_COMMAND: ${{secrets.LEECH_COMMAND}}
-          HD_YTDL_COMMAND: ${{secrets.YTDL_COMMAND}}
-          HD_GYTDL_COMMAND: ${{secrets.GYTDL_COMMAND}}
-          HD_GLEECH_COMMAND: ${{secrets.GLEECH_COMMAND}}
-          HD_TELEGRAM_LEECH_COMMAND: ${{secrets.TELEGRAM_LEECH_COMMAND}}
-          HD_TELEGRAM_LEECH_UNZIP_COMMAND: ${{secrets.TELEGRAM_LEECH_UNZIP_COMMAND}}
-          HD_PYTDL_COMMAND: ${{secrets.PYTDL_COMMAND}}
-          HD_CLONE_COMMAND_G: ${{secrets.CLONE_COMMAND_G}}
-          HD_UPLOAD_COMMAND: ${{secrets.UPLOAD_COMMAND}}
-          HD_RENEWME_COMMAND: ${{secrets.RENEWME_COMMAND}}
-          HD_SAVE_THUMBNAIL: ${{secrets.SAVE_THUMBNAIL}}
-          HD_CLEAR_THUMBNAIL: ${{secrets.CLEAR_THUMBNAIL}}
-          HD_GET_SIZE_G: ${{secrets.GET_SIZE_G}}
           HD_UPLOAD_AS_DOC: ${{secrets.UPLOAD_AS_DOC}}
-          HD_INDEX_LINK: ${{secrets.INDEX_LINK}}
-          HD_DESTINATION_FOLDER: ${{secrets.DESTINATION_FOLDER}}
+
