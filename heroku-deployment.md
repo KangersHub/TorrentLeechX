@@ -71,9 +71,10 @@
 
 
 ### [Not Required Environment Variables..Click Here..](README.md#optional-configuration-variables--not-mandatory)
-> **note:- If you want to set these then go to `Settings` -> `Secrets` and Add the ENV and Secret like we did in [step-2](#steps) of gh actions deployment..**
+> **IF YOU WANT TO SET optional vars then go to your deployed heroku app settings and add the vars ...**
 
 
-## DONT TOUCH/EDIT ANY VARS FROM HEROKU if want to change/edit/add do from Github...
+## DONT TOUCH/EDIT ANY VARS FROM HEROKU if want to change/edit do from Github...
 
+## IF YOU WANT TO SET optional vars then go to your deployed heroku app settings and add the vars ...
 
