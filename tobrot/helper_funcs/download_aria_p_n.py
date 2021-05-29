@@ -179,12 +179,6 @@ async def call_apropriate_function(
             sagtus, err_message = add_torrent(aria_instance, f"/app/{file}.torrent")
         else:
             sagtus, err_message = add_url(aria_instance, incoming_link, c_file_name)
-    if incoming_link.lower().startswith("magnet:"):
-        sagtus, err_message = add_magnet(aria_instance, incoming_link, c_file_name)
-    elif incoming_link.lower().endswith(".torrent"):
-        sagtus, err_message = add_torrent(aria_instance, incoming_link)
-    else:
-        sagtus, err_message = add_url(aria_instance, incoming_link, c_file_name)
     if not sagtus:
         return sagtus, err_message
     LOGGER.info(err_message)
