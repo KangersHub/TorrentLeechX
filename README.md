@@ -1,5 +1,6 @@
-# for support join here [TorrentLeech-Gdrive](https://telegram.dog/GBotStore)
-# working example group [Leech Here](https://telegram.dog/GBotStore)
+# for support join [here](https://telegram.dog/XCODERSHUB)
+# working example group [Leech Here](https://t.me/joinchat/AAAAAFKu8StOzTbtr-Hn0g)
+# For Any Issues/Imrovements or Discussions [go here](https://github.com/AmirulAndalib/TorrentLeech-Gdrive/issues) or [here](https://github.com/AmirulAndalib/TorrentLeech-Gdrive/discussions) 
 
 # 🤖Telegram Torrent and Direct links Leecher 🔥
 
@@ -145,7 +146,8 @@ client_secret =
 
 
 ## Credits, and Thanks to
-* [GautamKumar(me)](https://github.com/gautamajay52/TorrentLeech-Gdrive) 😬
+* [AmirulANdalib](https://github.com/AmirulAndalib) for Modding 🙄
+* [GautamKumar](https://github.com/gautamajay52/TorrentLeech-Gdrive) 😬
 * [SpEcHiDe](https://github.com/SpEcHiDe/PublicLeech) for his wonderful code😚
 * [Rclone Team](https://rclone.org) for theirs awesome tool☁️
 * [Dan Tès](https://telegram.dog/haskell) for his [Pyrogram Library](https://github.com/pyrogram/pyrogram)
