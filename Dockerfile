@@ -1,4 +1,4 @@
-FROM ubuntu:21.04
+FROM ubuntu:latest
 
 WORKDIR /app
 RUN chmod 777 /app
