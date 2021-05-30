@@ -140,7 +140,7 @@ class CloneHelper:
             g_cmd = [
                 "rclone",
                 "size",
-                "--config=rclone.conf",
+                "--config=./rclone.conf",
                 f"{self.dname}:{destination}/{self.name}",
             ]
             LOGGER.info(g_cmd)
@@ -166,7 +166,7 @@ class CloneHelper:
         cmd = [
             "/app/gautam/gclone",
             "copy",
-            "--config=rclone.conf",
+            "--config=./rclone.conf",
             f"{self.dname}:{idd}",
             f"{self.dname}:{destination}/{self.name}",
             "-v",
