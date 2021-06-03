@@ -30,6 +30,7 @@ from tobrot import (
     LOGGER,
     PYTDL_COMMAND,
     RENEWME_COMMAND,
+    RENAME_COMMAND,
     SAVE_THUMBNAIL,
     STATUS_COMMAND,
     TELEGRAM_LEECH_UNZIP_COMMAND,
@@ -169,7 +170,7 @@ if __name__ == "__main__":
     #
     rename_message_handler = MessageHandler(
         rename_tg_file,
-        filters=filters.command(["rename"]) & filters.chat(chats=AUTH_CHANNEL),
+        filters=filters.command([f"{RENAME_COMMAND}"]) & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(rename_message_handler)
     #
