@@ -31,6 +31,7 @@ from tobrot import (
     RCLONE_CONFIG,
     TG_MAX_FILE_SIZE,
     UPLOAD_AS_DOC,
+    user_specific_config,
     gDict,
 )
 from tobrot.helper_funcs.copy_similar_file import copy_file
@@ -311,14 +312,30 @@ async def upload_single_file(
         DOWNLOAD_LOCATION, "thumbnails", str(from_user) + ".jpg"
     )
     # LOGGER.info(thumbnail_location)
-    if UPLOAD_AS_DOC.upper() == "TRUE":  # todo: this code will be removed in future
-        thumb = None
+
+    dyna_user_config_upload_as_doc = False
+    for key in iter(user_specific_config):
+        if key == from_user:
+            dyna_user_config_upload_as_doc=user_specific_config[key].upload_as_doc
+            LOGGER.info(f'Found dyanamic config for user {from_user}')
+    #
+    if UPLOAD_AS_DOC.upper() == "TRUE" or dyna_user_config_upload_as_doc:
         thumb_image_path = None
-        if os.path.exists(thumbnail_location):
+        if thumbnail_location is not None and os.path.exists(thumbnail_location):
             thumb_image_path = await copy_file(
-                thumbnail_location, os.path.dirname(
-                    os.path.abspath(local_file_name))
+                thumbnail_location,
+                os.path.dirname(os.path.abspath(local_file_name))
             )
+        if thumb_image_path is not None and os.path.exists(thumb_image_path):
+            Image.open(thumb_image_path).convert(
+                "RGB"
+            ).save(thumb_image_path)
+            img = Image.open(thumb_image_path)
+            # https://stackoverflow.com/a/37631799/4723940
+            img.resize((32, 32))
+            img.save(thumb_image_path, "JPEG")
+        thumb = None
+        if thumb_image_path is not None and os.path.isfile(thumb_image_path):
             thumb = thumb_image_path
         message_for_progress_display = message
         if not edit_media:
@@ -349,8 +366,6 @@ async def upload_single_file(
             except Exception as rr:
                 LOGGER.warning(str(rr))
         os.remove(local_file_name)
-        if thumb is not None:
-            os.remove(thumb)
     else:
         try:
             message_for_progress_display = message
@@ -379,6 +394,7 @@ async def upload_single_file(
                     )
                 else:
                     if not yt_thumb:
+                        LOGGER.info("Taking Screenshot")
                         thumb_image_path = await take_screen_shot(
                             local_file_name,
                             os.path.dirname(os.path.abspath(local_file_name)),
@@ -395,23 +411,22 @@ async def upload_single_file(
                         img = Image.open(thumb_image_path).convert("RGB")
                         img.save(thumb_image_path, format="jpeg")
                     # get the correct width, height, and duration for videos greater than 10MB
-                    if os.path.exists(thumb_image_path):
-                        metadata = extractMetadata(
-                            createParser(thumb_image_path))
-                        if metadata.has("width"):
-                            width = metadata.get("width")
-                        if metadata.has("height"):
-                            height = metadata.get("height")
-                        # ref: https://t.me/PyrogramChat/44663
-                        # https://stackoverflow.com/a/21669827/4723940
-                        Image.open(thumb_image_path).convert("RGB").save(
-                            thumb_image_path
-                        )
-                        img = Image.open(thumb_image_path)
-                        # https://stackoverflow.com/a/37631799/4723940
-                        img.resize((320, height))
-                        img.save(thumb_image_path, "JPEG")
-                        # https://pillow.readthedocs.io/en/3.1.x/reference/Image.html#create-thumbnails
+                if thumb_image_path is not None and os.path.isfile(thumb_image_path):
+                    metadata = extractMetadata(createParser(thumb_image_path))
+                    if metadata.has("width"):
+                        width = metadata.get("width")
+                    if metadata.has("height"):
+                        height = metadata.get("height")
+                    # ref: https://t.me/PyrogramChat/44663
+                    # https://stackoverflow.com/a/21669827/4723940
+                    Image.open(thumb_image_path).convert(
+                        "RGB"
+                    ).save(thumb_image_path)
+                    img = Image.open(thumb_image_path)
+                    # https://stackoverflow.com/a/37631799/4723940
+                    img.resize((320, height))
+                    img.save(thumb_image_path, "JPEG")
+                    # https://pillow.readthedocs.io/en/3.1.x/reference/Image.html#create-thumbnails
                 #
                 thumb = None
                 if thumb_image_path is not None and os.path.isfile(thumb_image_path):
@@ -550,6 +565,7 @@ async def upload_single_file(
         except Exception as e:
             LOGGER.info(e)
             await message_for_progress_display.edit_text("**FAILED**\n" + str(e))
+            LOGGER.exception(e)
         else:
             if message.message_id != message_for_progress_display.message_id:
                 try:
