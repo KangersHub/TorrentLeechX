@@ -11,8 +11,14 @@ import sys
 import time
 import traceback
 
-from tobrot import AUTH_CHANNEL, BOT_START_TIME, LOGGER, MAX_MESSAGE_LENGTH
 from tobrot.helper_funcs.admin_check import AdminCheck
+from tobrot.UserDynaConfig import UserDynaConfig
+from tobrot import (
+    AUTH_CHANNEL,
+    BOT_START_TIME,
+    LOGGER,
+    MAX_MESSAGE_LENGTH, 
+    user_specific_config)
 
 # the logging things
 from tobrot.helper_funcs.display_progress import TimeFormatter, humanbytes
@@ -238,3 +244,12 @@ async def upload_log_file(client, message):
     g = await AdminCheck(client, message.chat.id, message.from_user.id)
     if g:
         await message.reply_document("Torrentleech-Gdrive.txt")
+
+async def upload_as_doc(client, message):
+    user_specific_config[message.from_user.id]=UserDynaConfig(message.from_user.id,True)
+    await message.reply_text("**Your Files Will Be Uploaded As Document**")
+
+
+async def upload_as_video(client, message):
+    user_specific_config[message.from_user.id]=UserDynaConfig(message.from_user.id,False)
+    await message.reply_text("**Your Files Will Be Uploaded As Streamable**")
