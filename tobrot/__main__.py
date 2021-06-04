@@ -40,6 +40,8 @@ from tobrot import (
     YTDL_COMMAND,
     GYTDL_COMMAND,
     GPYTDL_COMMAND,
+    TOGGLE_VID,
+    TOGGLE_DOC
 )
 from tobrot.helper_funcs.download import down_load_media_f
 from tobrot.plugins.call_back_button_handler import button
@@ -64,6 +66,8 @@ from tobrot.plugins.status_message_fn import (
     status_message_f,
     upload_document_f,
     upload_log_file,
+    upload_as_doc,
+    upload_as_video
 )
 
 if __name__ == "__main__":
@@ -225,5 +229,17 @@ if __name__ == "__main__":
         rclone_command_f, filters=filters.command(["rclone"])
     )
     app.add_handler(rclone_config_handler)
+    #
+    upload_as_doc_handler = MessageHandler(
+        upload_as_doc,
+        filters=Filters.command([f"{TOGGLE_DOC}"]) & Filters.chat(chats=AUTH_CHANNEL)
+    )
+    app.add_handler(upload_as_doc_handler)
+    #
+    upload_as_video_handler = MessageHandler(
+        upload_as_video,
+        filters=Filters.command([f"{TOGGLE_VID}"]) & Filters.chat(chats=AUTH_CHANNEL)
+    )
+    app.add_handler(upload_as_video_handler)
     #
     app.run()
