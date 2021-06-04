@@ -33,6 +33,8 @@ logging.getLogger("PIL").setLevel(logging.WARNING)
 
 LOGGER = logging.getLogger(__name__)
 
+user_specific_config=dict()
+
 dotenv.load_dotenv("config.env")
 
 # checking compulsory variable
