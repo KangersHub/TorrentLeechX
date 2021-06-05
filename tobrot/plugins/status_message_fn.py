@@ -50,22 +50,22 @@ async def status_message_f(client, message):
             e_t_a = str(download.eta_string())
             current_gid = str(download.gid)
             #
-            msg += f"<u>{downloading_dir_name}</u>"
-            msg += " | "
+            msg += f"📂[<code>{downloading_dir_name}</code>]"
+            msg += " ⬤ "
             msg += f"{total_length_size}"
-            msg += " | "
+            msg += " ⬤ "
             msg += f"{progress_percent_string}"
-            msg += " | "
+            msg += " ⬤ "
             msg += f"{DOWNLOAD_ICON} {down_speed_string}"
-            msg += " | "
+            msg += " ⬤ "
             msg += f"{UPLOAD_ICON} {up_speed_string}"
-            msg += " | "
+            msg += " ⬤ "
             msg += f"{e_t_a}"
-            msg += " | "
+            msg += " ⬤ "
             msg += f"{download_current_status}"
-            msg += " | "
+            msg += " ⬤ "
             msg += f"<code>/cancel {current_gid}</code>"
-            msg += " | "
+            msg += " ⬤ "
             msg += "\n\n"
         # LOGGER.info(msg)
 
