@@ -41,6 +41,7 @@ from tobrot import (
     GYTDL_COMMAND,
     GPYTDL_COMMAND,
     TOGGLE_VID,
+    RCLONE_COMMAND,
     TOGGLE_DOC
 )
 from tobrot.helper_funcs.download import down_load_media_f
@@ -226,7 +227,7 @@ if __name__ == "__main__":
     app.add_handler(clear_thumb_nail_handler)
     #
     rclone_config_handler = MessageHandler(
-        rclone_command_f, filters=filters.command(["rclone"])
+        rclone_command_f, filters=filters.command([f"{RCLONE_COMMAND}"])
     )
     app.add_handler(rclone_config_handler)
     #

@@ -1,8 +1,27 @@
+<p align="center"><img src="https://shields.io/badge/%F0%9F%A7%B2Torrent--LEECH--GDRIVE_Telegram_Leech_BOT%F0%9F%A4%96-red?logo=&style=for-the-badge" width="860" height="85"></p>
+
 # for support join [here](https://telegram.dog/XCODERSHUB)
 # working example group [Leech Here](https://t.me/joinchat/AAAAAFKu8StOzTbtr-Hn0g)
 # For Any Issues/Imrovements or Discussions [go here](https://github.com/AmirulAndalib/TorrentLeech-Gdrive/issues) or [here](https://github.com/AmirulAndalib/TorrentLeech-Gdrive/discussions) 
 # Please Leave A star And Fork this Repo and Follow my Github acc....
 # 🤖Telegram Torrent and Direct links Leecher 🔥
+
+---
+
+# TorrentLeechX (a modified fork of TorrentLeechGdrive with Extra Features....)
+![GitHub Repo stars](https://img.shields.io/github/stars/AmirulAndalib/TorrentLeechX?color=orange&style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/AmirulAndalib/TorrentLeechX?color=green&style=for-the-badge)
+![GitHub issues](https://img.shields.io/github/issues/AmirulAndalib/TorrentLeechX?color=red&style=for-the-badge)
+![GitHub closed issues](https://img.shields.io/github/issues-closed/AmirulAndalib/TorrentLeechX?color=black&style=for-the-badge)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/AmirulAndalib/TorrentLeechX?color=yellow&style=for-the-badge)
+![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/AmirulAndalib/TorrentLeechX?color=violet&style=for-the-badge)
+![GitHub contributors](https://img.shields.io/github/contributors/AmirulAndalib/TorrentLeechX?color=teal&style=for-the-badge)
+![GitHub repo size](https://img.shields.io/github/repo-size/AmirulAndalib/TorrentLeechX?color=white&style=for-the-badge)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/w/AmirulAndalib/TorrentLeechX?color=blue&style=for-the-badge)
+
+<p align="center"><img src="https://shields.io/badge/Support--Group-Join_Now-navy?logo=&style=for-the-badge" width="400" height="45"></p>
+
+---
 
 ### Dont Abuse The Repo ... this is intented to run in Small Places or For Short time 😐
 
@@ -25,6 +44,16 @@
     ✓ Added support for youtube playlist 😐
     ✓ Renaming of Telegram files support added. 😐
     ✓ Changing rclone destination config on fly (By using `/rlcone` in private mode)
+    
+## Some Other Features You will Find In this fork :-
+    ✓ Aria2 configs In Root
+    ✓ Small FIx for Gclone
+    ✓ Unzip error Fixed
+    ✓ Heroku Workflow Added
+    ✓ UI mod Added for Improved User Experience
+    ✓ Added Dynamic Config 
+    ✓ Added Custom ToggleDoc and ToggleVid Cmd
+    ✓ Added Custom Rename Command via vars
     
 # TO-DO
 -   ~Gdrive file clonning using Gclone~ `DONE ✓`
@@ -85,7 +114,7 @@ Optional Configuration Variables | Descripion
 | `TELEGRAM_LEECH_UNZIP_COMMAND` | custom command for `/tleechunzip`
 | `PYTDL_COMMAND` | custom command for `/pytdl`
 | `CLONE_COMMAND_G` | custom command for `/gclone`
-| `UPLOAD_COMMAND` | custom command for `/upload`
+| `UPLOAD_COMMAND` | custom command for `/upload` 
 | `RENEWME_COMMAND` | custom command for `/renewme`
 | `SAVE_THUMBNAIL` | custom command for `/savethumbnail`
 | `CLEAR_THUMBNAIL` | custom command for `/clearthumbnail`
@@ -93,6 +122,12 @@ Optional Configuration Variables | Descripion
 | `UPLOAD_AS_DOC` | Takes two option True or False. If True file will be uploaded as document. This is for people who wants video files as document instead of streamable.
 | `INDEX_LINK` | (Without / at last of the link, otherwise u will get error) During creating index, plz fill Default Root ID with the id of your DESTINATION_FOLDER after creating. Otherwise index will not work properly.
 | `DESTINATION_FOLDER` |  Name of your folder in ur respective drive where you want to upload the files using the bot.
+| `RENAME_COMMAND` | Custom Rename Command Which should Be Set Via Vars Default is `/rename`
+| `TOGGLE_VID` | Custom Cmd for TOGGLE_DOC default is `/togglevid`
+| `TOGGLE_DOC` | Custom Cmd for TOGGLE_DOC default is `/toggledoc`
+| `RCLONE_COMMAND` | Custom command for `/rclone`
+| `LOG_COMMAND` | Custom command for `/log`
+
 ---
 
 
@@ -137,9 +172,35 @@ client_secret =
 |`/getsize`| This will give you total size of your destination folder in cloud.
 |`/renewme`| This will clear the remains of downloads which are not getting deleted after upload of the file or after /cancel command.
 | `/rename`| u can add custom name as prefix of the original file name...Like if your file name is `gk.txt` uploaded will be what u add in `CUSTOM_FILE_NAME` + `gk.txt`..And also added custom name like...You have to pass link as ..`www.download.me/gk.txt new.txt`..the file will be uploaded as `new.txt`.
+| `/toggledoc` | it used for toggling to be files if shall it be uploaded as doc via direct inchat cmd...**any users can now choose if their files will be upload as doc or streamabe...**
+| `/togglevid` | it used for toggling to be files if shall it be uploaded as vid via direct inchat cmd...**any users can now choose if their files will be upload as doc or streamabe...**
 ---
 ## END OF Variable Explanations 👆
 
+---
+## 🔧Commands to be set via Botfather (will only work if you set mentions from custom cmds).
+     gclone - This command is used to clone gdrive files or folder using gclone
+     ytdl - This command should be used as reply to a supported link
+     pytdl - This command will download videos from youtube playlist link and will upload to telegram.
+     gytdl - This will download and upload to your cloud.
+     gpytdl - This download youtube playlist and upload to your cloud.
+     leech - leech any torrent/magnet/direct-download link to Telegram
+     leechzip - leech any torrent/magnet/direct-download link to Telegram and Upload It as .tar.gz acrhive...
+     gleech - leech any torrent/magnet/direct-download link to cloud
+     gleechzip - leech any torrent/magnet/direct-download link to Cloud and Upload It as .tar.gz acrhive...
+     leechunzip - This will unarchive file and upload to telegram.
+     gleechunzip - This will unarchive file and upload to cloud.
+     tleech - This will mirror the telegram files to ur respective cloud .
+     tleechunzip - This will unarchive telegram file and upload to cloud.
+     getsize - This will give you total size of your destination folder in cloud.
+     rename - rename the file
+     toggledoc - choose whether the file shall be uploaded as doc or not
+     togglevid - choose whether the file shall be uploaded as streamable or not	 
+     help - send help 
+     renewme - clear all downloads (admin only)⚠️
+     log - This will send you a txt file of the logs.(admin only)⚠️
+     rclone - This will change your drive config on fly.(First one will be default)--(admin only)⚠️
+---
 ## How to Use?
 
 ### 🥳 send any one of the available command, as a reply to a valid link/magnet/torrent. 👊
