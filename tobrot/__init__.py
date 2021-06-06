@@ -120,6 +120,7 @@ RENAME_COMMAND = os.environ.get("RENAME_COMMAND", "rename")
 TOGGLE_VID = os.environ.get("TOGGLE_VID", "togglevid")
 TOGGLE_DOC = os.environ.get("TOGGLE_DOC", "toggledoc")
 RCLONE_COMMAND = os.environ.get("RCLONE_COMMAND", "rclone")
+HELP_COMMAND = os.environ.get("HELP_COMMAND", "help")
 BOT_START_TIME = time.time()
 # dict to control uploading and downloading
 gDict = defaultdict(lambda: [])
