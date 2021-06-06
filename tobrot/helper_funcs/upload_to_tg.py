@@ -221,7 +221,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         button_markup = pyrogram.InlineKeyboardMarkup(button)
         await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
         await messa_ge.reply_text(
-            f"✅𝙐𝙥𝙡𝙤𝙖𝙙𝙚𝙙 𝙨𝙪𝙘𝙘𝙚𝙨𝙨𝙛𝙪𝙡𝙡𝙮 𝙩𝙤 𝙂𝘿𝙧𝙞𝙫𝙚 `{os.path.basename(file_upload)}` <a href='tg://user?id={g_id}'>😎</a>\n📀𝙎𝙞𝙯𝙚: {gjay}✅",
+            f"🗃️𝙁𝙞𝙡𝙚𝙣𝙖𝙢𝙚 :  `{os.path.basename(file_upload)}`\n📀𝙎𝙞𝙯𝙚: {gjay}\n<a href='tg://user?id={g_id}'>#Uploaded To Team Drive ✅</a>",
             reply_markup=button_markup,
         )
         os.remove(file_upload)
@@ -290,7 +290,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         button_markup = pyrogram.InlineKeyboardMarkup(button)
         await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
         await messa_ge.reply_text(
-            f"✅𝙐𝙥𝙡𝙤𝙖𝙙𝙚𝙙 𝙨𝙪𝙘𝙘𝙚𝙨𝙨𝙛𝙪𝙡𝙡𝙮 𝙩𝙤 𝙂𝘿𝙧𝙞𝙫𝙚 `{os.path.basename(file_upload)}` <a href='tg://user?id={g_id}'>😎</a>\n📀𝙎𝙞𝙯𝙚: {gjay}✅",
+            f"🗃️𝙁𝙞𝙡𝙚𝙣𝙖𝙢𝙚 : `{os.path.basename(file_upload)}` \n<a href='tg://user?id={g_id}'>name of the uploader..</a>\n📀𝙎𝙞𝙯𝙚: {gjay} \n<b>#Uploaded To Team Drive ✅</b>",
             reply_markup=button_markup,
         )
         shutil.rmtree(file_upload)

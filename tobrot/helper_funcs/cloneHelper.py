@@ -132,7 +132,7 @@ class CloneHelper:
                 )
             button_markup = pyrogram.InlineKeyboardMarkup(button)
             msg = await self.lsg.edit_text(
-                f"🤖: {_up} 𝙘𝙡𝙤𝙣𝙚𝙙 𝙨𝙪𝙘𝙘𝙚𝙨𝙨𝙛𝙪𝙡𝙡𝙮 𝙞𝙣 𝙮𝙤𝙪𝙧 𝘾𝙡𝙤𝙪𝙙<a href='tg://user?id={self.u_id}'>🤗</a>\
+                f"🤖: {_up} 𝙘𝙡𝙤𝙣𝙚𝙙 𝙨𝙪𝙘𝙘𝙚𝙨𝙨𝙛𝙪𝙡𝙡𝙮 𝙞𝙣 𝙮𝙤𝙪𝙧 𝘾𝙡𝙤𝙪𝙙<a href='tg://user?id={self.u_id}'>#Uploaded To Team Drive ✅</a>\
                 \n📀 Info: Calculating...",
                 reply_markup=button_markup,
                 parse_mode="html",
@@ -186,7 +186,7 @@ class CloneHelper:
         LOGGER.info(self.out.decode())
 
         if self.name == "":
-            reg_f = "𝙄𝙉𝙁𝙊(.*)(:)(.*)(:) (𝘾𝙊𝙋𝙄𝙀𝘿)"
+            reg_f = "INFO(.*)(:)(.*)(:) (COPIED)"
             file_n = re.findall(reg_f, err)
             LOGGER.info(file_n[0][2].strip())
             self.name = file_n[0][2].strip()
