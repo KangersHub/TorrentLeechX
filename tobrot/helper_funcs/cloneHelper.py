@@ -112,7 +112,7 @@ class CloneHelper:
             button.append(
                 [
                     pyrogram.InlineKeyboardButton(
-                        text="☁️ 𝙂𝘿𝙧𝙞𝙫𝙚-𝙐𝙧𝙡 ☁️", url=f"{gau_link}"
+                        text="☁️ CloudUrl ☁️", url=f"{gau_link}"
                     )
                 ]
             )
@@ -126,13 +126,13 @@ class CloneHelper:
                 button.append(
                     [
                         pyrogram.InlineKeyboardButton(
-                            text="🎦 𝙄𝙣𝙙𝙚𝙭-𝙐𝙧𝙡 🎦", url=f"{tam_link}"
+                            text="ℹ️ IndexUrl ℹ️", url=f"{tam_link}"
                         )
                     ]
                 )
             button_markup = pyrogram.InlineKeyboardMarkup(button)
             msg = await self.lsg.edit_text(
-                f"🤖: {_up} 𝙘𝙡𝙤𝙣𝙚𝙙 𝙨𝙪𝙘𝙘𝙚𝙨𝙨𝙛𝙪𝙡𝙡𝙮 𝙞𝙣 𝙮𝙤𝙪𝙧 𝘾𝙡𝙤𝙪𝙙<a href='tg://user?id={self.u_id}'>#Uploaded To Team Drive ✅</a>\
+                f"🤖: {_up} cloned successfully in your Cloud <a href='tg://user?id={self.u_id}'>🤒</a>\
                 \n📀 Info: Calculating...",
                 reply_markup=button_markup,
                 parse_mode="html",
@@ -153,14 +153,14 @@ class CloneHelper:
             LOGGER.info(am.decode("utf-8"))
             await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
             await msg.edit_text(
-                f"🤖: {_up} 𝙘𝙡𝙤𝙣𝙚𝙙 𝙨𝙪𝙘𝙘𝙚𝙨𝙨𝙛𝙪𝙡𝙡𝙮 𝙞𝙣 𝙮𝙤𝙪𝙧 𝘾𝙡𝙤𝙪𝙙<a href='tg://user?id={self.u_id}'>🤗</a>\
+                f"🤖: {_up} cloned successfully in your Cloud <a href='tg://user?id={self.u_id}'>🤒</a>\
                 \n📀 Info:\n{g_autam}",
                 reply_markup=button_markup,
                 parse_mode="html",
             )
 
     async def gcl(self):
-        self.lsg = await self.mess.reply_text(f"𝘾𝙡𝙤𝙣𝙞𝙣𝙜...𝙮𝙤𝙪 𝙨𝙝𝙤𝙪𝙡𝙙 𝙬𝙖𝙞𝙩 😀")
+        self.lsg = await self.mess.reply_text(f"Cloning...you should wait 🤒")
         destination = f"{DESTINATION_FOLDER}"
         idd = "{" f"{self.g_id}" "}"
         cmd = [
@@ -186,7 +186,7 @@ class CloneHelper:
         LOGGER.info(self.out.decode())
 
         if self.name == "":
-            reg_f = "INFO(.*)(:)(.*)(:) (COPIED)"
+            reg_f = "INFO(.*)(:)(.*)(:) (Copied)"
             file_n = re.findall(reg_f, err)
             LOGGER.info(file_n[0][2].strip())
             self.name = file_n[0][2].strip()
