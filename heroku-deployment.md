@@ -66,7 +66,6 @@
 | CHUNK_SIZE | DEV | `128` | True | Enter chunk size value default is `128` so put that. |
 | EDIT_SLEEP_TIME_OUT | bot msg update interval | `15` | True | enter a integer Value for Bot MSg Update
 | MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START | Max Timeout for dead torrents in seconds | `300` | True  | Max Timeout for dead torrents |
-| UPLOAD_AS_DOC | takes two options `true`/`false`  | `false`/`true` | True | Set this to true if you want the TG upload to be uploaded as DOC file or Set this to false if not wanted |
 | MAX_TG_SPLIT_FILE_SIZE | max size for splitting files in TG Upload should be in bytes | 2000000000 | True | max size for splitting files in TG Upload should be in bytes |
 
 
@@ -77,4 +76,3 @@
 ## DONT TOUCH/EDIT ANY VARS FROM HEROKU if want to change/edit do from Github...
 
 ## IF YOU WANT TO SET optional vars then go to your deployed heroku app settings and add the vars ...
-

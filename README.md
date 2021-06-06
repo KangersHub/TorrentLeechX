@@ -1,4 +1,4 @@
-<p align="center"><img src="https://shields.io/badge/%F0%9F%A7%B2Torrent--LEECH--GDRIVE_Telegram_Leech_BOT%F0%9F%A4%96-red?logo=&style=for-the-badge" width="860" height="85"></p>
+<p align="center"> <a href="https://github.com/AmirulAndalib/TorrentLeechX" target="_blank"> <img src="https://shields.io/badge/%F0%9F%A7%B2Torrent--LEECH--GDRIVE_Telegram_Leech_BOT%F0%9F%A4%96-red?logo=&style=for-the-badge" alt="TorrentLeechX" width="860" height="85"/>
 
 # for support join [here](https://telegram.dog/XCODERSHUB)
 # working example group [Leech Here](https://t.me/joinchat/AAAAAFKu8StOzTbtr-Hn0g)
@@ -19,7 +19,7 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/AmirulAndalib/TorrentLeechX?color=white&style=for-the-badge)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/AmirulAndalib/TorrentLeechX?color=blue&style=for-the-badge)
 
-<p align="center"><img src="https://shields.io/badge/Support--Group-Join_Now-navy?logo=&style=for-the-badge" width="400" height="45"></p>
+<p align="center"> <a href="https://t.me/XcodersHub" target="_blank"> <img src="https://shields.io/badge/Support--Group-Join_Now-navy?logo=&style=for-the-badge" alt="support group" width="400" height="45"/>
 
 ---
 
@@ -127,6 +127,7 @@ Optional Configuration Variables | Descripion
 | `TOGGLE_DOC` | Custom Cmd for TOGGLE_DOC default is `/toggledoc`
 | `RCLONE_COMMAND` | Custom command for `/rclone`
 | `LOG_COMMAND` | Custom command for `/log`
+| `HELP_COMMAND` | Custom command for `/help`
 
 ---
 
