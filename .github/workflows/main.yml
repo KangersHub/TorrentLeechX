@@ -28,5 +28,4 @@ jobs:
           HD_TG_MAX_FILE_SIZE: ${{secrets.TG_MAX_FILE_SIZE}}
           HD_MAX_TG_SPLIT_FILE_SIZE: ${{secrets.MAX_TG_SPLIT_FILE_SIZE}}
           HD_ARIA_TWO_STARTED_PORT: ${{secrets.ARIA_TWO_STARTED_PORT}}
-          HD_UPLOAD_AS_DOC: ${{secrets.UPLOAD_AS_DOC}}
 
