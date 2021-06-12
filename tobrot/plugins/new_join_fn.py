@@ -25,49 +25,6 @@ async def help_message_f(client, message):
     # display the /help
 
     await message.reply_text(
-        """Join this group for help-- @XcodersHub\n\n And also don't forget to star/fork this repo: <a href="https://github.com/AmirulAndalib/TorrentLeechX">TorrentLeechX</a> 
- 
- here is a list of available cmds: 👇
-
- ytdl - This command should be used as reply to a supported link
-
- pytdl - This command will download videos from youtube playlist link and will upload to telegram.
-
- gytdl - This will download and upload to your cloud.
-
- gpytdl - This download youtube playlist and upload to your cloud.
-
- leech - leech any torrent/magnet/direct-download link to Telegram
-
- leechzip - leech any torrent/magnet/direct-download link to Telegram and Upload It as .tar.gz acrhive...
-
- gleech - leech any torrent/magnet/direct-download link to cloud
-
- gleechzip - leech any torrent/magnet/direct-download link to Cloud and Upload It as .tar.gz acrhive...
-
- leechunzip - This will unarchive file and upload to telegram.
-
- gleechunzip - This will unarchive file and upload to cloud.
-
- tleech - This will mirror the telegram files to ur respective cloud .
-
- tleechunzip - This will unarchive telegram file and upload to cloud.
-
- getsize - This will give you total size of your destination folder in cloud.
-
- rename - rename the file
-
- toggledoc - choose whether the file shall be uploaded as doc or not
-
- togglevid - choose whether the file shall be uploaded as streamable or not	 
-
- help - send help 
-
- renewme - clear all downloads (admin only)⚠️
-
- log - This will send you a txt file of the logs.(admin only)⚠️
- 
- rclone - This will change your drive config on fly.(First one will be default)--(admin only)⚠️
- """,
-        disable_web_page_preview=False,
+        """<b>Hello This is TorrentleechX an instance of <a href="https://github.com/AmirulAndalib/TorrentLeechX">This Repo</a>.\nTry the repo for yourself and dont forget to put a STAR and fork.</b>\n\nhere is a list of CMDS available for the bot👇\n\ngclone - This command is used to clone gdrive files or folder using gclone\n\nytdl - This command should be used as reply to a supported link\n\npytdl - This command will download videos from youtube playlist link and will upload to telegram.\n\ngytdl - This will download and upload to your cloud.\n\ngpytdl - This download youtube playlist and upload to your cloud.\n\nleech - leech any torrent/magnet/direct-download link to Telegram\n\nleechzip - leech any torrent/magnet/direct-download link to Telegram and Upload It as .tar.gz acrhive...\n\ngleech - leech any torrent/magnet/direct-download link to cloud\n\ngleechzip - leech any torrent/magnet/direct-download link to Cloud and Upload It as .tar.gz acrhive...\n\nleechunzip - This will unarchive file and upload to telegram.\n\ngleechunzip - This will unarchive file and upload to cloud.\n\ntleech - This will mirror the telegram files to ur respective cloud .\n\ntleechunzip - This will unarchive telegram file and upload to cloud.\n\nclearthumbnail - clear the thumbnail.\n\nsavethumbnail - save thumbnail.\n\nstatus - show status of current downloads and stuff.\n\ngetsize - This will give you total size of your destination folder in cloud.\n\nrename - rename the file\n\n toggledoc - choose whether the file shall be uploaded as doc or not\n\ntogglevid - choose whether the file shall be uploaded as streamable or not   \n\nhelp - send help \n\nrenewme - clear all downloads (admin only)⚠️\n\nlog - This will send you a txt file of the logs.(admin only)⚠️\n\nrclone - This will change your drive config on fly.(First one will be default)--(admin only)⚠️\n""",
+        disable_web_page_preview=True,
     )

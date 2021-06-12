@@ -128,6 +128,8 @@ Optional Configuration Variables | Descripion
 | `RCLONE_COMMAND` | Custom command for `/rclone`
 | `LOG_COMMAND` | Custom command for `/log`
 | `HELP_COMMAND` | Custom command for `/help`
+| `STATUS_COMMAND` | Custom Command for `/status`
+| `LOG_COMMAND` | Custom Command for `log`
 
 ---
 
@@ -175,6 +177,10 @@ client_secret =
 | `/rename`| u can add custom name as prefix of the original file name...Like if your file name is `gk.txt` uploaded will be what u add in `CUSTOM_FILE_NAME` + `gk.txt`..And also added custom name like...You have to pass link as ..`www.download.me/gk.txt new.txt`..the file will be uploaded as `new.txt`.
 | `/toggledoc` | it used for toggling to be files if shall it be uploaded as doc via direct inchat cmd...**any users can now choose if their files will be upload as doc or streamabe...**
 | `/togglevid` | it used for toggling to be files if shall it be uploaded as vid via direct inchat cmd...**any users can now choose if their files will be upload as doc or streamabe...**
+| `/status`| show bot stats and concurrent downloads
+| `/savethumbnail`| save the thumbnail
+| `/clearthumbnail`| clear the thumbnail
+| `/help`| send help
 ---
 ## END OF Variable Explanations 👆
 
@@ -198,6 +204,9 @@ client_secret =
      toggledoc - choose whether the file shall be uploaded as doc or not
      togglevid - choose whether the file shall be uploaded as streamable or not	 
      help - send help 
+     savethumbnail - save thumbnail
+     clearthumbnail - clear thumbnail
+     status - show bot stats and concurrent downloads
      renewme - clear all downloads (admin only)⚠️
      log - This will send you a txt file of the logs.(admin only)⚠️
      rclone - This will change your drive config on fly.(First one will be default)--(admin only)⚠️

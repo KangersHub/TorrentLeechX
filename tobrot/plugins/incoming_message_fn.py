@@ -118,7 +118,7 @@ async def incoming_message_f(client, message):
             await i_m_sefg.edit_text(err_message)
     else:
         await i_m_sefg.edit_text(
-            "**ERROR**! wat have you entered. watch wat you type"
+            "**ERROR**! wat have you entered. watch wat you type \n"
             f"<b>API Error</b>: {cf_name}"
         )
 
@@ -127,7 +127,7 @@ async def incoming_youtube_dl_f(client, message):
     """ /ytdl command """
     current_user_id = message.from_user.id
     credit = await message.reply_text(
-        f"💀 𝘿𝙤𝙬𝙣𝙡𝙤𝙖𝙙𝙞𝙣𝙜 𝙛𝙤𝙧 𝙮𝙤𝙪 <a href='tg://user?id={current_user_id}'>⚡</a>",
+        f"<a href='tg://user?id={current_user_id}'>▶ 𝘿𝙤𝙬𝙣𝙡𝙤𝙖𝙙𝙞𝙣𝙜 𝙏𝙝𝙚 𝙔𝙤𝙪𝙩𝙪𝙗𝙚 𝙁𝙞𝙡𝙚 𝙛𝙤𝙧 𝙮𝙤𝙪 ⚡</a>",
         parse_mode="html",
     )
     i_m_sefg = await message.reply_text("⚡𝙥𝙧𝙤𝙘𝙚𝙨𝙨𝙞𝙣𝙜⚡", quote=True)
@@ -177,7 +177,7 @@ async def incoming_youtube_dl_f(client, message):
             await i_m_sefg.edit_text(text=text_message, reply_markup=reply_markup)
     else:
         await i_m_sefg.edit_text(
-            "**ERROR**! wat have you entered. watch wat you type"
+            "**ERROR**! wat have you entered. watch wat you type \n"
             f"<b>API Error</b>: {cf_name}"
         )
 
@@ -202,7 +202,7 @@ async def g_yt_playlist(client, message):
         return
     if "youtube.com/playlist" in url:
         i_m_sefg = await message.reply_text(
-            f"💀 𝘿𝙤𝙬𝙣𝙡𝙤𝙖𝙙𝙞𝙣𝙜 𝙛𝙤𝙧 𝙮𝙤𝙪 <a href='tg://user?id={usr_id}'>⚡</a>",
+            f"<a href='tg://user?id={usr_id}'>⏯ 𝘿𝙤𝙬𝙣𝙡𝙤𝙖𝙙𝙞𝙣𝙜 𝙏𝙝𝙚 𝙔𝙤𝙪𝙩𝙪𝙗𝙚 𝙋𝙡𝙖𝙮𝙡𝙞𝙨𝙩 𝙛𝙤𝙧 𝙮𝙤𝙪 ⚡</a>",
             parse_mode="html",
         )
         await yt_playlist_downg(message, i_m_sefg, client, is_cloud)
@@ -264,7 +264,7 @@ async def rename_tg_file(client, message):
                 message_id = final_response[key_f_res_se]
                 channel_id = str(message.chat.id)[4:]
                 private_link = f"https://t.me/c/{channel_id}/{message_id}"
-                message_to_send += "🗃⬤ <a href='"
+                message_to_send += "📦⬤ <a href='"
                 message_to_send += private_link
                 message_to_send += "'>"
                 message_to_send += local_file_name
@@ -272,10 +272,10 @@ async def rename_tg_file(client, message):
                 message_to_send += "\n"
             if message_to_send != "":
                 mention_req_user = (
-                    f"<a href='tg://user?id={usr_id}'>✔️𝙔𝙤𝙪𝙧 𝙍𝙚𝙦𝙪𝙚𝙨𝙩𝙚𝙙 𝙛𝙞𝙡𝙚𝙨 𝙃𝙖𝙫𝙚 𝙗𝙚𝙚𝙣 𝙡𝙚𝙚𝙘𝙝𝙚𝙙 𝙨𝙪𝙘𝙘𝙚𝙨𝙨𝙛𝙪𝙡𝙡𝙮 𝙖𝙣𝙙 𝙪𝙥𝙡𝙤𝙖𝙙𝙚𝙙 𝙩𝙤 𝙩𝙚𝙡𝙚𝙜𝙧𝙖𝙢 𝙋𝙡𝙚𝙖𝙨𝙚 𝘾𝙝𝙚𝙘𝙠 𝙏𝙝𝙚𝙢 𝙗𝙚𝙡𝙤𝙬👇</a>\n\n"
+                    f"<a href='tg://user?id={usr_id}'>🤗DONE📤</a>\n\n"
                 )
-                message_to_send = mention_req_user + message_to_send
-                message_to_send = message_to_send + "\n\n" + "#uploads"
+                message_to_send = message_to_send = f"\n<code>{str(file.name)}</code>\n<b>📦 𝙏𝙤𝙩𝙖𝙡 𝙁𝙞𝙡𝙚 𝙎𝙞𝙯𝙚: {file.total_length_string()}</b>\n\n" + message_to_send 
+                message_to_send = message_to_send + "\n\n" + mention_req_user + f"<b>⭐#uploads⛳</b>"
             else:
                 message_to_send = "<i>🔴𝙁𝘼𝙄𝙇𝙀𝘿❌</i> 𝙩𝙤 𝙪𝙥𝙡𝙤𝙖𝙙 𝙛𝙞𝙡𝙚𝙨.😔"
             await message.reply_text(

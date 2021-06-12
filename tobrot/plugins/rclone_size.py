@@ -13,7 +13,7 @@ from tobrot import DESTINATION_FOLDER, EDIT_SLEEP_TIME_OUT, LOGGER, RCLONE_CONFI
 
 async def check_size_g(client, message):
     # await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-    del_it = await message.reply_text("🔊 Checking size...wait!!!")
+    del_it = await message.reply_text("🤖Checking size of the cloud folder...wait!!!")
     if not os.path.exists("rclone.conf"):
         with open("rclone.conf", "w+", newline="\n", encoding="utf-8") as fole:
             fole.write(f"{RCLONE_CONFIG}")

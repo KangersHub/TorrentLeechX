@@ -50,6 +50,7 @@ async def status_message_f(client, message):
             e_t_a = str(download.eta_string())
             current_gid = str(download.gid)
             #
+            msg += "\n\n"
             msg += f"📂[<code>{downloading_dir_name}</code>]"
             msg += " ⬤ "
             msg += f"{total_length_size}"
@@ -66,7 +67,7 @@ async def status_message_f(client, message):
             msg += " ⬤ "
             msg += f"<code>/cancel {current_gid}</code>"
             msg += " ⬤ "
-            msg += "\n\n"
+            msg += "\n"
         # LOGGER.info(msg)
 
         if msg == "":
@@ -79,10 +80,14 @@ async def status_message_f(client, message):
     free = humanbytes(free)
 
     ms_g = (
-        f"<b>Bot Uptime</b>: <code>{hr} : {mi} : {se}</code>\n"
-        f"<b>Total disk space</b>: <code>{total}</code>\n"
-        f"<b>Used</b>: <code>{used}</code>\n"
-        f"<b>Free</b>: <code>{free}</code>\n"
+        f'<b>╭───「  ⭕️ BOT STATISTICS ⭕️  」</b>\n' \
+        f'<b>│</b>\n' \
+        f"<b>├  ⏰ Bot Uptime : {hr} : {mi} : {se}</b>\n" \
+        f'<b>├  💾 Total Disk Space : {total}</b>\n' \
+        f'<b>├  📀 Total Used Space : {used}</b>\n' \
+        f'<b>├  💿 Total Free Space : {free}</b>\n' \
+        f'<b>│</b>\n' \
+        f'<b>╰───「 🚸 TorrentLeechX 🚸 」</b>'
     )
     # LOGGER.info(ms_g)
 

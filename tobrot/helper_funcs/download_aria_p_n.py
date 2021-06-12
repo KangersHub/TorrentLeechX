@@ -259,7 +259,7 @@ async def call_apropriate_function(
                     message_id = final_response[key_f_res_se]
                     channel_id = str(sent_message_to_update_tg_p.chat.id)[4:]
                     private_link = f"https://t.me/c/{channel_id}/{message_id}"
-                    message_to_send += "🗃⬤ <a href='"
+                    message_to_send += "📦⬤ <a href='"
                     message_to_send += private_link
                     message_to_send += "'>"
                     message_to_send += local_file_name
@@ -267,10 +267,10 @@ async def call_apropriate_function(
                     message_to_send += "\n"
                 if message_to_send != "":
                     mention_req_user = (
-                        f"<a href='tg://user?id={user_id}'>🟢𝙔𝙤𝙪𝙧 𝙍𝙚𝙦𝙪𝙚𝙨𝙩𝙚𝙙 𝙁𝙞𝙡𝙚𝙨 𝙝𝙖𝙫𝙚 𝙗𝙚𝙚𝙣 𝙪𝙥𝙡𝙤𝙖𝙙𝙚𝙙 𝙩𝙤 𝙏𝙚𝙡𝙚𝙜𝙧𝙖𝙢 𝙨𝙪𝙘𝙘𝙚𝙨𝙨𝙛𝙪𝙡𝙡𝙮 𝙥𝙡𝙨 𝙘𝙝𝙚𝙘𝙠 𝙩𝙝𝙚𝙢 𝙗𝙚𝙡𝙤𝙬👇</a>\n\n"
+                        f"\n<a href='tg://user?id={user_id}'>🤗DONE📤</a>\n"
                     )
-                    message_to_send = mention_req_user + message_to_send
-                    message_to_send = message_to_send + "\n\n" + "⭐#uploads⛳"
+                    message_to_send = f"\n<code>{str(file.name)}</code>\n<b>📦 𝙏𝙤𝙩𝙖𝙡 𝙁𝙞𝙡𝙚 𝙎𝙞𝙯𝙚: {file.total_length_string()}</b>\n\n" + message_to_send 
+                    message_to_send = message_to_send + "\n\n" + mention_req_user + f"<b>⭐#uploads⛳</b>"
                 else:
                     message_to_send = "<i>🔴𝙁𝘼𝙄𝙇𝙀𝘿</i> 𝙩𝙤 𝙪𝙥𝙡𝙤𝙖𝙙 𝙛𝙞𝙡𝙚𝙨😞"
                 await user_message.reply_text(
@@ -306,16 +306,26 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                     pass
                 #
                 if is_file is None:
-                    msgg = f"🔌𝘾𝙤𝙣𝙣𝙚𝙘𝙩𝙞𝙤𝙣'𝙨: <b>{file.connections}</b>"
+                    msgg = f"🔌 <b>𝘾𝙤𝙣𝙣'𝙨: {file.connections}</b>"
                 else:
-                    msgg = f"ℹ𝙄𝙉𝙁𝙊: <b>[🟢𝙎𝙚𝙚𝙙𝙨: <b>{file.num_seeders}</b>|🔴𝙋𝙚𝙚𝙧𝙨: <b>{file.connections}</b>]</b>"
-                msg = f"\n🗃️𝙁𝙞𝙡𝙚𝙣𝙖𝙢𝙚: <code>{downloading_dir_name}</code>"    
-                msg += f"\n🗂️𝙏𝙤𝙩𝙖𝙡 𝙁𝙞𝙡𝙚 𝙎𝙞𝙯𝙚: <b>{file.total_length_string()}</b>"
-                msg += f"\n🌠𝙋𝙧𝙤𝙜𝙧𝙚𝙨𝙨: <b>{file.progress_string()}</b>"
-                msg += f"\n⏰𝙀𝙏𝘼: <b>{file.eta_string()}</b>"
-                msg += f"\n{msgg}"
-                msg += f"\n⚡𝙨𝙥𝙚𝙚𝙙: <b>{file.download_speed_string()}</b>"
-                msg += f"\n📋𝙂𝙞𝘿: <code>{gid}</code>"
+                    msgg = f"<b>[🟢𝙎: {file.num_seeders}|🔴𝙋: {file.connections}]</b>"
+                msg += f"\n<b>╭──「  ⏬ 𝘿𝙊𝙒𝙉𝙇𝙊𝘼𝘿𝙄𝙉𝙂 ⏬  」</b>"
+                msg += f"\n<b>│</b>"
+                msg += f"\n<b>├</b> <code>{downloading_dir_name}</code>"
+                msg += f"\n<b>│</b>" 
+                msg += f"\n<b>├  📦 𝙏𝙤𝙩𝙖𝙡 𝙁𝙞𝙡𝙚 𝙎𝙞𝙯𝙚: {file.total_length_string()}</b>"
+                msg += f"\n<b>│</b>"
+                msg += f"\n<b>├  🔄 𝙋𝙧𝙤𝙜𝙧𝙚𝙨𝙨: {file.progress_string()}</b>"
+                msg += f"\n<b>│</b>"
+                msg += f"\n<b>├  ⏰ 𝙀𝙏𝘼: {file.eta_string()}</b>"
+                msg += f"\n<b>│</b>"
+                msg += f"\n<b>├  {msgg}</b>" 
+                msg += f"\n<b>│</b>"
+                msg += f"\n<b>├  ⚡️ 𝙨𝙥𝙚𝙚𝙙: {file.download_speed_string()}</b>" 
+                msg += f"\n<b>│</b>"
+                msg += f"\n<b>├  📋 𝙂𝙞𝘿:</b> <code>{gid}</code>"
+                msg += f"\n<b>│</b>"
+                msg += f"\n<b>╰──「 🚒 Using Engine:-Aria2 」</b>"
                 inline_keyboard = []
                 ikeyboard = []
                 ikeyboard.append(
