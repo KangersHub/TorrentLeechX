@@ -71,7 +71,7 @@ async def status_message_f(client, message):
         # LOGGER.info(msg)
 
         if msg == "":
-            msg = "🤷‍♂️ No Active, Queued or Paused TORRENTs"
+            msg = "\n🤷‍♂️ No Active, Queued or Paused TORRENTs"
 
     hr, mi, se = up_time(time.time() - BOT_START_TIME)
     total, used, free = shutil.disk_usage(".")

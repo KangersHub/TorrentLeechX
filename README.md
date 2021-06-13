@@ -186,30 +186,30 @@ client_secret =
 
 ---
 ## 🔧Commands to be set via Botfather (will only work if you set mentions from custom cmds).
-     gclone - This command is used to clone gdrive files or folder using gclone
-     ytdl - This command should be used as reply to a supported link
-     pytdl - This command will download videos from youtube playlist link and will upload to telegram.
-     gytdl - This will download and upload to your cloud.
-     gpytdl - This download youtube playlist and upload to your cloud.
-     leech - leech any torrent/magnet/direct-download link to Telegram
-     leechzip - leech any torrent/magnet/direct-download link to Telegram and Upload It as .tar.gz acrhive...
-     gleech - leech any torrent/magnet/direct-download link to cloud
-     gleechzip - leech any torrent/magnet/direct-download link to Cloud and Upload It as .tar.gz acrhive...
-     leechunzip - This will unarchive file and upload to telegram.
-     gleechunzip - This will unarchive file and upload to cloud.
-     tleech - This will mirror the telegram files to ur respective cloud .
-     tleechunzip - This will unarchive telegram file and upload to cloud.
-     getsize - This will give you total size of your destination folder in cloud.
-     rename - rename the file
-     toggledoc - choose whether the file shall be uploaded as doc or not
-     togglevid - choose whether the file shall be uploaded as streamable or not	 
-     help - send help 
-     savethumbnail - save thumbnail
-     clearthumbnail - clear thumbnail
-     status - show bot stats and concurrent downloads
-     renewme - clear all downloads (admin only)⚠️
-     log - This will send you a txt file of the logs.(admin only)⚠️
-     rclone - This will change your drive config on fly.(First one will be default)--(admin only)⚠️
+    leech - leech any torrent/magnet/direct-download link to Telegram 
+	leechunzip - This will unarchive file and upload to telegram.
+    leechzip - leech any torrent/magnet/direct-download link to Telegram and Upload It as .tar.gz acrhive...
+    ytdl - This command should be used as reply to a supported link
+    pytdl - This command will download videos from youtube playlist link and will upload to telegram.	
+	toggledoc - choose whether the file shall be uploaded as doc or not
+    togglevid - choose whether the file shall be uploaded as streamable or not
+	savethumbnail - save thumbnail
+    clearthumbnail - clear thumbnail
+    tleech - This will mirror the telegram files to ur respective cloud .
+    tleechunzip - This will unarchive telegram file and upload to cloud.
+    gclone - This command is used to clone gdrive files or folder using gclone
+    gytdl - This will download and upload to your cloud.
+    gpytdl - This download youtube playlist and upload to your cloud.
+    gleech - leech any torrent/magnet/direct-download link to cloud
+    gleechzip - leech any torrent/magnet/direct-download link to Cloud and Upload It as .tar.gz acrhive...
+    gleechunzip - This will unarchive file and upload to cloud.
+    getsize - This will give you total size of your destination folder in cloud.
+    rename - rename the file 
+    help - send help 
+    status - show bot stats and concurrent downloads
+    renewme - clear all downloads (admin only)⚠️
+    log - This will send you a txt file of the logs.(admin only)⚠️
+    rclone - This will change your drive config on fly.(First one will be default)--(admin only)⚠️
 ---
 ## How to Use?
 
