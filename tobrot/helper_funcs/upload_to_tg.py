@@ -95,7 +95,7 @@ async def upload_to_tg(
             d_f_s = humanbytes(os.path.getsize(local_file_name))
             i_m_s_g = await message.reply_text(
                 "𝙏𝙚𝙡𝙚𝙜𝙧𝙖𝙢 𝙎𝙪𝙥𝙥𝙤𝙧𝙩𝙨 2𝙂𝘽 𝙈𝙖𝙭\n"
-                f"𝘿𝙚𝙩𝙚𝙘𝙩𝙚𝙙 𝙁𝙞𝙡𝙚 𝙎𝙞𝙯𝙚: {d_f_s} 📚\n"
+                f"\n𝘿𝙚𝙩𝙚𝙘𝙩𝙚𝙙 𝙁𝙞𝙡𝙚 𝙎𝙞𝙯𝙚: {d_f_s} 📚\n"
                 "\n🤖𝙩𝙧𝙮𝙞𝙣𝙜 𝙩𝙤 𝙨𝙥𝙡𝙞𝙩 𝙩𝙝𝙚 𝙛𝙞𝙡𝙚𝙨🌝🗜️"
             )
             splitted_dir = await split_large_files(local_file_name)
@@ -105,9 +105,9 @@ async def upload_to_tg(
             LOGGER.info(totlaa_sleif)
             ba_se_file_name = os.path.basename(local_file_name)
             await i_m_s_g.edit_text(
-                f"𝘿𝙚𝙩𝙚𝙘𝙩𝙚𝙙 𝙁𝙞𝙡𝙚 𝙎𝙞𝙯𝙚: {d_f_s} 😡\n"
-                f"<code>{ba_se_file_name}</code> 𝙨𝙥𝙡𝙞𝙩𝙩𝙚𝙙 𝙞𝙣𝙩𝙤 {number_of_files} 𝙛𝙞𝙡𝙚𝙨.\n"
-                "📤𝙩𝙧𝙮𝙞𝙣𝙜 𝙩𝙤 𝙪𝙥𝙡𝙤𝙖𝙙 𝙩𝙤 𝙏𝙚𝙡𝙚𝙜𝙧𝙖𝙢, 𝙣𝙤𝙬 🛫"
+                f"𝘿𝙚𝙩𝙚𝙘𝙩𝙚𝙙 𝙁𝙞𝙡𝙚 𝙎𝙞𝙯𝙚: {d_f_s} 💿\n"
+                f"\n<code>{ba_se_file_name}</code> 𝙨𝙥𝙡𝙞𝙩𝙩𝙚𝙙 𝙞𝙣𝙩𝙤 {number_of_files} 𝙛𝙞𝙡𝙚𝙨.\n"
+                "\n📤𝙩𝙧𝙮𝙞𝙣𝙜 𝙩𝙤 𝙪𝙥𝙡𝙤𝙖𝙙 𝙩𝙤 𝙏𝙚𝙡𝙚𝙜𝙧𝙖𝙢, 𝙣𝙤𝙬 🛫"
             )
             for le_file in totlaa_sleif:
                 # recursion: will this FAIL somewhere?
@@ -221,7 +221,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         button_markup = pyrogram.InlineKeyboardMarkup(button)
         await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
         await messa_ge.reply_text(
-            f"🗃️𝙁𝙞𝙡𝙚𝙣𝙖𝙢𝙚 :  `{os.path.basename(file_upload)}`\n📀𝙎𝙞𝙯𝙚: {gjay}\n<a href='tg://user?id={g_id}'>#Uploaded To Team Drive ✅</a>",
+            f"🗃️𝙁𝙞𝙡𝙚𝙣𝙖𝙢𝙚 :  `{os.path.basename(file_upload)}`\n\n📀𝙎𝙞𝙯𝙚: {gjay}\n\n<a href='tg://user?id={g_id}'>#Uploaded To Team Drive ✅</a>",
             reply_markup=button_markup,
         )
         os.remove(file_upload)
@@ -290,7 +290,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         button_markup = pyrogram.InlineKeyboardMarkup(button)
         await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
         await messa_ge.reply_text(
-            f"🗃️𝙁𝙞𝙡𝙚𝙣𝙖𝙢𝙚 : `{os.path.basename(file_upload)}` \n📀𝙎𝙞𝙯𝙚: {gjay} \n<a href='tg://user?id={g_id}'>#Uploaded To Team Drive ✅</a>",
+            f"🗃️𝙁𝙞𝙡𝙚𝙣𝙖𝙢𝙚 : `{os.path.basename(file_upload)}` \n\n📀𝙎𝙞𝙯𝙚: {gjay} \n\n<a href='tg://user?id={g_id}'>#Uploaded To Team Drive ✅</a>",
             reply_markup=button_markup,
         )
         shutil.rmtree(file_upload)

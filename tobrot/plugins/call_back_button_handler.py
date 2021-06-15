@@ -129,7 +129,7 @@ async def button(bot, update: CallbackQuery):
                         os.remove(f)
                     else:
                         shutil.rmtree(f)
-                await update.message.edit_text(f"Deleted {len(g_del_list)} objects 😬")
+                await update.message.edit_text(f"Deleted {len(g_del_list)} objects 🚮")
             else:
                 await update.message.edit_text("Nothing to clear 🙄")
         else:
