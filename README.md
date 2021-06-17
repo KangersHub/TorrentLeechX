@@ -1,7 +1,7 @@
 <p align="center"> <a href="https://github.com/AmirulAndalib/TorrentLeechX" target="_blank"> <img src="https://shields.io/badge/%F0%9F%A7%B2Torrent--LEECH--GDRIVE_Telegram_Leech_BOT%F0%9F%A4%96-red?logo=&style=for-the-badge" alt="TorrentLeechX" width="860" height="85"/>
 
 # for support join [here](https://telegram.dog/XCODERSHUB)
-# working example group [Leech Here](https://t.me/joinchat/AAAAAFKu8StOzTbtr-Hn0g)
+# working example group [Leech Here](https://t.me/joinchat/ixcxUlpCInJiNmNl)
 # For Any Issues/Imrovements or Discussions [go here](https://github.com/AmirulAndalib/TorrentLeech-Gdrive/issues) or [here](https://github.com/AmirulAndalib/TorrentLeech-Gdrive/discussions) 
 # Please Leave A star And Fork this Repo and Follow my Github acc....
 # 🤖Telegram Torrent and Direct links Leecher 🔥
