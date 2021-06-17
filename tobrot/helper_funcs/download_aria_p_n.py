@@ -11,6 +11,7 @@ import re
 from re import search
 import subprocess
 import hashlib
+import math
 
 import aria2p
 from pyrogram.errors import FloodWait, MessageNotModified
@@ -23,6 +24,8 @@ from tobrot import (
     EDIT_SLEEP_TIME_OUT,
     LOGGER,
     MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START,
+    FINISHED_PROGRESS_STR,
+    UN_FINISHED_PROGRESS_STR
 
 )
 from tobrot.helper_funcs.create_compressed_archive import (
@@ -309,10 +312,16 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                     msgg = f"🔌 <b>𝘾𝙤𝙣𝙣'𝙨: {file.connections}</b>"
                 else:
                     msgg = f"<b>[🟢𝙎: {file.num_seeders}|🔴𝙋: {file.connections}]</b>"
+
+                percentage = int(file.progress_string(0).split('%')[0])
+                prog = "[{0}{1}]".format("".join([FINISHED_PROGRESS_STR for i in range(math.floor(percentage / 5))]),"".join([UN_FINISHED_PROGRESS_STR for i in range(20 - math.floor(percentage / 5))]))
+
                 msg += f"\n<b>╭──「  ⏬ 𝘿𝙊𝙒𝙉𝙇𝙊𝘼𝘿𝙄𝙉𝙂 ⏬  」</b>"
                 msg += f"\n<b>│</b>"
                 msg += f"\n<b>├</b> <code>{downloading_dir_name}</code>"
-                msg += f"\n<b>│</b>" 
+                msg += f"\n<b>│</b>"
+                msg += f"\n<b>├</b> <b>{prog}</b>"
+                msg += f"\n<b>│</b>"
                 msg += f"\n<b>├  📦 𝙏𝙤𝙩𝙖𝙡 𝙁𝙞𝙡𝙚 𝙎𝙞𝙯𝙚: {file.total_length_string()}</b>"
                 msg += f"\n<b>│</b>"
                 msg += f"\n<b>├  🔄 𝙋𝙧𝙤𝙜𝙧𝙚𝙨𝙨: {file.progress_string()}</b>"
