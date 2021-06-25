@@ -8,7 +8,7 @@ import time
 from logging.handlers import RotatingFileHandler
 from collections import defaultdict
 from sys import exit
-
+import urllib.request
 import dotenv
 
 if os.path.exists("TorrentLeech-Gdrive.txt"):
@@ -127,6 +127,17 @@ gDict = defaultdict(lambda: [])
 # user settings dict #ToDo
 user_settings = defaultdict(lambda: {})
 
+# Rclone Config Via any raw url
+###########################################################################
+try:                                                                      #
+    RCLONE_CONF_URL = os.environ.get('RCLONE_CONF_URL', "")               #
+    if len(RCLONE_CONF_URL) == 0:                                         #
+        RCLONE_CONF_URL = None                                            #
+    else:                                                                 #
+        urllib.request.urlretrieve(RCLONE_CONF_URL, '/app/rclone.conf')   #
+except KeyError:                                                          #
+    RCLONE_CONF_URL = None                                                #
+###########################################################################
 
 def multi_rclone_init():
     if RCLONE_CONFIG:

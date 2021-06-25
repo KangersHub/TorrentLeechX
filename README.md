@@ -54,6 +54,7 @@
     ✓ Added Dynamic Config 
     ✓ Added Custom ToggleDoc and ToggleVid Cmd
     ✓ Added Custom Rename Command via vars
+    ✓ Added direct rclone.conf url in vars
     
 # TO-DO
 -   ~Gdrive file clonning using Gclone~ `DONE ✓`
@@ -130,6 +131,7 @@ Optional Configuration Variables | Descripion
 | `HELP_COMMAND` | Custom command for `/help`
 | `STATUS_COMMAND` | Custom Command for `/status`
 | `LOG_COMMAND` | Custom Command for `log`
+| `RCLONE_CONF_URL` | set direct  url for rclone.conf 
 
 ---
 
