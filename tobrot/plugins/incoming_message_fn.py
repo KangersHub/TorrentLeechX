@@ -56,24 +56,27 @@ async def incoming_message_f(client, message):
     credit = await message.reply_text(
         f"🧲 Leeching for you <a href='tg://user?id={g_id}'>🤕</a>", parse_mode="html"
     )
-    i_m_sefg = await message.reply_text("processing...", quote=True)
     # get link from the incoming message
-    if message.reply_to_message:
-        dl_url, cf_name, _, _ = await extract_link(message.reply_to_message, "LEECH")
-        LOGGER.info(dl_url)
-        LOGGER.info(cf_name)
+    i_m_sefg = await message.reply_text("processing...", quote=True)
+    rep_mess = message.reply_to_message
+    is_file = False
+    dl_url = ''
+    cf_name = ''
+    if rep_mess:
+        if not rep_mess.media:
+            dl_url, cf_name, _, _ = await extract_link(message.reply_to_message, "LEECH")
+            LOGGER.info(dl_url)
+            LOGGER.info(cf_name)
+        else:
+            is_file = True
+            dl_url = rep_mess
     elif len(message.command) == 2:
         dl_url = message.command[1]
         LOGGER.info(dl_url)
-        cf_name = None
     else:
         await i_m_sefg.edit("😔 No downloading source provided 🙄")
         return
     if dl_url is not None:
-        await i_m_sefg.edit_text("extracting links")
-        # start the aria2c daemon
-        aria_i_p = await aria_start()
-        # LOGGER.info(aria_i_p)
         current_user_id = message.from_user.id
         # create an unique directory
         new_download_location = os.path.join(
@@ -82,6 +85,13 @@ async def incoming_message_f(client, message):
         # create download directory, if not exist
         if not os.path.isdir(new_download_location):
             os.makedirs(new_download_location)
+        aria_i_p = ''
+        if not is_file:
+            await i_m_sefg.edit_text("extracting links")
+            # start the aria2c daemon
+            aria_i_p = await aria_start()
+            # LOGGER.info(aria_i_p)
+
         await i_m_sefg.edit_text("trying to download")
         # try to download the "link"
         is_zip = False
@@ -110,6 +120,7 @@ async def incoming_message_f(client, message):
             cf_name,
             is_cloud,
             is_unzip,
+            is_file,
             message,
             client,
         )
