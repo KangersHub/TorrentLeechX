@@ -1,4 +1,4 @@
-FROM amirulandalib/torrentleechx:latest
+FROM ghcr.io/xcodershub/torrentleechx:latest
 
 COPY . .
 
