@@ -27,6 +27,7 @@ from tobrot.helper_funcs.create_compressed_archive import (
 )
 from tobrot.helper_funcs.extract_link_from_message import extract_link
 from tobrot.helper_funcs.upload_to_tg import upload_to_gdrive, upload_to_tg
+from tobrot.helper_funcs.download import download_tg
 
 sys.setrecursionlimit(10 ** 4)
 
@@ -142,38 +143,44 @@ async def call_apropriate_function(
     cstom_file_name,
     is_cloud,
     is_unzip,
+    is_file,
     user_message,
     client,
 ):
-    if incoming_link.lower().startswith("magnet:"):
-        sagtus, err_message = add_magnet(aria_instance, incoming_link, c_file_name)
-    elif incoming_link.lower().endswith(".torrent"):
-        sagtus, err_message = add_torrent(aria_instance, incoming_link)
-    else:
-        sagtus, err_message = add_url(aria_instance, incoming_link, c_file_name)
-    if not sagtus:
-        return sagtus, err_message
-    LOGGER.info(err_message)
-    # https://stackoverflow.com/a/58213653/4723940
-    await check_progress_for_dl(
-        aria_instance, err_message, sent_message_to_update_tg_p, None
-    )
-    if incoming_link.startswith("magnet:"):
-        #
-        err_message = await check_metadata(aria_instance, err_message)
-        #
-        await asyncio.sleep(1)
-        if err_message is not None:
-            await check_progress_for_dl(
-                aria_instance, err_message, sent_message_to_update_tg_p, None
-            )
+    if not is_file:
+        if incoming_link.lower().startswith("magnet:"):
+            sagtus, err_message = add_magnet(aria_instance, incoming_link, c_file_name)
+        elif incoming_link.lower().endswith(".torrent"):
+            sagtus, err_message = add_torrent(aria_instance, incoming_link)
         else:
-            return False, "can't get metadata \n\n#MetaDataError"
-    await asyncio.sleep(1)
-    file = aria_instance.get_download(err_message)
-    to_upload_file = file.name
-    com_g = file.is_complete
-    #
+            sagtus, err_message = add_url(aria_instance, incoming_link, c_file_name)
+        if not sagtus:
+            return sagtus, err_message
+        LOGGER.info(err_message)
+        # https://stackoverflow.com/a/58213653/4723940
+        await check_progress_for_dl(
+            aria_instance, err_message, sent_message_to_update_tg_p, None
+        )
+        if incoming_link.startswith("magnet:"):
+            #
+            err_message = await check_metadata(aria_instance, err_message)
+            #
+            await asyncio.sleep(1)
+            if err_message is not None:
+                await check_progress_for_dl(
+                    aria_instance, err_message, sent_message_to_update_tg_p, None
+                )
+            else:
+                return False, "can't get metadata \n\n#MetaDataError"
+        await asyncio.sleep(1)
+        file = aria_instance.get_download(err_message)
+        to_upload_file = file.name
+        com_g = file.is_complete
+    else:
+        await sent_message_to_update_tg_p.delete()
+        to_upload_file, sent_message_to_update_tg_p = await download_tg(client=client, message=user_message)
+        if to_upload_file:
+            com_g = True
     if is_zip:
         check_if_file = await create_archive(to_upload_file)
         if check_if_file is not None:
