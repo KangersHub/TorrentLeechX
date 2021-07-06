@@ -29,8 +29,6 @@ from tobrot.helper_funcs.extract_link_from_message import extract_link
 from tobrot.helper_funcs.upload_to_tg import upload_to_gdrive, upload_to_tg
 from tobrot.helper_funcs.download import download_tg
 
-sys.setrecursionlimit(10 ** 4)
-
 
 async def aria_start():
     aria2_daemon_start_cmd = []
@@ -63,10 +61,9 @@ async def aria_start():
         stderr=asyncio.subprocess.PIPE,
     )
     stdout, stderr = await process.communicate()
-    LOGGER.info(stdout)
-    LOGGER.info(stderr)
     aria2 = aria2p.API(
-        aria2p.Client(host="http://localhost", port=ARIA_TWO_STARTED_PORT, secret="")
+        aria2p.Client(host="http://localhost",
+                      port=ARIA_TWO_STARTED_PORT, secret="")
     )
     return aria2
 
@@ -82,7 +79,8 @@ def add_magnet(aria_instance, magnetic_link, c_file_name):
     except Exception as e:
         return (
             False,
-            "**FAILED** \n" + str(e) + " \nPlease do not send SLOW links. Read /help",
+            "**FAILED** \n" +
+            str(e) + " \nPlease do not send SLOW links. Read /help",
         )
     else:
         return True, "" + download.gid + ""
@@ -128,7 +126,8 @@ def add_url(aria_instance, text_url, c_file_name):
     except Exception as e:
         return (
             False,
-            "**FAILED** \n" + str(e) + " \nPlease do not send SLOW links. Read /help",
+            "**FAILED** \n" +
+            str(e) + " \nPlease do not send SLOW links. Read /help",
         )
     else:
         return True, "" + download.gid + ""
@@ -149,11 +148,13 @@ async def call_apropriate_function(
 ):
     if not is_file:
         if incoming_link.lower().startswith("magnet:"):
-            sagtus, err_message = add_magnet(aria_instance, incoming_link, c_file_name)
+            sagtus, err_message = add_magnet(
+                aria_instance, incoming_link, c_file_name)
         elif incoming_link.lower().endswith(".torrent"):
             sagtus, err_message = add_torrent(aria_instance, incoming_link)
         else:
-            sagtus, err_message = add_url(aria_instance, incoming_link, c_file_name)
+            sagtus, err_message = add_url(
+                aria_instance, incoming_link, c_file_name)
         if not sagtus:
             return sagtus, err_message
         LOGGER.info(err_message)
@@ -173,12 +174,17 @@ async def call_apropriate_function(
             else:
                 return False, "can't get metadata \n\n#MetaDataError"
         await asyncio.sleep(1)
-        file = aria_instance.get_download(err_message)
+        try:
+            file = aria_instance.get_download(err_message)
+        except aria2p.client.ClientException as ee:
+            LOGGER.error(ee)
+            return True, None
         to_upload_file = file.name
         com_g = file.is_complete
     else:
         await sent_message_to_update_tg_p.delete()
         to_upload_file, sent_message_to_update_tg_p = await download_tg(client=client, message=user_message)
+        com_g = False
         if to_upload_file:
             com_g = True
     if is_zip:
@@ -201,7 +207,8 @@ async def call_apropriate_function(
     if to_upload_file:
         if CUSTOM_FILE_NAME:
             if os.path.isfile(to_upload_file):
-                os.rename(to_upload_file, f"{CUSTOM_FILE_NAME}{to_upload_file}")
+                os.rename(to_upload_file,
+                          f"{CUSTOM_FILE_NAME}{to_upload_file}")
                 to_upload_file = f"{CUSTOM_FILE_NAME}{to_upload_file}"
             else:
                 for root, _, files in os.walk(to_upload_file):
@@ -263,120 +270,69 @@ async def call_apropriate_function(
 
 
 # https://github.com/jaskaranSM/UniBorg/blob/6d35cf452bce1204613929d4da7530058785b6b1/stdplugins/aria.py#L136-L164
+
+# todo- so much unwanted code, I will remove in future after some testing
 async def check_progress_for_dl(aria2, gid, event, previous_message):
-    # g_id = event.reply_to_message.from_user.id
-    try:
-        file = aria2.get_download(gid)
-        complete = file.is_complete
-        is_file = file.seeder
-        if not complete:
-            if not file.error_message:
-                msg = ""
-                # sometimes, this weird https://t.me/c/1220993104/392975
-                # error creeps up
-                # TODO: temporary workaround
-                downloading_dir_name = "N/A"
-                try:
-                    # another derp -_-
-                    # https://t.me/c/1220993104/423318
-                    downloading_dir_name = str(file.name)
-                except:
-                    pass
-                #
-                if is_file is None:
-                    msgg = f"Conn: {file.connections} <b>|</b> GID: <code>{gid}</code>"
-                else:
-                    msgg = f"P: {file.connections} | S: {file.num_seeders} <b>|</b> GID: <code>{gid}</code>"
-                msg = f"\n`{downloading_dir_name}`"
-                msg += f"\n<b>Speed</b>: {file.download_speed_string()}"
-                msg += f"\n<b>Status</b>: {file.progress_string()} <b>of</b> {file.total_length_string()} <b>|</b> {file.eta_string()} <b>|</b> {msgg}"
-                # msg += f"\nSize: {file.total_length_string()}"
-
-                # if is_file is None :
-                # msg += f"\n<b>Conn:</b> {file.connections}, GID: <code>{gid}</code>"
-                # else :
-                # msg += f"\n<b>Info:</b>[ P : {file.connections} | S : {file.num_seeders} ], GID: <code>{gid}</code>"
-
-                # msg += f"\nStatus: {file.status}"
-                # msg += f"\nETA: {file.eta_string()}"
-                # msg += f"\nGID: <code>{gid}</code>"
-                inline_keyboard = []
-                ikeyboard = []
-                ikeyboard.append(
-                    InlineKeyboardButton(
-                        "Cancel 🚫", callback_data=(f"cancel {gid}").encode("UTF-8")
-                    )
-                )
-                inline_keyboard.append(ikeyboard)
-                reply_markup = InlineKeyboardMarkup(inline_keyboard)
-                if msg != previous_message:
-                    if not file.has_failed:
-                        try:
-                            await event.edit(msg, reply_markup=reply_markup)
-                        except FloodWait as e_e:
-                            LOGGER.warning(f"Trying to sleep for {e_e}")
-                            time.sleep(e_e.x)
-                        except MessageNotModified as e_p:
-                            LOGGER.info(e_p)
-                            await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-                        previous_message = msg
-                    else:
+    while True:
+        try:
+            file = aria2.get_download(gid)
+            complete = file.is_complete
+            is_file = file.seeder
+            if not complete:
+                if not file.error_message:
+                    if file.has_failed:
                         LOGGER.info(
                             f"Cancelling downloading of {file.name} may be due to slow torrent"
                         )
-                        await event.edit(
-                            f"Download cancelled :\n<code>{file.name}</code>\n\n #MetaDataError"
+                        await event.reply(
+                            f"Download cancelled :\n<code>{file.name}</code>\n\n #MetaDataError", quote=True
                         )
                         file.remove(force=True, files=True)
-                        return False
-            else:
-                msg = file.error_message
-                LOGGER.info(msg)
+                        return
+                else:
+                    msg = file.error_message
+                    LOGGER.info(msg)
+                    await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
+                    await event.reply(f"`{msg}`")
+                    return
                 await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-                await event.edit(f"`{msg}`")
-                return False
+                # await check_progress_for_dl(aria2, gid, event, previous_message)
+            else:
+                LOGGER.info(
+                    f"Downloaded Successfully: `{file.name} ({file.total_length_string()})` 🤒"
+                )
+                # await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
+                if not file.is_metadata:
+                    await event.reply(
+                        f"Downloaded Successfully: `{file.name} ({file.total_length_string()})` 🤒", quote=True
+                    )
+                return
+        except aria2p.client.ClientException:
+            await event.reply(
+                f"Download cancelled :\n<code>{file.name} ({file.total_length_string()})</code>", quote=True
+            )
+            return
+        except MessageNotModified as ep:
+            LOGGER.info(ep)
             await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-            await check_progress_for_dl(aria2, gid, event, previous_message)
-        else:
-            LOGGER.info(
-                f"Downloaded Successfully: `{file.name} ({file.total_length_string()})` 🤒"
-            )
-            await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-            await event.edit(
-                f"Downloaded Successfully: `{file.name} ({file.total_length_string()})` 🤒"
-            )
-            return True
-    except aria2p.client.ClientException:
-        await event.edit(
-            f"Download cancelled :\n<code>{file.name} ({file.total_length_string()})</code>"
-        )
-    except MessageNotModified as ep:
-        LOGGER.info(ep)
-        await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-        await check_progress_for_dl(aria2, gid, event, previous_message)
-    except FloodWait as e:
-        LOGGER.info(e)
-        time.sleep(e.x)
-    except RecursionError:
-        file.remove(force=True, files=True)
-        await event.edit(
-            "Download Auto Canceled :\n\n"
-            "Your Torrent/Link is Dead.".format(file.name)
-        )
-        return False
-    except Exception as e:
-        LOGGER.info(str(e))
-        if "not found" in str(e) or "'file'" in str(e):
-            await event.edit(
-                f"Download cancelled :\n<code>{file.name} ({file.total_length_string()})</code>"
-            )
-            return False
-        else:
+            # await check_progress_for_dl(aria2, gid, event, previous_message)
+            return
+        except FloodWait as e:
+            LOGGER.info(e)
+            time.sleep(e.x)
+        except Exception as e:
             LOGGER.info(str(e))
-            await event.edit(
-                "<u>error</u> :\n<code>{}</code> \n\n#error".format(str(e))
-            )
-            return False
+            if "not found" in str(e) or "'file'" in str(e):
+                await event.edit(
+                    f"Download cancelled :\n<code>{file.name} ({file.total_length_string()})</code>"
+                )
+                return
+            else:
+                LOGGER.info(str(e))
+                await event.edit(
+                    "<u>error</u> :\n<code>{}</code> \n\n#error".format(str(e))
+                )
+                return
 
 
 # https://github.com/jaskaranSM/UniBorg/blob/6d35cf452bce1204613929d4da7530058785b6b1/stdplugins/aria.py#L136-L164
@@ -384,7 +340,6 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
 
 async def check_metadata(aria2, gid):
     file = aria2.get_download(gid)
-    LOGGER.info(file)
     if not file.followed_by_ids:
         # https://t.me/c/1213160642/496
         return None

@@ -7,3 +7,4 @@ tgcrypto
 youtube_dl
 hurry.filesize
 python-dotenv
+psutil

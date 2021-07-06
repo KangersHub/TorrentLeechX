@@ -13,7 +13,6 @@ from tobrot.helper_funcs.download_aria_p_n import aria_start
 from tobrot.helper_funcs.youtube_dl_button import youtube_dl_call_back
 from tobrot.plugins.choose_rclone_config import rclone_button_callback
 from tobrot.plugins.status_message_fn import cancel_message_f
-from tobrot.helper_funcs.display_progress import Progress
 
 
 async def button(bot, update: CallbackQuery):
@@ -50,6 +49,7 @@ async def button(bot, update: CallbackQuery):
         )
         await rclone_button_callback(bot, update)
         return
+    # todo - remove this code if not needed in future
     if cb_data.startswith("cancel"):
         if (update.from_user.id == update.message.reply_to_message.from_user.id) or g:
             await bot.answer_callback_query(
