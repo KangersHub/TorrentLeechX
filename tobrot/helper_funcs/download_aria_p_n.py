@@ -303,7 +303,7 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                 )
                 # await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
                 if not file.is_metadata:
-                    await event.reply(
+                    await event.edit(
                         f"Downloaded Successfully: `{file.name} ({file.total_length_string()})` 🤒", quote=True
                     )
                 return
