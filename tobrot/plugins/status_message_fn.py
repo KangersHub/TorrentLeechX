@@ -11,14 +11,8 @@ import sys
 import time
 import traceback
 
+from tobrot import AUTH_CHANNEL, BOT_START_TIME, LOGGER, MAX_MESSAGE_LENGTH
 from tobrot.helper_funcs.admin_check import AdminCheck
-from tobrot.UserDynaConfig import UserDynaConfig
-from tobrot import (
-    AUTH_CHANNEL,
-    BOT_START_TIME,
-    LOGGER,
-    MAX_MESSAGE_LENGTH, 
-    user_specific_config)
 
 # the logging things
 from tobrot.helper_funcs.display_progress import TimeFormatter, humanbytes
@@ -50,28 +44,27 @@ async def status_message_f(client, message):
             e_t_a = str(download.eta_string())
             current_gid = str(download.gid)
             #
-            msg += "\n\n"
-            msg += f"📂[<code>{downloading_dir_name}</code>]"
-            msg += " ⬤ "
+            msg += f"<u>{downloading_dir_name}</u>"
+            msg += " | "
             msg += f"{total_length_size}"
-            msg += " ⬤ "
+            msg += " | "
             msg += f"{progress_percent_string}"
-            msg += " ⬤ "
+            msg += " | "
             msg += f"{DOWNLOAD_ICON} {down_speed_string}"
-            msg += " ⬤ "
+            msg += " | "
             msg += f"{UPLOAD_ICON} {up_speed_string}"
-            msg += " ⬤ "
+            msg += " | "
             msg += f"{e_t_a}"
-            msg += " ⬤ "
+            msg += " | "
             msg += f"{download_current_status}"
-            msg += " ⬤ "
+            msg += " | "
             msg += f"<code>/cancel {current_gid}</code>"
-            msg += " ⬤ "
-            msg += "\n"
+            msg += " | "
+            msg += "\n\n"
         # LOGGER.info(msg)
 
         if msg == "":
-            msg = "\n🤷‍♂️ No Active, Queued or Paused TORRENTs"
+            msg = "🤷‍♂️ No Active, Queued or Paused TORRENTs"
 
     hr, mi, se = up_time(time.time() - BOT_START_TIME)
     total, used, free = shutil.disk_usage(".")
@@ -80,14 +73,10 @@ async def status_message_f(client, message):
     free = humanbytes(free)
 
     ms_g = (
-        f'<b>╭───「  ⭕️ BOT STATISTICS ⭕️  」</b>\n' \
-        f'<b>│</b>\n' \
-        f"<b>├  ⏰ Bot Uptime : {hr} : {mi} : {se}</b>\n" \
-        f'<b>├  💾 Total Disk Space : {total}</b>\n' \
-        f'<b>├  📀 Total Used Space : {used}</b>\n' \
-        f'<b>├  💿 Total Free Space : {free}</b>\n' \
-        f'<b>│</b>\n' \
-        f'<b>╰───「 🚸 TorrentLeechX 🚸 」</b>'
+        f"<b>Bot Uptime</b>: <code>{hr} : {mi} : {se}</code>\n"
+        f"<b>Total disk space</b>: <code>{total}</code>\n"
+        f"<b>Used</b>: <code>{used}</code>\n"
+        f"<b>Free</b>: <code>{free}</code>\n"
     )
     # LOGGER.info(ms_g)
 
@@ -249,12 +238,3 @@ async def upload_log_file(client, message):
     g = await AdminCheck(client, message.chat.id, message.from_user.id)
     if g:
         await message.reply_document("Torrentleech-Gdrive.txt")
-
-async def upload_as_doc(client, message):
-    user_specific_config[message.from_user.id]=UserDynaConfig(message.from_user.id,True)
-    await message.reply_text("**🗞 Your Files Will Be Uploaded As Document 📁**")
-
-
-async def upload_as_video(client, message):
-    user_specific_config[message.from_user.id]=UserDynaConfig(message.from_user.id,False)
-    await message.reply_text("**🗞 Your Files Will Be Uploaded As Streamable 🎞**")
