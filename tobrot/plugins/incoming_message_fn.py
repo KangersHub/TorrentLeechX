@@ -63,18 +63,21 @@ async def incoming_message_f(client, message):
     dl_url = ''
     cf_name = ''
     if rep_mess:
-        if not rep_mess.media:
+        if not rep_mess.media or rep_mess.document.file_name.lower().endswith(".torrent"):
             dl_url, cf_name, _, _ = await extract_link(message.reply_to_message, "LEECH")
             LOGGER.info(dl_url)
             LOGGER.info(cf_name)
         else:
+            if user_command == LEECH_COMMAND.lower():
+                await i_m_sefg.edit("No downloading source provided 🙄")
+                return
             is_file = True
             dl_url = rep_mess
     elif len(message.command) == 2:
         dl_url = message.command[1]
         LOGGER.info(dl_url)
     else:
-        await i_m_sefg.edit("😔 No downloading source provided 🙄")
+        await i_m_sefg.edit("No downloading source provided 🙄")
         return
     if dl_url is not None:
         current_user_id = message.from_user.id
@@ -92,7 +95,7 @@ async def incoming_message_f(client, message):
             aria_i_p = await aria_start()
             # LOGGER.info(aria_i_p)
 
-        await i_m_sefg.edit_text("trying to download")
+        await i_m_sefg.edit_text("Added to downloads. Send /status")
         # try to download the "link"
         is_zip = False
         is_cloud = False
@@ -163,7 +166,8 @@ async def incoming_youtube_dl_f(client, message):
     if dl_url is not None:
         await i_m_sefg.edit_text("extracting links")
         # create an unique directory
-        user_working_dir = os.path.join(DOWNLOAD_LOCATION, str(current_user_id))
+        user_working_dir = os.path.join(
+            DOWNLOAD_LOCATION, str(current_user_id))
         # create download directory, if not exist
         if not os.path.isdir(user_working_dir):
             os.makedirs(user_working_dir)
@@ -250,7 +254,8 @@ async def rename_tg_file(client, message):
         return
     if len(message.command) > 1:
         new_name = (
-            str(Path().resolve()) + "/" + message.text.split(" ", maxsplit=1)[1].strip()
+            str(Path().resolve()) + "/" +
+            message.text.split(" ", maxsplit=1)[1].strip()
         )
         file, mess_age = await download_tg(client, message)
         try:

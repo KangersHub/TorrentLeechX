@@ -10,87 +10,96 @@ import shutil
 import sys
 import time
 import traceback
-
-from tobrot import AUTH_CHANNEL, BOT_START_TIME, LOGGER, MAX_MESSAGE_LENGTH
+import psutil
+from tobrot import AUTH_CHANNEL, BOT_START_TIME, LOGGER, MAX_MESSAGE_LENGTH, gid_dict, EDIT_SLEEP_TIME_OUT
 from tobrot.helper_funcs.admin_check import AdminCheck
 
 # the logging things
 from tobrot.helper_funcs.display_progress import TimeFormatter, humanbytes
 from tobrot.helper_funcs.download_aria_p_n import aria_start, call_apropriate_function
 from tobrot.helper_funcs.upload_to_tg import upload_to_tg
+from pyrogram.errors import FloodWait, MessageNotModified, MessageIdInvalid
 
 
-async def status_message_f(client, message):
+async def status_message_f(client, message):  # weird code but 'This is the way' @gautamajay52
     aria_i_p = await aria_start()
     # Show All Downloads
-    downloads = aria_i_p.get_downloads()
-    #
-    DOWNLOAD_ICON = "📥"
-    UPLOAD_ICON = "📤"
-    #
-    msg = ""
-    for download in downloads:
-        downloading_dir_name = "NA"
-        try:
-            downloading_dir_name = str(download.name)
-        except:
-            pass
-        if download.status == "active":
-            total_length_size = str(download.total_length_string())
-            progress_percent_string = str(download.progress_string())
-            down_speed_string = str(download.download_speed_string())
-            up_speed_string = str(download.upload_speed_string())
-            download_current_status = str(download.status)
-            e_t_a = str(download.eta_string())
-            current_gid = str(download.gid)
-            #
-            msg += f"<u>{downloading_dir_name}</u>"
-            msg += " | "
-            msg += f"{total_length_size}"
-            msg += " | "
-            msg += f"{progress_percent_string}"
-            msg += " | "
-            msg += f"{DOWNLOAD_ICON} {down_speed_string}"
-            msg += " | "
-            msg += f"{UPLOAD_ICON} {up_speed_string}"
-            msg += " | "
-            msg += f"{e_t_a}"
-            msg += " | "
-            msg += f"{download_current_status}"
-            msg += " | "
-            msg += f"<code>/cancel {current_gid}</code>"
-            msg += " | "
-            msg += "\n\n"
-        # LOGGER.info(msg)
+    to_edit = await message.reply(".......")
+    chat_id = int(message.chat.id)
+    mess_id = int(to_edit.message_id)
+    if len(gid_dict[chat_id]) == 0:
+        gid_dict[chat_id].append(mess_id)
+    else:
+        if not mess_id in gid_dict[chat_id]:
+            await client.delete_messages(chat_id, gid_dict[chat_id])
+            gid_dict[chat_id].pop()
+            gid_dict[chat_id].append(mess_id)
 
+    prev_mess = "By gautamajay52"
+    while True:
+        downloads = aria_i_p.get_downloads()
+        msg = ""
+        for file in downloads:
+            downloading_dir_name = "NA"
+            try:
+                downloading_dir_name = str(file.name)
+            except:
+                pass
+            if file.status == "active":
+                is_file = file.seeder
+                if is_file is None:
+                    msgg = f"<b>Conn:</b> {file.connections}"
+                else:
+                    msgg = f"<b>Peers:</b> {file.connections} | <b>Seeders:</b> {file.num_seeders}"
+                msg += f"\n<b>{downloading_dir_name}</b>"
+                msg += f"\n<b>Speed</b>: {file.download_speed_string()}"
+                msg += f"\n<b>Status</b>: {file.progress_string()} <b>of</b> {file.total_length_string()}"
+                msg += f"\n<b>ETA:</b> {file.eta_string()}"
+                msg += f"\n{msgg}"
+                msg += f"\n<b>To Cancel:</b> <code>/cancel {file.gid}</code>"
+                msg += "\n"
+
+        hr, mi, se = up_time(time.time() - BOT_START_TIME)
+        total, used, free = shutil.disk_usage(".")
+        ram = psutil.virtual_memory().percent
+        cpu = psutil.cpu_percent()
+        total = humanbytes(total)
+        used = humanbytes(used)
+        free = humanbytes(free)
+
+        ms_g = (
+            f"<b>Bot Uptime</b>: <code>{hr} : {mi} : {se}</code>\n"
+            f"<b>T:</b> <code>{total}</code> <b>U:</b> <code>{used}</code> <b>F:</b> <code>{free}</code>\n"
+            f"<b>RAM:</b> <code>{ram}%</code> <b>CPU:</b> <code>{cpu}%</code>\n"
+        )
         if msg == "":
             msg = "🤷‍♂️ No Active, Queued or Paused TORRENTs"
-
-    hr, mi, se = up_time(time.time() - BOT_START_TIME)
-    total, used, free = shutil.disk_usage(".")
-    total = humanbytes(total)
-    used = humanbytes(used)
-    free = humanbytes(free)
-
-    ms_g = (
-        f"<b>Bot Uptime</b>: <code>{hr} : {mi} : {se}</code>\n"
-        f"<b>Total disk space</b>: <code>{total}</code>\n"
-        f"<b>Used</b>: <code>{used}</code>\n"
-        f"<b>Free</b>: <code>{free}</code>\n"
-    )
-    # LOGGER.info(ms_g)
-
-    msg = ms_g + "\n" + msg
-    LOGGER.info(msg)
-    if len(msg) > MAX_MESSAGE_LENGTH:
-        with io.BytesIO(str.encode(msg)) as out_file:
-            out_file.name = "status.text"
-            await client.send_document(
-                chat_id=message.chat.id,
-                document=out_file,
-            )
-    else:
-        await message.reply_text(msg, quote=True)
+            msg = ms_g + "\n" + msg
+            await to_edit.edit(msg)
+            break
+        msg = msg + "\n" + ms_g
+        if len(msg) > MAX_MESSAGE_LENGTH:  # todo - will catch later
+            with io.BytesIO(str.encode(msg)) as out_file:
+                out_file.name = "status.text"
+                await client.send_document(
+                    chat_id=message.chat.id,
+                    document=out_file,
+                )
+            break
+        else:
+            if msg != prev_mess:
+                try:
+                    await to_edit.edit(msg, parse_mode='html')
+                except MessageIdInvalid as df:
+                    break
+                except MessageNotModified as ep:
+                    LOGGER.info(ep)
+                    await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
+                except FloodWait as e:
+                    LOGGER.info(e)
+                    time.sleep(e.x)
+                await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
+                prev_mess = msg
 
 
 async def cancel_message_f(client, message):
@@ -102,9 +111,17 @@ async def cancel_message_f(client, message):
         LOGGER.info(g_id)
         try:
             downloads = aria_i_p.get_download(g_id)
-            LOGGER.info(downloads)
-            LOGGER.info(downloads.remove(force=True, files=True))
-            await i_m_s_e_g.edit_text("Leech Cancelled")
+            name = downloads.name
+            size = downloads.total_length_string()
+            gid_list = downloads.followed_by_ids
+            downloads = [downloads]
+            if len(gid_list) != 0:
+                downloads = aria_i_p.get_downloads(gid_list)
+            aria_i_p.remove(downloads=downloads, force=True,
+                            files=True, clean=True)
+            await i_m_s_e_g.edit_text(
+                f"Download cancelled :\n<code>{name} ({size})</code> by <a href='tg://user?id={message.from_user.id}'>{message.from_user.first_name}</a>"
+            )
         except Exception as e:
             await i_m_s_e_g.edit_text("<i>FAILED</i>\n\n" + str(e) + "\n#error")
     else:
