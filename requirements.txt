@@ -8,3 +8,8 @@ youtube_dl
 hurry.filesize
 python-dotenv
 psutil
+beautifulsoup4
+bs4
+lxml
+requests
+js2py
