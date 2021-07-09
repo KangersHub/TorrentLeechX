@@ -85,7 +85,7 @@ async def status_message_f(client, message):  # weird code but 'This is the way'
                 msg += f"\n<b>│</b>"
                 msg += f"\n<b>├  ⚡️ 𝙨𝙥𝙚𝙚𝙙: {file.download_speed_string()}</b>" 
                 msg += f"\n<b>│</b>"
-                msg += f"\n<b>├  ❌ 𝙏𝙤 𝘾𝙖𝙣𝙘𝙚𝙡:</b> <code>/cancel {gid}</code>"
+                msg += f"\n<b>├  ❌ 𝙏𝙤 𝘾𝙖𝙣𝙘𝙚𝙡:</b> <code>/cancel {file.gid}</code>"
                 msg += f"\n<b>│</b>"
                 msg += f"\n<b>╰──「 🚒 Using Engine:-Aria2 」</b>"
                 msg += "\n"
