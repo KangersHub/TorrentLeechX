@@ -184,9 +184,9 @@ async def call_apropriate_function(
     else:
         await sent_message_to_update_tg_p.delete()
         to_upload_file, sent_message_to_update_tg_p = await download_tg(client=client, message=user_message)
-        com_g = False
-        if to_upload_file:
-            com_g = True
+        if not to_upload_file:
+            return True, None
+        com_g = True
     if is_zip:
         check_if_file = await create_archive(to_upload_file)
         if check_if_file is not None:
@@ -224,7 +224,6 @@ async def call_apropriate_function(
         to_upload_file = cstom_file_name
     #
     response = {}
-    LOGGER.info(response)
     user_id = user_message.from_user.id
     if com_g:
         if is_cloud:
