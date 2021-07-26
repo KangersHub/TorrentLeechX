@@ -22,6 +22,7 @@ from tobrot.helper_funcs.upload_to_tg import upload_to_gdrive
 async def down_load_media_f(client, message):  # to be removed
     user_command = message.command[0]
     user_id = message.from_user.id
+
     if message.reply_to_message is not None:
         the_real_download_location, mess_age = await download_tg(client, message)
         the_real_download_location_g = the_real_download_location
@@ -45,6 +46,7 @@ async def down_load_media_f(client, message):  # to be removed
 
 async def download_tg(client, message):
     user_id = message.from_user.id
+
     mess_age = await message.reply_text("...", quote=True)
     if not os.path.isdir(DOWNLOAD_LOCATION):
         os.makedirs(DOWNLOAD_LOCATION)

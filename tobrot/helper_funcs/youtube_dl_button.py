@@ -34,7 +34,7 @@ async def youtube_dl_call_back(bot, update):
     if current_user_id != current_touched_user_id:
         await bot.answer_callback_query(
             callback_query_id=update.id,
-            text="😂who are you?🤪🤔🤔🤔😂",
+            text="who are you? 🤪🤔🤔🤔",
             show_alert=True,
             cache_time=0,
         )
@@ -79,7 +79,7 @@ async def youtube_dl_call_back(bot, update):
     # https://superuser.com/a/994060
     LOGGER.info(custom_file_name)
     #
-    await update.message.edit_caption(caption="🙈𝘿𝙤𝙬𝙣𝙡𝙤𝙖𝙙 𝙄𝙣 𝙋𝙧𝙤𝙜𝙧𝙚𝙨𝙨...𝙋𝙡𝙚𝙖𝙨𝙚 𝙒𝙖𝙞𝙩⚡")
+    await update.message.edit_caption(caption="trying to download")
 
     tmp_directory_for_each_user = os.path.join(
         DOWNLOAD_LOCATION, str(update.message.message_id)

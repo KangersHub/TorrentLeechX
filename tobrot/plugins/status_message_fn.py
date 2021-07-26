@@ -15,6 +15,7 @@ import math
 
 from tobrot.helper_funcs.admin_check import AdminCheck
 from tobrot.UserDynaConfig import UserDynaConfig
+
 from tobrot import (
     AUTH_CHANNEL,
     BOT_START_TIME,
@@ -62,32 +63,20 @@ async def status_message_f(client, message):  # weird code but 'This is the way'
             if file.status == "active":
                 is_file = file.seeder
                 if is_file is None:
-                    msgg = f"🔌 <b>𝘾𝙤𝙣𝙣'𝙨: {file.connections}</b>"
+                    msgg = f"<b>Conn:</b> {file.connections}"
                 else:
-                    msgg = f"<b>[🟢𝙎: {file.num_seeders}|🔴𝙋: {file.connections}]</b>"
+                    msgg = f"<b>Peers:</b> {file.connections} | <b>Seeders:</b> {file.num_seeders}"
 
                 percentage = int(file.progress_string(0).split('%')[0])
                 prog = "[{0}{1}]".format("".join([FINISHED_PROGRESS_STR for i in range(math.floor(percentage / 5))]),"".join([UN_FINISHED_PROGRESS_STR for i in range(20 - math.floor(percentage / 5))]))
 
-                msg += f"\n<b>╭──「  ⏬ 𝘿𝙊𝙒𝙉𝙇𝙊𝘼𝘿𝙄𝙉𝙂 ⏬  」</b>"
-                msg += f"\n<b>│</b>"
-                msg += f"\n<b>├</b> <code>{downloading_dir_name}</code>"
-                msg += f"\n<b>│</b>"
-                msg += f"\n<b>├</b> <b>{prog}</b>"
-                msg += f"\n<b>│</b>"
-                msg += f"\n<b>├  📦 𝙏𝙤𝙩𝙖𝙡 𝙁𝙞𝙡𝙚 𝙎𝙞𝙯𝙚: {file.total_length_string()}</b>"
-                msg += f"\n<b>│</b>"
-                msg += f"\n<b>├  🔄 𝙋𝙧𝙤𝙜𝙧𝙚𝙨𝙨: {file.progress_string()}</b>"
-                msg += f"\n<b>│</b>"
-                msg += f"\n<b>├  ⏰ 𝙀𝙏𝘼: {file.eta_string()}</b>"
-                msg += f"\n<b>│</b>"
-                msg += f"\n<b>├  {msgg}</b>" 
-                msg += f"\n<b>│</b>"
-                msg += f"\n<b>├  ⚡️ 𝙨𝙥𝙚𝙚𝙙: {file.download_speed_string()}</b>" 
-                msg += f"\n<b>│</b>"
-                msg += f"\n<b>├  ❌ 𝙏𝙤 𝘾𝙖𝙣𝙘𝙚𝙡:</b> <code>/cancel {file.gid}</code>"
-                msg += f"\n<b>│</b>"
-                msg += f"\n<b>╰──「 🚒 Using Engine:-Aria2 」</b>"
+                msg += f"\n<b>{downloading_dir_name}</b>"
+                msg += f"\n<b>{prog}</b>"
+                msg += f"\n<b>Speed</b>: {file.download_speed_string()}"
+                msg += f"\n<b>Status</b>: {file.progress_string()} <b>of</b> {file.total_length_string()}"
+                msg += f"\n<b>ETA:</b> {file.eta_string()}"
+                msg += f"\n{msgg}"
+                msg += f"\n<b>To Cancel:</b> <code>/cancel {file.gid}</code>"
                 msg += "\n"
 
         hr, mi, se = up_time(time.time() - BOT_START_TIME)
@@ -99,16 +88,9 @@ async def status_message_f(client, message):  # weird code but 'This is the way'
         free = humanbytes(free)
 
         ms_g = (
-            f"<b>╭───「  ⭕️ BOT STATISTICS ⭕️  」</b>\n" \
-            f"<b>│</b>\n" \
-            f"<b>├  ⏰ Bot Uptime : {hr} : {mi} : {se}</b>\n" \
-            f"<b>├  💾 Total Disk Space : {total}</b>\n" \
-            f"<b>├  📀 Total Used Space : {used}</b>\n" \
-            f"<b>├  💿 Total Free Space : {free}</b>\n" \
-            f"<b>├  🐱‍💻 CPU : {cpu}%</b>\n" \
-            f"<b>├  🎮 RAM : {ram}%</b>\n" \
-            f"<b>│</b>\n" \
-            f"<b>╰───「 🚸 TorrentLeechX 🚸 」</b>"
+            f"<b>Bot Uptime</b>: <code>{hr} : {mi} : {se}</code>\n"
+            f"<b>T:</b> <code>{total}</code> <b>U:</b> <code>{used}</code> <b>F:</b> <code>{free}</code>\n"
+            f"<b>RAM:</b> <code>{ram}%</code> <b>CPU:</b> <code>{cpu}%</code>\n"
         )
         if msg == "":
             msg = "🤷‍♂️ No Active, Queued or Paused TORRENTs"
@@ -158,10 +140,10 @@ async def cancel_message_f(client, message):
             aria_i_p.remove(downloads=downloads, force=True,
                             files=True, clean=True)
             await i_m_s_e_g.edit_text(
-                f"🔴𝘿𝙤𝙬𝙣𝙡𝙤𝙖𝙙 𝙘𝙖𝙣𝙘𝙚𝙡𝙡𝙚𝙙 :\n<code>{name} ({size})</code> by <a href='tg://user?id={message.from_user.id}'>{message.from_user.first_name}</a>"
+                f"Download cancelled :\n<code>{name} ({size})</code> by <a href='tg://user?id={message.from_user.id}'>{message.from_user.first_name}</a>"
             )
         except Exception as e:
-            await i_m_s_e_g.edit_text("<b>🔴FAILED</b>\n\n" + str(e) + "\n#error")
+            await i_m_s_e_g.edit_text("<i>FAILED</i>\n\n" + str(e) + "\n#error")
     else:
         await message.delete()
 

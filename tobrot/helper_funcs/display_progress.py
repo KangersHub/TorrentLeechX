@@ -50,7 +50,7 @@ class Progress:
             [
                 [
                     InlineKeyboardButton(
-                        "❌𝘾𝘼𝙉𝘾𝙀𝙇",
+                        "Cancel 🚫",
                         callback_data=(
                             f"gUPcancel/{chat_id}/{mes_id}/{from_user}"
                         ).encode("UTF-8"),
@@ -61,7 +61,7 @@ class Progress:
         if self.is_cancelled:
             LOGGER.info("stopping ")
             await self._mess.edit(
-                f"😔𝙇𝙚𝙚𝙘𝙝 𝘾𝙖𝙣𝙘𝙚𝙡𝙡𝙚𝙙🔴: `{ud_type}` ({humanbytes(total)})"
+                f"😔 Cancelled/ERROR: `{ud_type}` ({humanbytes(total)})"
             )
             await self._client.stop_transmission()
 
@@ -76,20 +76,20 @@ class Progress:
             elapsed_time = TimeFormatter(milliseconds=elapsed_time)
             estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)
 
-            progress = "\n[{0}{1}] \n\n⚡𝙋𝙧𝙤𝙜𝙧𝙚𝙨𝙨: {2}%\n\n🤖𝘾𝙊𝙈𝙋𝙇𝙀𝙏𝙀𝘿: ".format(
+            progress = "[{0}{1}] \nP: {2}%\n".format(
                 "".join(
-                    [FINISHED_PROGRESS_STR for i in range(math.floor(percentage / 10))]
+                    [FINISHED_PROGRESS_STR for i in range(math.floor(percentage / 5))]
                 ),
                 "".join(
                     [
                         UN_FINISHED_PROGRESS_STR
-                        for i in range(10 - math.floor(percentage / 10))
+                        for i in range(20 - math.floor(percentage / 5))
                     ]
                 ),
                 round(percentage, 2),
             )
 
-            tmp = progress + "{0} of {1}\n\n↕️𝙎𝙋𝙀𝙀𝘿 : {2}/s\n\n⏰𝙀𝙏𝘼 : {3}\n\n".format(
+            tmp = progress + "{0} of {1}\nSpeed: {2}/s\nETA: {3}\n".format(
                 humanbytes(current),
                 humanbytes(total),
                 humanbytes(speed),
@@ -119,11 +119,11 @@ def humanbytes(size):
         return ""
     power = 2 ** 10
     n = 0
-    Dic_powerN = {0: " ", 1: "𝙆𝙞", 2: "𝙈𝙞", 3: "𝙂𝙞", 4: "𝙏𝙞"}
+    Dic_powerN = {0: " ", 1: "Ki", 2: "Mi", 3: "Gi", 4: "Ti"}
     while size > power:
         size /= power
         n += 1
-    return str(round(size, 2)) + " " + Dic_powerN[n] + "𝘽"
+    return str(round(size, 2)) + " " + Dic_powerN[n] + "B"
 
 
 def TimeFormatter(milliseconds: int) -> str:
@@ -132,10 +132,10 @@ def TimeFormatter(milliseconds: int) -> str:
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
     tmp = (
-        ((str(days) + "𝘿, ") if days else "")
-        + ((str(hours) + "𝙃, ") if hours else "")
-        + ((str(minutes) + "𝙈, ") if minutes else "")
-        + ((str(seconds) + "𝙎, ") if seconds else "")
-        + ((str(milliseconds) + "𝙈𝙎, ") if milliseconds else "")
+        ((str(days) + "d, ") if days else "")
+        + ((str(hours) + "h, ") if hours else "")
+        + ((str(minutes) + "m, ") if minutes else "")
+        + ((str(seconds) + "s, ") if seconds else "")
+        + ((str(milliseconds) + "ms, ") if milliseconds else "")
     )
     return tmp[:-2]
