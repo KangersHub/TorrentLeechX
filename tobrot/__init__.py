@@ -2,11 +2,12 @@
 # -*- coding: utf-8 -*-
 # (c) Shrimadhav U K | gautamajay52
 
+import asyncio
 import logging
 import os
 import time
-from logging.handlers import RotatingFileHandler
 from collections import defaultdict
+from logging.handlers import RotatingFileHandler
 from sys import exit
 import urllib.request
 import dotenv
@@ -55,8 +56,7 @@ OWNER_ID = int(os.environ.get("OWNER_ID", "539295917"))
 
 # Get these values from my.telegram.org
 # to store the channel ID who are authorized to use the bot
-AUTH_CHANNEL = [int(x) for x in os.environ.get(
-    "AUTH_CHANNEL", "539295917").split()]
+AUTH_CHANNEL = [int(x) for x in os.environ.get("AUTH_CHANNEL", "539295917").split()]
 
 # the download location, where the HTTP Server runs
 DOWNLOAD_LOCATION = "./DOWNLOADS"
@@ -83,8 +83,7 @@ EDIT_SLEEP_TIME_OUT = int(os.environ.get("EDIT_SLEEP_TIME_OUT", "15"))
 MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START = int(
     os.environ.get("MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START", 600)
 )
-MAX_TG_SPLIT_FILE_SIZE = int(os.environ.get(
-    "MAX_TG_SPLIT_FILE_SIZE", "1072864000"))
+MAX_TG_SPLIT_FILE_SIZE = int(os.environ.get("MAX_TG_SPLIT_FILE_SIZE", "1072864000"))
 # add config vars for the display progress
 FINISHED_PROGRESS_STR = os.environ.get("FINISHED_PROGRESS_STR", "█")
 UN_FINISHED_PROGRESS_STR = os.environ.get("UN_FINISHED_PROGRESS_STR", "░")
@@ -100,8 +99,7 @@ GLEECH_ZIP_COMMAND = os.environ.get("GLEECH_ZIP_COMMAND", "gleechzip")
 YTDL_COMMAND = os.environ.get("YTDL_COMMAND", "ytdl")
 GYTDL_COMMAND = os.environ.get("GYTDL_COMMAND", "gytdl")
 RCLONE_CONFIG = os.environ.get("RCLONE_CONFIG", "")
-DESTINATION_FOLDER = os.environ.get(
-    "DESTINATION_FOLDER", "TorrentLeech-Gdrive")
+DESTINATION_FOLDER = os.environ.get("DESTINATION_FOLDER", "TorrentLeech-Gdrive")
 INDEX_LINK = os.environ.get("INDEX_LINK", "")
 TELEGRAM_LEECH_COMMAND = os.environ.get("TELEGRAM_LEECH_COMMAND", "tleech")
 TELEGRAM_LEECH_UNZIP_COMMAND = os.environ.get(
@@ -130,6 +128,7 @@ gDict = defaultdict(lambda: [])
 # user settings dict #ToDo
 user_settings = defaultdict(lambda: {})
 gid_dict = defaultdict(lambda: [])
+_lock = asyncio.Lock()
 
 # Rclone Config Via any raw url
 ###########################################################################
@@ -145,8 +144,7 @@ except KeyError:                                                          #
 
 def multi_rclone_init():
     if RCLONE_CONFIG:
-        LOGGER.warning(
-            "Don't use this var now, put your rclone.conf in root directory")
+        LOGGER.warning("Don't use this var now, put your rclone.conf in root directory")
     if not os.path.exists("rclone.conf"):
         LOGGER.warning("Sed, No rclone.conf found in root directory")
         return

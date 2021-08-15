@@ -10,9 +10,10 @@ import shutil
 import sys
 import time
 import traceback
+
 import psutil
 import math
-
+from pyrogram.errors import FloodWait, MessageIdInvalid, MessageNotModified
 from tobrot.helper_funcs.admin_check import AdminCheck
 from tobrot.UserDynaConfig import UserDynaConfig
 
@@ -22,7 +23,8 @@ from tobrot import (
     LOGGER,
     MAX_MESSAGE_LENGTH, 
     user_specific_config,
-    gid_dict, 
+    gid_dict,
+    _lock,
     EDIT_SLEEP_TIME_OUT,
     FINISHED_PROGRESS_STR,
     UN_FINISHED_PROGRESS_STR
@@ -31,26 +33,30 @@ from tobrot import (
 
 # the logging things
 from tobrot.helper_funcs.display_progress import TimeFormatter, humanbytes
-from tobrot.helper_funcs.download_aria_p_n import aria_start, call_apropriate_function
+from tobrot.helper_funcs.download_aria_p_n import (aria_start,
+                                                   call_apropriate_function)
 from tobrot.helper_funcs.upload_to_tg import upload_to_tg
-from pyrogram.errors import FloodWait, MessageNotModified, MessageIdInvalid
 
 
-async def status_message_f(client, message):  # weird code but 'This is the way' @gautamajay52
+async def status_message_f(
+    client, message
+):  # weird code but 'This is the way' @gautamajay52
     aria_i_p = await aria_start()
     # Show All Downloads
     to_edit = await message.reply(".......")
     chat_id = int(message.chat.id)
     mess_id = int(to_edit.message_id)
-    if len(gid_dict[chat_id]) == 0:
-        gid_dict[chat_id].append(mess_id)
-    else:
-        if not mess_id in gid_dict[chat_id]:
-            await client.delete_messages(chat_id, gid_dict[chat_id])
-            gid_dict[chat_id].pop()
+    async with _lock:
+        if len(gid_dict[chat_id]) == 0:
             gid_dict[chat_id].append(mess_id)
+        else:
+            if not mess_id in gid_dict[chat_id]:
+                await client.delete_messages(chat_id, gid_dict[chat_id])
+                gid_dict[chat_id].pop()
+                gid_dict[chat_id].append(mess_id)
 
     prev_mess = "By gautamajay52"
+    await message.delete()
     while True:
         downloads = aria_i_p.get_downloads()
         msg = ""
@@ -109,7 +115,7 @@ async def status_message_f(client, message):  # weird code but 'This is the way'
         else:
             if msg != prev_mess:
                 try:
-                    await to_edit.edit(msg, parse_mode='html')
+                    await to_edit.edit(msg, parse_mode="html")
                 except MessageIdInvalid as df:
                     break
                 except MessageNotModified as ep:
@@ -137,8 +143,7 @@ async def cancel_message_f(client, message):
             downloads = [downloads]
             if len(gid_list) != 0:
                 downloads = aria_i_p.get_downloads(gid_list)
-            aria_i_p.remove(downloads=downloads, force=True,
-                            files=True, clean=True)
+            aria_i_p.remove(downloads=downloads, force=True, files=True, clean=True)
             await i_m_s_e_g.edit_text(
                 f"Download cancelled :\n<code>{name} ({size})</code> by <a href='tg://user?id={message.from_user.id}'>{message.from_user.first_name}</a>"
             )
