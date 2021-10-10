@@ -25,7 +25,7 @@
 
 ### Dont Abuse The Repo ... this is intented to run in Small Places or For Short time 😐
 
-## A Telegram Torrent , Direct Links (and youtube-dl) Leecher based on [Pyrogram](https://github.com/pyrogram/pyrogram)
+## A Telegram Torrent , Direct Links (and yt-dlp) Leecher based on [Pyrogram](https://github.com/pyrogram/pyrogram)
 
 # Benefits :-
     ✓ Google Drive link cloning using gclone.(wip)
@@ -162,7 +162,7 @@ client_secret =
 ------------ | -------------
 |`/rclone`| This will change your drive config on fly.(First one will be def `/gclone`..This command is used to clone gdrive files or folder using gclone.-Syntax- `[ID of the file or folder][one space][name of your folder only(If the id is of file, don't put anything)]` and then reply /gclone to it.\
 |`/log`| This will send you a txt file of the logs.
-|`/ytdl`| This command should be used as reply to a [supported link](https://ytdl-org.github.io/youtube-dl/supportedsites.html)
+|`/ytdl`| This command should be used as reply to a yt-dlp supported link.
 |`/pytdl`| This command will download videos from youtube playlist link and will upload to telegram.
 |`/gytdl`| This will download and upload to your cloud.
 |`/gpytdl`| This download youtube playlist and upload to your cloud.

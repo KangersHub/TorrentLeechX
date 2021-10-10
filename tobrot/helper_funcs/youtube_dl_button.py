@@ -96,7 +96,7 @@ async def youtube_dl_call_back(bot, update):
     thumb_image = response_json.get("thumbnail", thumb_image)
     if tg_send_type == "audio":
         command_to_exec = [
-            "youtube-dl",
+            "yt-dlp",
             "-c",
             "--prefer-ffmpeg",
             "--extract-audio",
@@ -118,7 +118,7 @@ async def youtube_dl_call_back(bot, update):
                 break
 
         command_to_exec = [
-            "youtube-dl",
+            "yt-dlp",
             "-c",
             "--embed-subs",
             "-f",
@@ -149,7 +149,7 @@ async def youtube_dl_call_back(bot, update):
     t_response = stdout.decode().strip()
     # LOGGER.info(e_response)
     # LOGGER.info(t_response)
-    ad_string_to_replace = "please report this issue on https://yt-dl.org/bug . Make sure you are using the latest version; see  https://yt-dl.org/update  on how to update. Be sure to call youtube-dl with the --verbose flag and include its complete output."
+    ad_string_to_replace = "please report this issue on https://github.com/yt-dlp/yt-dlp"
     if e_response and ad_string_to_replace in e_response:
         error_message = e_response.replace(ad_string_to_replace, "")
         await update.message.edit_caption(caption=error_message)

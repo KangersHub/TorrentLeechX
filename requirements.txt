@@ -14,7 +14,7 @@ speedtest-cli
 urllib3
 pyprog
 pybase64
-youtube_dl
+yt-dlp
 python-telegram-bot
 hurry.filesize
 python-dotenv

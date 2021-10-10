@@ -16,7 +16,7 @@ async def extract_youtube_dl_formats(
     url, cf_name, yt_dl_user_name, yt_dl_pass_word, user_working_dir
 ):
     command_to_exec = [
-        "youtube-dl",
+        "yt-dlp",
         "--no-warnings",
         "--youtube-skip-dash-manifest",
         "--no-check-certificate",
@@ -47,11 +47,11 @@ async def extract_youtube_dl_formats(
     LOGGER.info(e_response)
     t_response = stdout.decode().strip()
     # LOGGER.info(t_response)
-    # https://github.com/rg3/youtube-dl/issues/2630#issuecomment-38635239
+    # https://github.com/rg3/yt-dlp/issues/2630#issuecomment-38635239
     if e_response:
         # logger.warn("Status : FAIL", exc.returncode, exc.output)
         error_message = e_response.replace(
-            "please report this issue on https://yt-dl.org/bug . Make sure you are using the latest version; see  https://yt-dl.org/update  on how to update. Be sure to call youtube-dl with the --verbose flag and include its complete output.",
+            "please report this issue on https://github.com/yt-dlp/yt-dlp .",
             "",
         )
         return None, error_message, None
