@@ -94,9 +94,9 @@ async def upload_to_tg(
             LOGGER.info("TODO")
             d_f_s = humanbytes(os.path.getsize(local_file_name))
             i_m_s_g = await message.reply_text(
-                "Telegram does not support uploading this file.\n"
-                f"Detected File Size: {d_f_s} 😡\n"
-                "\n🤖 trying to split the files 🌝🌝🌚"
+                "<b><i>📑Telegram doesn't Support Uploading this File.</i></b>\n"
+                f"<b><i>🎯Detected File Size: {d_f_s} </i></b>\n"
+                "\n<code>🗃 Trying to split the files . . .</code>"
             )
             splitted_dir = await split_large_files(local_file_name)
             totlaa_sleif = os.listdir(splitted_dir)
@@ -105,9 +105,9 @@ async def upload_to_tg(
             LOGGER.info(totlaa_sleif)
             ba_se_file_name = os.path.basename(local_file_name)
             await i_m_s_g.edit_text(
-                f"Detected File Size: {d_f_s} 😡\n"
-                f"<code>{ba_se_file_name}</code> splitted into {number_of_files} files.\n"
-                "trying to upload to Telegram, now ..."
+                f"<b><i>📨 Detected File Size: {d_f_s}</i></b> \n"
+                f"📬<code>{ba_se_file_name}</code><i><b> splitted into {number_of_files} Files🗃.</b></i>\n"
+                "<i><b>📤Trying to upload to Telegram📤, Now...</b></i>"
             )
             for le_file in totlaa_sleif:
                 # recursion: will this FAIL somewhere?
@@ -204,8 +204,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         gjay = size(os.path.getsize(file_upload))
         button = []
         button.append(
-            [pyrogram.InlineKeyboardButton(
-                text="☁️ CloudUrl ☁️", url=f"{gauti}")]
+            [pyrogram.InlineKeyboardButton(text="☁️ CloudUrl ☁️", url=f"{gauti}")]
         )
         if INDEX_LINK:
             indexurl = f"{INDEX_LINK}/{os.path.basename(file_upload)}"
@@ -219,7 +218,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
                 ]
             )
         button_markup = pyrogram.InlineKeyboardMarkup(button)
-
+        await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
         await messa_ge.reply_text(
             f"🤖: Uploaded successfully `{os.path.basename(file_upload)}` <a href='tg://user?id={g_id}'>🤒</a>\n📀 Size: {gjay}",
             reply_markup=button_markup,
@@ -273,8 +272,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         LOGGER.info(gjay)
         button = []
         button.append(
-            [pyrogram.InlineKeyboardButton(
-                text="☁️ CloudUrl ☁️", url=f"{gautii}")]
+            [pyrogram.InlineKeyboardButton(text="☁️ CloudUrl ☁️", url=f"{gautii}")]
         )
         if INDEX_LINK:
             indexurl = f"{INDEX_LINK}/{os.path.basename(file_upload)}/"
@@ -288,7 +286,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
                 ]
             )
         button_markup = pyrogram.InlineKeyboardMarkup(button)
-
+        await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
         await messa_ge.reply_text(
             f"🤖: Uploaded successfully `{os.path.basename(file_upload)}` <a href='tg://user?id={g_id}'>🤒</a>\n📀 Size: {gjay}",
             reply_markup=button_markup,
@@ -297,7 +295,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         await del_it.delete()
 
 
-#
+
 
 
 async def upload_single_file(
@@ -319,31 +317,21 @@ async def upload_single_file(
             dyna_user_config_upload_as_doc=user_specific_config[key].upload_as_doc
             LOGGER.info(f'Found dyanamic config for user {from_user}')
     #
-    if UPLOAD_AS_DOC.upper() == "TRUE" or dyna_user_config_upload_as_doc:
-        thumb_image_path = None
-        if thumbnail_location is not None and os.path.exists(thumbnail_location):
-            thumb_image_path = await copy_file(
-                thumbnail_location,
-                os.path.dirname(os.path.abspath(local_file_name))
-            )
-        if thumb_image_path is not None and os.path.exists(thumb_image_path):
-            Image.open(thumb_image_path).convert(
-                "RGB"
-            ).save(thumb_image_path)
-            img = Image.open(thumb_image_path)
-            # https://stackoverflow.com/a/37631799/4723940
-            img.resize((32, 32))
-            img.save(thumb_image_path, "JPEG")
+    if UPLOAD_AS_DOC.upper() == "TRUE" or dyna_user_config_upload_as_doc: 
+    # todo
         thumb = None
-        if thumb_image_path is not None and os.path.isfile(thumb_image_path):
+        thumb_image_path = None
+        if os.path.exists(thumbnail_location):
+            thumb_image_path = await copy_file(
+                thumbnail_location, os.path.dirname(os.path.abspath(local_file_name))
+            )
             thumb = thumb_image_path
         message_for_progress_display = message
         if not edit_media:
             message_for_progress_display = await message.reply_text(
-                "starting upload of {}".format(
-                    os.path.basename(local_file_name))
+                "<b>🔰Status : <i>Starting Uploading...📤</i></b>\n\n🗃<b> File Name</b>: <code>{}</code>".format(os.path.basename(local_file_name))
             )
-        prog = Progress(from_user, client, message_for_progress_display)
+            prog = Progress(from_user, client, message_for_progress_display)
         sent_message = await message.reply_document(
             document=local_file_name,
             thumb=thumb,
@@ -352,7 +340,7 @@ async def upload_single_file(
             disable_notification=True,
             progress=prog.progress_for_pyrogram,
             progress_args=(
-                f"{os.path.basename(local_file_name)}",
+                f"**• Uploading :** `{os.path.basename(local_file_name)}`",
                 start_time,
             ),
         )
@@ -366,17 +354,17 @@ async def upload_single_file(
             except Exception as rr:
                 LOGGER.warning(str(rr))
         os.remove(local_file_name)
+        if thumb is not None:
+            os.remove(thumb)
     else:
         try:
             message_for_progress_display = message
             if not edit_media:
                 message_for_progress_display = await message.reply_text(
-                    "starting upload of {}".format(
-                        os.path.basename(local_file_name))
+                    "<b>🔰Status : <i>Starting Uploading...📤</i></b>\n\n🗃<b> File Name</b>: <code>{}</code>".format(os.path.basename(local_file_name))
                 )
-                prog = Progress(from_user, client,
-                                message_for_progress_display)
-            if local_file_name.upper().endswith(("MKV", "MP4", "WEBM", "M4V", "3GP")):
+                prog = Progress(from_user, client, message_for_progress_display)
+            if local_file_name.upper().endswith(("MKV", "MP4", "WEBM", "FLV", "3GP", "AVI", "MOV", "OGG", "WMV", "M4V", "TS", "MPG", "MTS", "M2TS")):
                 duration = 0
                 try:
                     metadata = extractMetadata(createParser(local_file_name))
@@ -394,7 +382,7 @@ async def upload_single_file(
                     )
                 else:
                     if not yt_thumb:
-                        LOGGER.info("Taking Screenshot")
+                        LOGGER.info("Taking Screenshot..")
                         thumb_image_path = await take_screen_shot(
                             local_file_name,
                             os.path.dirname(os.path.abspath(local_file_name)),
@@ -411,22 +399,22 @@ async def upload_single_file(
                         img = Image.open(thumb_image_path).convert("RGB")
                         img.save(thumb_image_path, format="jpeg")
                     # get the correct width, height, and duration for videos greater than 10MB
-                if thumb_image_path is not None and os.path.isfile(thumb_image_path):
-                    metadata = extractMetadata(createParser(thumb_image_path))
-                    if metadata.has("width"):
-                        width = metadata.get("width")
-                    if metadata.has("height"):
-                        height = metadata.get("height")
-                    # ref: https://t.me/PyrogramChat/44663
-                    # https://stackoverflow.com/a/21669827/4723940
-                    Image.open(thumb_image_path).convert(
-                        "RGB"
-                    ).save(thumb_image_path)
-                    img = Image.open(thumb_image_path)
-                    # https://stackoverflow.com/a/37631799/4723940
-                    img.resize((320, height))
-                    img.save(thumb_image_path, "JPEG")
-                    # https://pillow.readthedocs.io/en/3.1.x/reference/Image.html#create-thumbnails
+                    if os.path.exists(thumb_image_path):
+                        metadata = extractMetadata(createParser(thumb_image_path))
+                        if metadata.has("width"):
+                            width = metadata.get("width")
+                        if metadata.has("height"):
+                            height = metadata.get("height")
+                        # ref: https://t.me/PyrogramChat/44663
+                        # https://stackoverflow.com/a/21669827/4723940
+                        Image.open(thumb_image_path).convert("RGB").save(
+                            thumb_image_path
+                        )
+                        img = Image.open(thumb_image_path)
+                        # https://stackoverflow.com/a/37631799/4723940
+                        img.resize((320, height))
+                        img.save(thumb_image_path, "JPEG")
+                        # https://pillow.readthedocs.io/en/3.1.x/reference/Image.html#create-thumbnails
                 #
                 thumb = None
                 if thumb_image_path is not None and os.path.isfile(thumb_image_path):
@@ -460,7 +448,7 @@ async def upload_single_file(
                         disable_notification=True,
                         progress=prog.progress_for_pyrogram,
                         progress_args=(
-                            f"{os.path.basename(local_file_name)}",
+                            f"<b>🔰Status : <i>Starting Uploading...📤</i></b>\n\n🗃<b> File Name</b>: `{os.path.basename(local_file_name)}`",
                             start_time,
                         ),
                     )
@@ -512,7 +500,7 @@ async def upload_single_file(
                         disable_notification=True,
                         progress=prog.progress_for_pyrogram,
                         progress_args=(
-                            f"{os.path.basename(local_file_name)}",
+                            f"<b>🔰Status : <i>Starting Uploading...📤</i></b>\n\n🗃<b> File Name</b>: `{os.path.basename(local_file_name)}`",
                             start_time,
                         ),
                     )
@@ -550,7 +538,7 @@ async def upload_single_file(
                         disable_notification=True,
                         progress=prog.progress_for_pyrogram,
                         progress_args=(
-                            f"{os.path.basename(local_file_name)}",
+                            f"<b>🔰Status : <i>Starting Uploading...📤</i></b>\n\n🗃<b> File Name</b>: `{os.path.basename(local_file_name)}`",
                             start_time,
                         ),
                     )

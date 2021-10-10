@@ -50,7 +50,7 @@ class Progress:
             [
                 [
                     InlineKeyboardButton(
-                        "Cancel 🚫",
+                        "⛔ Cancel ⛔",
                         callback_data=(
                             f"gUPcancel/{chat_id}/{mes_id}/{from_user}"
                         ).encode("UTF-8"),
@@ -61,7 +61,7 @@ class Progress:
         if self.is_cancelled:
             LOGGER.info("stopping ")
             await self._mess.edit(
-                f"😔 Cancelled/ERROR: `{ud_type}` ({humanbytes(total)})"
+                f"⛔ **Cancelled/ERROR** ⛔ \n\n `{ud_type}` ({humanbytes(total)})"
             )
             await self._client.stop_transmission()
 
@@ -76,20 +76,12 @@ class Progress:
             elapsed_time = TimeFormatter(milliseconds=elapsed_time)
             estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)
 
-            progress = "[{0}{1}] \nP: {2}%\n".format(
-                "".join(
-                    [FINISHED_PROGRESS_STR for i in range(math.floor(percentage / 5))]
-                ),
-                "".join(
-                    [
-                        UN_FINISHED_PROGRESS_STR
-                        for i in range(20 - math.floor(percentage / 5))
-                    ]
-                ),
-                round(percentage, 2),
-            )
-
-            tmp = progress + "{0} of {1}\nSpeed: {2}/s\nETA: {3}\n".format(
+            progress = "\n<code>[{0}{1}] {2}%</code>\n".format(
+                ''.join([FINISHED_PROGRESS_STR for i in range(math.floor(percentage / 5))]),
+                ''.join([UN_FINISHED_PROGRESS_STR for i in range(20 - math.floor(percentage / 5))]),
+                round(percentage, 2))
+            #cpu = "{psutil.cpu_percent()}%"
+            tmp = progress + "\n**⌧ Total 🗃:**` 〚{1}〛`\n**⌧ Done ✅ :**` 〚{0}〛`\n**⌧ Speed 📊 :** ` 〚{2}〛`\n**⌧ ETA 🔃 :**` 〚{3}〛`".format(
                 humanbytes(current),
                 humanbytes(total),
                 humanbytes(speed),
@@ -119,11 +111,11 @@ def humanbytes(size):
         return ""
     power = 2 ** 10
     n = 0
-    Dic_powerN = {0: " ", 1: "Ki", 2: "Mi", 3: "Gi", 4: "Ti"}
+    Dic_powerN = {0: " ", 1: "K", 2: "M", 3: "G", 4: "T"}
     while size > power:
         size /= power
         n += 1
-    return str(round(size, 2)) + " " + Dic_powerN[n] + "B"
+    return str(round(size, 2)) + " " + Dic_powerN[n] + "B/s"
 
 
 def TimeFormatter(milliseconds: int) -> str:

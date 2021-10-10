@@ -26,20 +26,20 @@ async def button(bot, update: CallbackQuery):
         chat_id, mes_id, from_usr = cmf[1], cmf[2], cmf[3]
         if (int(update.from_user.id) == int(from_usr)) or g:
             await bot.answer_callback_query(
-                update.id, text="trying to cancel...", show_alert=False
+                update.id, text="Going to Cancel . . . 🛠", show_alert=False
             )
             gDict[int(chat_id)].append(int(mes_id))
         else:
             await bot.answer_callback_query(
                 callback_query_id=update.id,
-                text="who are you? 🤪🤔🤔🤔",
+                text="⚠️ Opps ⚠️ \n I Got a False Visitor 🚸 !! \n\n 📛 Stay At Your Limits !!📛",
                 show_alert=True,
                 cache_time=0,
             )
         return
     if "|" in cb_data:
         await bot.answer_callback_query(
-            update.id, text="trying to download...", show_alert=False
+            update.id, text="Processing . . . 🛠", show_alert=False
         )
         await youtube_dl_call_back(bot, update)
         return
@@ -129,13 +129,13 @@ async def button(bot, update: CallbackQuery):
                         os.remove(f)
                     else:
                         shutil.rmtree(f)
-                await update.message.edit_text(f"Deleted {len(g_del_list)} objects 🚮")
+                await update.message.edit_text(f"<code>🔃 Deleted {len(g_del_list)} Objects 🚮</code>")
             else:
-                await update.message.edit_text("Nothing to clear 🙄")
+                await update.message.edit_text("<i>⛔ Nothing to clear ⛔ \nAs Per I Get to Know !! </i>")
         else:
-            await update.message.edit_text("You are not allowed to do that 🤭")
+            await update.message.edit_text("<i>I Got Info, \nYou Are Not Allowed to Do This 🤭</i>")
     elif cb_data == "fuckoff":
         await bot.answer_callback_query(
-            update.id, text="trying to cancel...", show_alert=False
+            update.id, text="Going to Cancel . . . 🔃", show_alert=False
         )
-        await update.message.edit_text("Okay! fine 🤬")
+        await update.message.edit_text("<i>☢ Okay! ☢ \n\n ⌧ Don't Disturb Me !! </i>")
