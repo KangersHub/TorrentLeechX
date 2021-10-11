@@ -1,0 +1,27 @@
+class _BotCommands:
+    def __init__(self):
+        self.LeechCommand = 'leech'
+        self.gLeechCommand = 'gleech'
+        self.ExtractCommand = 'extract'
+        self.gExtractCommand = 'gextract'
+        self.ArchiveCommand = 'archive'
+        self.gArchiveCommand = 'garchive'
+        self.telegramfleechCommand = 'tleech'
+        self.telegramexleechCommand = 'tleechextract'
+        self.gcloneCommand = 'gclone'
+        self.YtdlCommand = 'ytdl'
+        self.gYtdlCommand = 'gytdl'
+        self.PytdlCommand = 'pytdl'
+        self.gPytdlCommand = 'pytdl'        
+        self.ToggleDocCommand = 'toggledoc'
+        self.ToggleVidCommand = 'togglevid'
+        self.SaveCommand = 'savethumb'
+        self.ClearCommand = 'clearthumb'
+        self.RenameCommand = 'rename'
+        self.StatusCommand = 'status'
+        self.SpeedCommand = 'speedtest'
+        self.HelpCommand = 'help'
+        self.LogCommand = 'log'
+        self.TsHelpCommand = 'tshelp'
+
+BotCommands = _BotCommands()
