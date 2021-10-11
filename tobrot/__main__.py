@@ -78,7 +78,7 @@ botcmds = [
         (f'{BotCommands.ArchiveCommand}','Archive as .tar.gz acrhive and upload to Telegram'),
         (f'{BotCommands.gArchiveCommand}','rchive as .tar.gz acrhive and upload to Cloud'),
         (f'{BotCommands.telegramfleechCommand}','This will mirror the telegram files to ur respective cloud .'),
-        (f'{BotCommands.self.telegramexleechCommand}','This will unarchive telegram file and upload to cloud.'),
+        (f'{BotCommands.telegramexleechCommand}','This will unarchive telegram file and upload to cloud.'),
         (f'{BotCommands.gcloneCommand}','This command is used to clone gdrive files or folder using gclone'),
         (f'{BotCommands.YtdlCommand}','upload yt-dlp supported video links to Telegram'),
         (f'{BotCommands.gYtdlCommand}','upload yt-dlp supported video links to Cloud'),
