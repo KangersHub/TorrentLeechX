@@ -103,8 +103,6 @@ if __name__ == "__main__":
         os.makedirs(DOWNLOAD_LOCATION)
 
     bot.set_my_commands(botcmds)
-    # Starting The Bot
-    app.start()
     ##############################################################################
     incoming_message_handler = MessageHandler(
         incoming_message_f,
@@ -282,6 +280,6 @@ if __name__ == "__main__":
     app.add_handler(searchhelp_handler)
     #
 
-
-    logging.info(f"@{(app.get_me()).username} Has Started Running...🏃💨💨")
-    
+app.start()
+logging.info(f"@{(app.get_me()).username} Has Started Running...🏃💨💨")
+idle()
