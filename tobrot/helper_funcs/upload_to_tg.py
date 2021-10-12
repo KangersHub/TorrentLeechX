@@ -344,8 +344,6 @@ async def upload_single_file(
                 start_time,
             ),
         )
-        if edit_media:
-            await message_for_progress_display.delete()
         if message.message_id != message_for_progress_display.message_id:
             try:
                 await message_for_progress_display.delete()
