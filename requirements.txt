@@ -21,4 +21,4 @@ requests
 speedtest-cli
 tgcrypto
 urllib3
-youtube_dl
+yt-dlp
