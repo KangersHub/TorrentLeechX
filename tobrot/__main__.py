@@ -50,7 +50,6 @@ from tobrot.helper_funcs.download import down_load_media_f
 from tobrot.plugins.call_back_button_handler import button
 # the logging things
 from tobrot.plugins.torrent_search import searchhelp
-from tobrot.helper_funcs.bot_commands import BotCommands
 from tobrot.plugins.choose_rclone_config import rclone_command_f
 from tobrot.plugins.custom_thumbnail import clear_thumb_nail, save_thumb_nail
 from tobrot.plugins.incoming_message_fn import (g_clonee, g_yt_playlist,
@@ -71,7 +70,7 @@ from tobrot.plugins.status_message_fn import (
     upload_as_doc,
     upload_as_video
 )
-
+'''
 botcmds = [
         (f'{BotCommands.ExtractCommand}', 'Unarchive items and upload to telegram'),
         (f'{BotCommands.gExtractCommand}','This will unarchive file and upload to cloud.'),
@@ -96,13 +95,12 @@ botcmds = [
         (f'{BotCommands.TsHelpCommand}','Get help for Torrent Search Module')
 
     ]
-
+'''
 if __name__ == "__main__":
     # create download directory, if not exist
     if not os.path.isdir(DOWNLOAD_LOCATION):
         os.makedirs(DOWNLOAD_LOCATION)
 
-    bot.set_my_commands(botcmds)
     ##############################################################################
     incoming_message_handler = MessageHandler(
         incoming_message_f,
