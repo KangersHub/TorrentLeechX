@@ -71,8 +71,8 @@ def direct_link_generator(text_url: str):
         return sbembed(text_url)
     elif 'sbplay.org' in text_url:
         return sbembed(text_url)
-    elif 'racaty.net' in text_url:
-        return racaty(text_url)
+    # elif 'racaty.net' in text_url:
+    #     return racaty(text_url)
     elif '1drv.ms' in text_url:
         return onedrive(text_url)
     elif 'pixeldrain.com' in text_url:
