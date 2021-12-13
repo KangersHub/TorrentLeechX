@@ -16,20 +16,20 @@ import telegram.ext as tg
 from pyrogram import Client
 
 if os.path.exists("TorrentLeech-Gdrive.txt"):
-    with open("Torrentleech-Gdrive.txt", "r+") as f_d:
-        f_d.truncate(0)
+	with open("Torrentleech-Gdrive.txt", "r+") as f_d:
+		f_d.truncate(0)
 
 # the logging things
 logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s - %(levelname)s - %(message)s [%(filename)s:%(lineno)d]",
-    datefmt="%d-%b-%y %H:%M:%S",
-    handlers=[
-        RotatingFileHandler(
-            "Torrentleech-Gdrive.txt", maxBytes=50000000, backupCount=10
-        ),
-        logging.StreamHandler(),
-    ],
+	level=logging.DEBUG,
+	format="%(asctime)s - %(levelname)s - %(message)s [%(filename)s:%(lineno)d]",
+	datefmt="%d-%b-%y %H:%M:%S",
+	handlers=[
+		RotatingFileHandler(
+			"Torrentleech-Gdrive.txt", maxBytes=50000000, backupCount=10
+		),
+		logging.StreamHandler(),
+	],
 )
 logging.getLogger("pyrogram").setLevel(logging.ERROR)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
@@ -43,13 +43,13 @@ dotenv.load_dotenv("config.env")
 
 # checking compulsory variable
 for imp in ["TG_BOT_TOKEN", "APP_ID", "API_HASH", "OWNER_ID", "AUTH_CHANNEL"]:
-    try:
-        value = os.environ[imp]
-        if not value:
-            raise KeyError
-    except KeyError:
-        LOGGER.critical(f"Oh...{imp} is missing from config.env ... fill that")
-        exit()
+	try:
+		value = os.environ[imp]
+		if not value:
+			raise KeyError
+	except KeyError:
+		LOGGER.critical(f"Oh...{imp} is missing from config.env ... fill that")
+		exit()
 
 # The Telegram API things
 TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "")
@@ -73,7 +73,7 @@ AUTH_CHANNEL.append(OWNER_ID)
 CHUNK_SIZE = int(os.environ.get("CHUNK_SIZE", "128"))
 # default thumbnail to be used in the videos
 DEF_THUMB_NAIL_VID_S = os.environ.get(
-    "DEF_THUMB_NAIL_VID_S", "https://via.placeholder.com/90.jpg"
+	"DEF_THUMB_NAIL_VID_S", "https://via.placeholder.com/90.jpg"
 )
 # maximum message length in Telegram
 MAX_MESSAGE_LENGTH = 4096
@@ -84,7 +84,7 @@ SP_LIT_ALGO_RITH_M = os.environ.get("SP_LIT_ALGO_RITH_M", "hjs")
 ARIA_TWO_STARTED_PORT = int(os.environ.get("ARIA_TWO_STARTED_PORT", "6800"))
 EDIT_SLEEP_TIME_OUT = int(os.environ.get("EDIT_SLEEP_TIME_OUT", "15"))
 MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START = int(
-    os.environ.get("MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START", 600)
+	os.environ.get("MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START", 600)
 )
 MAX_TG_SPLIT_FILE_SIZE = int(os.environ.get("MAX_TG_SPLIT_FILE_SIZE", "1072864000"))
 # add config vars for the display progress
@@ -106,7 +106,7 @@ DESTINATION_FOLDER = os.environ.get("DESTINATION_FOLDER", "TorrentLeechX")
 INDEX_LINK = os.environ.get("INDEX_LINK", "")
 TELEGRAM_LEECH_COMMAND = os.environ.get("TELEGRAM_LEECH_COMMAND", "tleech")
 TELEGRAM_LEECH_UNZIP_COMMAND = os.environ.get(
-    "TELEGRAM_LEECH_UNZIP_COMMAND", "tleechextract"
+	"TELEGRAM_LEECH_UNZIP_COMMAND", "tleechextract"
 )
 CANCEL_COMMAND_G = os.environ.get("CANCEL_COMMAND_G", "cancel")
 GET_SIZE_G = os.environ.get("GET_SIZE_G", "getsize")
@@ -137,27 +137,27 @@ _lock = asyncio.Lock()
 
 # Rclone Config Via any raw url
 ###########################################################################
-try:                                                                      #
-    RCLONE_CONF_URL = os.environ.get('RCLONE_CONF_URL', "")               #
-    if len(RCLONE_CONF_URL) == 0:                                         #
-        RCLONE_CONF_URL = None                                            #
-    else:                                                                 #
-        urllib.request.urlretrieve(RCLONE_CONF_URL, '/app/rclone.conf')   #
-except KeyError:                                                          #
-    RCLONE_CONF_URL = None                                                #
+try:																	  #
+	RCLONE_CONF_URL = os.environ.get('RCLONE_CONF_URL', "")			   #
+	if len(RCLONE_CONF_URL) == 0:										 #
+		RCLONE_CONF_URL = None											#
+	else:																 #
+		urllib.request.urlretrieve(RCLONE_CONF_URL, '/app/rclone.conf')   #
+except KeyError:														  #
+	RCLONE_CONF_URL = None												#
 ###########################################################################
 
 def multi_rclone_init():
-    if RCLONE_CONFIG:
-        LOGGER.warning("Don't use this var now, put your rclone.conf in root directory")
-    if not os.path.exists("rclone.conf"):
-        LOGGER.warning("Sed, No rclone.conf found in root directory")
-        return
-    if not os.path.exists("rclone_bak.conf"):  # backup rclone.conf file
-        with open("rclone_bak.conf", "w+", newline="\n", encoding="utf-8") as fole:
-            with open("rclone.conf", "r") as f:
-                fole.write(f.read())
-        LOGGER.info("rclone.conf backuped to rclone_bak.conf!")
+	if RCLONE_CONFIG:
+		LOGGER.warning("Don't use this var now, put your rclone.conf in root directory")
+	if not os.path.exists("rclone.conf"):
+		LOGGER.warning("Sed, No rclone.conf found in root directory")
+		return
+	if not os.path.exists("rclone_bak.conf"):  # backup rclone.conf file
+		with open("rclone_bak.conf", "w+", newline="\n", encoding="utf-8") as fole:
+			with open("rclone.conf", "r") as f:
+				fole.write(f.read())
+		LOGGER.info("rclone.conf backuped to rclone_bak.conf!")
 
 
 multi_rclone_init()
