@@ -29,7 +29,7 @@ async def yt_playlist_downg(message, i_m_sefg, client, G_DRIVE):
 		"yt-dlp",
 		"-i",
 		"-f",
-		"bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4",
+		"bestvideo[ext=mp4][height<=720]+bestaudio[ext=m4a]/mp4",
 		"-o",
 		f"{fol_der}/%(playlist)s/%(playlist_title)s - %(playlist_index)s.%(n_entries)s - %(title)s.%(ext)s",
 		f"{url}",
