@@ -224,7 +224,7 @@ async def g_yt_playlist(client, message):
 	else:
 		await message.reply_text("<b> Reply with Youtube Playlist link</b>", quote=True)
 		return
-	if "youtube.com/playlist" in url:
+	if "youtube.com/playlist" in url or "youtube.com/channel" in url:
 		u_men = message.from_user.mention
 		i_m_sefg = await message.reply_text(
 			f"<b>Ok Fine 🐈 {u_men} Bro!!:\n Your Request has been ADDED</b>\n\n <code> Please wait until Upload</code>",
