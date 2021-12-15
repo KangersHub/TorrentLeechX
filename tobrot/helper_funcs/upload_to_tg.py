@@ -396,24 +396,26 @@ async def upload_single_file(
 							thum.write(req.content)
 						img = Image.open(thumb_image_path).convert("RGB")
 						img.save(thumb_image_path, format="jpeg")
+					width = 1280
+					height = 720
 					# get the correct width, height, and duration for videos greater than 10MB
-					if os.path.exists(thumb_image_path):
-						metadata = extractMetadata(createParser(thumb_image_path))
-						if metadata.has("width"):
-							width = metadata.get("width")
-						if metadata.has("height"):
-							height = metadata.get("height")
-						# ref: https://t.me/PyrogramChat/44663
-						# https://stackoverflow.com/a/21669827/4723940
-						Image.open(thumb_image_path).convert("RGB").save(
-							thumb_image_path
-						)
-						img = Image.open(thumb_image_path)
-						# https://stackoverflow.com/a/37631799/4723940
-						img.resize((320, height))
-						img.save(thumb_image_path, "JPEG")
-						# https://pillow.readthedocs.io/en/3.1.x/reference/Image.html#create-thumbnails
-				#
+				# 	if os.path.exists(thumb_image_path):
+				# 		metadata = extractMetadata(createParser(thumb_image_path))
+				# 		if metadata.has("width"):
+				# 			width = metadata.get("width")
+				# 		if metadata.has("height"):
+				# 			height = metadata.get("height")
+				# 		# ref: https://t.me/PyrogramChat/44663
+				# 		# https://stackoverflow.com/a/21669827/4723940
+				# 		Image.open(thumb_image_path).convert("RGB").save(
+				# 			thumb_image_path
+				# 		)
+				# 		img = Image.open(thumb_image_path)
+				# 		# https://stackoverflow.com/a/37631799/4723940
+				# 		img.resize((320, height))
+				# 		img.save(thumb_image_path, "JPEG")
+				# 		# https://pillow.readthedocs.io/en/3.1.x/reference/Image.html#create-thumbnails
+				# #
 				thumb = None
 				if thumb_image_path is not None and os.path.isfile(thumb_image_path):
 					thumb = thumb_image_path
