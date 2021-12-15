@@ -378,6 +378,21 @@ async def upload_single_file(
 						thumbnail_location,
 						os.path.dirname(os.path.abspath(local_file_name)),
 					)
+					metadata = extractMetadata(createParser(thumb_image_path))
+					if metadata.has("height"):
+						height = metadata.get("height")
+					if metadata.has("width"):
+						width = metadata.get("width")
+					# resize image
+					# ref: https://t.me/PyrogramChat/44663
+					img = Image.open(thumb_image_path)
+					# https://stackoverflow.com/a/37631799/4723940
+					# img.thumbnail((320, 320))
+					if width > height:
+						img.resize((320, height))
+					elif height > width:
+						img.resize((width,320))
+					img.save(thumb_image_path, "JPEG")
 				else:
 					if not yt_thumb:
 						LOGGER.info("Taking Screenshot..")
@@ -399,23 +414,26 @@ async def upload_single_file(
 					width = 1280
 					height = 720
 					# get the correct width, height, and duration for videos greater than 10MB
-				# 	if os.path.exists(thumb_image_path):
-				# 		metadata = extractMetadata(createParser(thumb_image_path))
-				# 		if metadata.has("width"):
-				# 			width = metadata.get("width")
-				# 		if metadata.has("height"):
-				# 			height = metadata.get("height")
-				# 		# ref: https://t.me/PyrogramChat/44663
-				# 		# https://stackoverflow.com/a/21669827/4723940
-				# 		Image.open(thumb_image_path).convert("RGB").save(
-				# 			thumb_image_path
-				# 		)
-				# 		img = Image.open(thumb_image_path)
-				# 		# https://stackoverflow.com/a/37631799/4723940
-				# 		img.resize((320, height))
-				# 		img.save(thumb_image_path, "JPEG")
-				# 		# https://pillow.readthedocs.io/en/3.1.x/reference/Image.html#create-thumbnails
-				# #
+					if os.path.exists(thumb_image_path):
+						metadata = extractMetadata(createParser(thumb_image_path))
+						if metadata.has("width"):
+							width = metadata.get("width")
+						if metadata.has("height"):
+							height = metadata.get("height")
+						# ref: https://t.me/PyrogramChat/44663
+						# https://stackoverflow.com/a/21669827/4723940
+						Image.open(thumb_image_path).convert("RGB").save(
+							thumb_image_path
+						)
+						img = Image.open(thumb_image_path)
+						# https://stackoverflow.com/a/37631799/4723940
+						if width > height:
+							img.resize((320, height))
+						elif height > width:
+							img.resize((width,320))
+						img.save(thumb_image_path, "JPEG")
+						# https://pillow.readthedocs.io/en/3.1.x/reference/Image.html#create-thumbnails
+				#
 				thumb = None
 				if thumb_image_path is not None and os.path.isfile(thumb_image_path):
 					thumb = thumb_image_path
