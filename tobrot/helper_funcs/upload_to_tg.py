@@ -299,7 +299,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
 
 
 async def upload_single_file(
-	message, local_file_name, caption_str, from_user, client, edit_media, yt_thumb
+	message:Message, local_file_name, caption_str, from_user, client, edit_media, yt_thumb
 ):
 	await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
 	local_file_name = str(Path(local_file_name).resolve())
@@ -370,8 +370,8 @@ async def upload_single_file(
 						duration = metadata.get("duration").seconds
 				except Exception as g_e:
 					LOGGER.info(g_e)
-				width = 0
-				height = 0
+				width = 1280
+				height = 720
 				thumb_image_path = None
 				if os.path.exists(thumbnail_location):
 					thumb_image_path = await copy_file(
