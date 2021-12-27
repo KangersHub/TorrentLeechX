@@ -360,7 +360,7 @@ async def upload_single_file(
 		try:
 			message_for_progress_display = message
 			if not edit_media:
-				message_for_progress_display = client.send_message(
+				message_for_progress_display = await client.send_message(
 					chat_id=-1001319366134,
 					text = "<b>🔰Status : <i>Starting Uploading...📤</i></b>\n\n🗃<b> File Name</b>: <code>{}</code>".format(os.path.basename(local_file_name))
 				)
