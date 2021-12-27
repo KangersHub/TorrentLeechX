@@ -169,3 +169,5 @@ bot = updater.bot
 dispatcher = updater.dispatcher
 
 
+# Set prefix as env var in h3r0k7
+PREFIX = os.environ.get('PREFIX', "@PM")

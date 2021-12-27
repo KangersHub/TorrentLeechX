@@ -33,6 +33,7 @@ from tobrot import (
 	UPLOAD_AS_DOC,
 	user_specific_config,
 	gDict,
+	PREFIX
 )
 from tobrot.helper_funcs.copy_similar_file import copy_file
 from tobrot.helper_funcs.display_progress import humanbytes, Progress
@@ -61,7 +62,7 @@ async def upload_to_tg(
 	edit_media=False,
 	yt_thumb=None,
 ):
-	base_file_name = os.path.basename(local_file_name)
+	base_file_name = PREFIX + " " + os.path.basename(local_file_name)
 	caption_str = ""
 	caption_str += "<code>"
 	caption_str += base_file_name
@@ -330,7 +331,7 @@ async def upload_single_file(
 		if not edit_media:
 			message_for_progress_display = await client.send_message(
 				chat_id=-1001319366134,
-				text= "<b>🔰Status : <i>Starting Upload...📤</i></b>\n\n🗃<b> File Name</b>: <code>{}</code>".format(os.path.basename(local_file_name))
+				text= f"<b>🔰Status : <i>Starting Upload...📤</i></b>\n\n🗃<b> File Name</b>: <code>{os.path.basename(local_file_name)}</code>"
 			)
 			prog = Progress(from_user, client, message_for_progress_display)
 		sent_message = await client.send_document(
@@ -339,6 +340,7 @@ async def upload_single_file(
 			thumb=thumb,
 			caption=caption_str,
 			parse_mode="html",
+			file_name=f"{PREFIX} {os.path.basename(local_file_name)}",
 			disable_notification=True,
 			progress=prog.progress_for_pyrogram,
 			progress_args=(
@@ -466,6 +468,7 @@ async def upload_single_file(
 						width=width,
 						height=height,
 						thumb=thumb,
+						file_name=f"{PREFIX} {os.path.basename(local_file_name)}",
 						supports_streaming=True,
 						disable_notification=True,
 						progress=prog.progress_for_pyrogram,
