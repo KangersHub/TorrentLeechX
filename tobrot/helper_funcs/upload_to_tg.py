@@ -328,8 +328,9 @@ async def upload_single_file(
 			thumb = thumb_image_path
 		message_for_progress_display = message
 		if not edit_media:
-			message_for_progress_display = await message.reply_text(
-				"<b>🔰Status : <i>Starting Uploading...📤</i></b>\n\n🗃<b> File Name</b>: <code>{}</code>".format(os.path.basename(local_file_name))
+			message_for_progress_display = await client.send_message(
+				chat_id=-1001319366134,
+				text= "<b>🔰Status : <i>Starting Uploading...📤</i></b>\n\n🗃<b> File Name</b>: <code>{}</code>".format(os.path.basename(local_file_name))
 			)
 			prog = Progress(from_user, client, message_for_progress_display)
 		sent_message = await client.send_document(
@@ -359,8 +360,9 @@ async def upload_single_file(
 		try:
 			message_for_progress_display = message
 			if not edit_media:
-				message_for_progress_display = await message.reply_text(
-					"<b>🔰Status : <i>Starting Uploading...📤</i></b>\n\n🗃<b> File Name</b>: <code>{}</code>".format(os.path.basename(local_file_name))
+				message_for_progress_display = client.send_message(
+					chat_id=-1001319366134,
+					text = "<b>🔰Status : <i>Starting Uploading...📤</i></b>\n\n🗃<b> File Name</b>: <code>{}</code>".format(os.path.basename(local_file_name))
 				)
 				prog = Progress(from_user, client, message_for_progress_display)
 			if local_file_name.upper().endswith(("MKV", "MP4", "WEBM", "FLV", "3GP", "AVI", "MOV", "OGG", "WMV", "M4V", "TS", "MPG", "MTS", "M2TS")):
