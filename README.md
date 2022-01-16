@@ -100,6 +100,7 @@ Optional Configuration Variables | Descripion
 | `CHUNK_SIZE` | dev default value is `128`
 | `MAX_MESSAGE_LENGTH` | dev
 | `PROCESS_MAX_TIMEOUT` | dev
+| `SUDO_USERS` | Sudo User's id separated by space
 | `ARIA_TWO_STARTED_PORT` | should be an integer. The port on which aria2c daemon must start, and keep listening ..default is port `6800`
 | `EDIT_SLEEP_TIME_OUT` | should be an integer. Number of seconds to wait before editing a message.
 | `MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START` | should be an integer. Number of seconds to wait before cancelling a torrent.
