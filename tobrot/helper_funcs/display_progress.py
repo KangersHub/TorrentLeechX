@@ -82,8 +82,8 @@ class Progress:
                 round(percentage, 2))
             #cpu = "{psutil.cpu_percent()}%"
             tmp = progress + "\n**⌧ Total 🗃:**` 〚{1}〛`\n**⌧ Done ✅ :**` 〚{0}〛`\n**⌧ Speed 📊 :** ` 〚{2}〛`\n**⌧ ETA 🔃 :**` 〚{3}〛`".format(
-                humanbytes(current),
-                humanbytes(total),
+                (humanbytes(current)).replace('/s', ''),     # https://t.me/c/1688177102/15398
+                (humanbytes(total)).replace('/s', ''),
                 humanbytes(speed),
                 # elapsed_time if elapsed_time != '' else "0 s",
                 estimated_total_time if estimated_total_time != "" else "0 s",
