@@ -171,3 +171,10 @@ dispatcher = updater.dispatcher
 
 # Set prefix as env var in h3r0k7
 PREFIX = os.environ.get('PREFIX', "@PM")
+
+#Channel id to upload files (
+#	add `CHANNEL_ID` in `AUTH_CHANNEL` too and 
+#	add bot to your channel as administrator
+#)
+
+CHANNEL_ID = int(os.environ.get('CHANNEL_ID','-1001319366134'))

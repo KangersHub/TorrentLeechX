@@ -23,6 +23,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from pyrogram.types import InputMediaAudio, InputMediaDocument, InputMediaVideo
 from requests.utils import requote_uri
 from tobrot import (
+	CHANNEL_ID,
 	DESTINATION_FOLDER,
 	DOWNLOAD_LOCATION,
 	EDIT_SLEEP_TIME_OUT,
@@ -64,9 +65,9 @@ async def upload_to_tg(
 ):
 	base_file_name = PREFIX + " " + os.path.basename(local_file_name)
 	caption_str = ""
-	caption_str += "<code>"
+	caption_str += "<i>"
 	caption_str += base_file_name
-	caption_str += "</code>"
+	caption_str += "</i>"
 	if os.path.isdir(local_file_name):
 		directory_contents = os.listdir(local_file_name)
 		directory_contents.sort()
@@ -300,7 +301,13 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
 
 
 async def upload_single_file(
-	message:Message, local_file_name, caption_str, from_user, client:Client, edit_media, yt_thumb
+	message:Message, 
+	local_file_name, 
+	caption_str, 
+	from_user, 
+	client:Client, 
+	edit_media, 
+	yt_thumb
 ):
 	await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
 	local_file_name = str(Path(local_file_name).resolve())
@@ -330,12 +337,12 @@ async def upload_single_file(
 		message_for_progress_display = message
 		if not edit_media:
 			message_for_progress_display = await client.send_message(
-				chat_id=-1001319366134,
+				chat_id=CHANNEL_ID,
 				text= f"<b>🔰Status : <i>Starting Upload...📤</i></b>\n\n🗃<b> File Name</b>: <code>{os.path.basename(local_file_name)}</code>"
 			)
 			prog = Progress(from_user, client, message_for_progress_display)
 		sent_message = await client.send_document(
-			chat_id=-1001319366134,
+			chat_id=CHANNEL_ID,
 			document=local_file_name,
 			thumb=thumb,
 			caption=caption_str,
@@ -363,7 +370,7 @@ async def upload_single_file(
 			message_for_progress_display = message
 			if not edit_media:
 				message_for_progress_display = await client.send_message(
-					chat_id=-1001319366134,
+					chat_id=CHANNEL_ID,
 					text = "<b>🔰Status : <i>Starting Upload...📤</i></b>\n\n🗃<b> File Name</b>: <code>{}</code>".format(os.path.basename(local_file_name))
 				)
 				prog = Progress(from_user, client, message_for_progress_display)
@@ -460,7 +467,7 @@ async def upload_single_file(
 					)
 				else:
 					sent_message = await client.send_video(
-						chat_id=-1001319366134,
+						chat_id=CHANNEL_ID,
 						video=local_file_name,
 						caption=caption_str,
 						parse_mode="html",
