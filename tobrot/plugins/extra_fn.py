@@ -13,8 +13,7 @@ from hurry.filesize import size
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 import urllib.parse as ur
 
-from tobrot.helper_funcs import media_info
-from tobrot.helper_funcs.download import download_tg
+from tobrot.helper_funcs import media_info, download_tg
 from tobrot import (
     DESTINATION_FOLDER,
     DOWNLOAD_LOCATION,
