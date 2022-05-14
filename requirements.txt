@@ -12,7 +12,7 @@ lxml
 messages
 Pillow
 psutil
-pyrogram
+pyrogram==1.4.16
 python-dotenv
 pyprog
 python-telegram-bot
