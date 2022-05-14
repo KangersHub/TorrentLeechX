@@ -36,7 +36,6 @@ from tobrot.helper_funcs.upload_to_tg import upload_to_tg
 from tobrot.helper_funcs.youtube_dl_extractor import extract_youtube_dl_formats
 from tobrot.helper_funcs.ytplaylist import yt_playlist_downg
 
-
 async def incoming_purge_message_f(client, message):
     """/purge command"""
     print(message.client)
@@ -88,7 +87,6 @@ async def incoming_message_f(client, message):
         await i_m_sefg.edit("<b>⚠️ Opps ⚠️</b>\n\n <b><i>⊠ Reply with Direct/Torrent Link or File⁉️</i></b>")
         return
     if dl_url is not None:
-
         current_user_id = message.from_user.id
         # create an unique directory
         new_download_location = os.path.join(
@@ -245,7 +243,7 @@ async def g_clonee(client, message):
         LOGGER.info(message.reply_to_message.text)
         gclone = CloneHelper(message)
         gclone.config()
-        a, h = gclone.get_id()
+        a, h = await gclone.get_id()
         LOGGER.info(a)
         LOGGER.info(h)
         await gclone.gcl()
