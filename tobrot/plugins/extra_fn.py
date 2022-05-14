@@ -24,7 +24,7 @@ from tobrot import (
 )
 
 async def mannual_gd_upload(client, message):
-    '''/upgd command'''
+    '''Upload a local file to gdrive manually'''
     g_id = message.from_user.id
     start_time = time.time()
     if g_id not in AUTH_CHANNEL:
@@ -193,6 +193,7 @@ async def mannual_gd_upload(client, message):
 
 
 async def link_mediainfo_fn(bot, msg):
+    '''get mediainfo from direct/index links'''
     if len(msg.command) == 1:
         await msg.reply("You didn't provide a link for mediainfo!!!", quote = True)
         return
@@ -210,6 +211,7 @@ async def link_mediainfo_fn(bot, msg):
     return
     
 async def dl_to_local_fn(client, message):
+    '''Download a tg file to bot's local storage'''
     usr_id = message.from_user.id
     if not message.reply_to_message:
         await message.reply("<b>⚠️ Oops ⚠️</b>\n\n <b><i>⊠ Reply with Telegram Media (File / Video)⁉️</b>", quote=True)
