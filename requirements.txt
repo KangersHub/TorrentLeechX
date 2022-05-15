@@ -12,7 +12,7 @@ lxml
 messages
 Pillow
 psutil
-pyrogram
+pyrogram==1.4.16
 python-dotenv
 pyprog
 python-telegram-bot
@@ -22,3 +22,5 @@ speedtest-cli
 tgcrypto
 urllib3
 yt-dlp
+telegraph
+mediainfo

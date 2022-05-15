@@ -23,6 +23,7 @@ from tobrot import (
     UPLOAD_AS_DOC,
 )
 
+from .gdtot_appdrive_bypass import gdtot_dl, appdrive_dl
 
 class CloneHelper:
     def __init__(self, mess):
@@ -45,11 +46,25 @@ class CloneHelper:
                 con = file.read()
                 self.dname = re.findall("\[(.*)\]", con)[0]
 
-    def get_id(self):
+    async def get_id(self):
         mes = self.mess
         txt = mes.reply_to_message.text
-        LOGGER.info(txt)
-        mess = txt.split(" ", maxsplit=1)
+        if '.gdtot.' in txt.lower():
+            bdata = await gdtot_dl(txt)
+            mess = bdata.get('gd_id')
+            if not mess:
+                mess = txt
+        elif 'appdrive.' in txt.lower():
+            bdata = await appdrive_dl(txt)
+            mess = bdata.get('gdrive_link')
+            if mess:
+                mess = mess.replace('/view', '').split('/')[-1]
+            else:
+                mess = txt
+        else:
+            mess = txt
+        mess = mess.split(" ", maxsplit=1)
+        LOGGER.info(mess)
         if len(mess) == 2:
             self.g_id = mess[0]
             LOGGER.info(self.g_id)
@@ -132,10 +147,10 @@ class CloneHelper:
                 )
             button_markup = pyrogram.InlineKeyboardMarkup(button)
             msg = await self.lsg.edit_text(
-                f"🐈: {_up} Cloned successfully in your Cloud <a href='tg://user?id={self.u_id}'>😊</a>\
+                f"🐈: {_up} Cloned successfully in your Cloud [😊](tg://user?id={self.u_id})\
                 \n📀 Info: Calculating...",
                 reply_markup=button_markup,
-                parse_mode="html",
+                parse_mode="md",
             )
             g_cmd = [
                 "rclone",
@@ -153,10 +168,10 @@ class CloneHelper:
             LOGGER.info(am.decode("utf-8"))
             await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
             await msg.edit_text(
-                f"🐈: {_up} Cloned successfully in your Cloud <a href='tg://user?id={self.u_id}'>😊</a>\
-                \n📀 Info:\n{g_autam}",
+                f"🐈: [😊](tg://user?id={self.u_id}) {_up} 𝐍𝐚𝐦𝐞 : `{self.name}`\
+                \n\n📀 **Info:**\n{g_autam}",
                 reply_markup=button_markup,
-                parse_mode="html",
+                parse_mode="md",
             )
 
     async def gcl(self):

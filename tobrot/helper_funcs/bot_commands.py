@@ -23,5 +23,8 @@ class _BotCommands:
         self.HelpCommand = 'help'
         self.LogCommand = 'log'
         self.TsHelpCommand = 'tshelp'
+        self.TgdlCommand = 'tgdl'
+        self.MediainfoCommand = 'mediainfo'
+        self.MannualgUpCommand = 'gupload'
 
 BotCommands = _BotCommands()
