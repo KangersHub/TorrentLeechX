@@ -197,7 +197,10 @@ async def link_mediainfo_fn(bot, msg):
     if len(msg.command) == 1:
         await msg.reply("You didn't provide a link for mediainfo!!!", quote = True)
         return
-    file_link = msg.text.replace('/mediainfo ', '').strip(' ')
+    elif len(msg.command) >= 3:
+        await msg.reply("Only provide the direct download link with command! Nothing else!...Aborting...", quote = True)
+        return
+    file_link = msg.command[1]
     if file_link.endswith('/'):
         await msg.reply("Send direct download links only!!!", quote = True)
         return
