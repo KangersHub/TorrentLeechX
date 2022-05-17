@@ -21,7 +21,7 @@ if os.path.exists("TorrentLeech-Gdrive.txt"):
 
 # the logging things
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s [%(filename)s:%(lineno)d]",
     datefmt="%d-%b-%y %H:%M:%S",
     handlers=[
