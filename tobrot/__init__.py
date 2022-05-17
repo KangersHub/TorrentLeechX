@@ -94,7 +94,7 @@ UPLOAD_AS_DOC = os.environ.get("UPLOAD_AS_DOC", "False")
 ################ Torrent/Aria2 Settings ################
 MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START = int(os.environ.get("MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START", 600))
 # the download location, where the HTTP Server runs
-DOWNLOAD_LOCATION = "./DOWNLOADS
+DOWNLOAD_LOCATION = "./DOWNLOADS"
 # chunk size that should be used with requests
 CHUNK_SIZE = int(os.environ.get("CHUNK_SIZE", 128))
 ARIA_TWO_STARTED_PORT = int(os.environ.get("ARIA_TWO_STARTED_PORT", 6800))
