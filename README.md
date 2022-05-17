@@ -55,6 +55,7 @@
     ✓ Added Custom ToggleDoc and ToggleVid Cmd
     ✓ Added Custom Rename Command via vars
     ✓ Added direct rclone.conf url in vars
+    ✓ Added gdtot and appdrive cloning support
     
 # TO-DO
 -   ~Gdrive file clonning using Gclone~ `DONE ✓`
@@ -135,7 +136,11 @@ Optional Configuration Variables | Descripion
 | `RCLONE_CONF_URL` | set direct  url for rclone.conf
 | `SPEEDTEST` | set custom SpeedtestCommand
 | `TSEARCH_COMMAND` | set custom command for torrent search help
-
+| `GDTOT_CRYPT` | gdtot crypt cookies for gdtot cloning
+| `APPDRIVE_EMAIL` | appdrive email id for appdrive cloning
+| `APPDRIVE_PASS` | appdrive password
+| `APPDRIVE_SHARED_DRIVE_ID` | drive_id of the shared drive for appdrive.
+| `APPDRIVE_FOLDER_ID` | gdrive folder_id for appdrive
 ---
 
 
@@ -188,6 +193,9 @@ client_secret =
 | `/tshelp` | get help for torrent search module
 | `/speedtest` | check speedtest of the host
 | `/help`| send help
+| `/mediainfo` | get mediainfo of a file using direct download link or it's local path on bot's server
+| `/tgdl` | download a telegram file to bot's server
+| `/gupload` | upload a file from bot's server to gdrive
 ---
 ## END OF Variable Explanations 👆
 
@@ -211,10 +219,13 @@ client_secret =
     garchive - leech any torrent/magnet/direct-download link to Cloud and Upload It as .tar.gz acrhive...
     gextract - This will unarchive file and upload to cloud.
     getsize - This will give you total size of your destination folder in cloud.
+	mediainfo - Get mediainfo from link or local path.
+ 	tgdl - download a telegram file to bot's local storage.
+ 	gupload - upload a file from bot's local storage to gdrive.
     rename - rename the file 
     help - send help 
     tshelp - get help for torrent search module
-|   speedtest - check speedtest of the host
+    speedtest - check speedtest of the host
     status - show bot stats and concurrent downloads
     renewme - clear all downloads (admin only)⚠️
     log - This will send you a txt file of the logs.(admin only)⚠️
