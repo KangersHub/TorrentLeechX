@@ -141,6 +141,7 @@ Optional Configuration Variables | Descripion
 | `APPDRIVE_PASS` | appdrive password
 | `APPDRIVE_SHARED_DRIVE_ID` | drive_id of the shared drive for appdrive.
 | `APPDRIVE_FOLDER_ID` | gdrive folder_id for appdrive
+| `CUSTOM_FILE_CAPTION` | can set default custom formatting to tg file captions(use `{file_name}` for file name (eg. CUSTOM_FILE_CAPTION = ```"<b>Uploaded:</b>\n<code>{file_name}</code>"```
 ---
 
 
