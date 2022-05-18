@@ -50,18 +50,23 @@ class CloneHelper:
         mes = self.mess
         txt = mes.reply_to_message.text
         if '.gdtot.' in txt.lower():
+            self.lsg = await self.mess.reply('Found _gdtot_ link!\n`Processing...`', quote = True)
             bdata = await gdtot_dl(txt)
             mess = bdata.get('gd_id')
+            self.name = bdata.get('title', '')
             if not mess:
                 mess = txt
         elif 'appdrive.' in txt.lower():
+            self.lsg = await self.mess.reply('Found _appdrive_ link!\n`Processing...`', quote = True)
             bdata = await appdrive_dl(txt)
             mess = bdata.get('gdrive_link')
             if mess:
                 mess = mess.replace('/view', '').split('/')[-1]
+                self.name = bdata.get('name', '')
             else:
                 mess = txt
         else:
+            self.lsg = await self.mess.reply('Processing gdrive_id, please wait...', quote = True)
             mess = txt
         mess = mess.split(" ", maxsplit=1)
         LOGGER.info(mess)
@@ -73,7 +78,6 @@ class CloneHelper:
         else:
             self.g_id = mess[0]
             LOGGER.info(self.g_id)
-            self.name = ""
         return self.g_id, self.name
 
     async def link_gen_size(self):
@@ -175,7 +179,7 @@ class CloneHelper:
             )
 
     async def gcl(self):
-        self.lsg = await self.mess.reply_text(f"Cloning...you should wait 🤒")
+        await self.lsg.edit(f"Cloning...you should wait 🤒")
         destination = f"{DESTINATION_FOLDER}"
         idd = "{" f"{self.g_id}" "}"
         cmd = [
