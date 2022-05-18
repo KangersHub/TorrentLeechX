@@ -90,7 +90,7 @@ DEF_THUMB_NAIL_VID_S = os.environ.get("DEF_THUMB_NAIL_VID_S", "https://via.place
 EDIT_SLEEP_TIME_OUT = int(os.environ.get("EDIT_SLEEP_TIME_OUT", 15))
 CUSTOM_FILE_NAME = os.environ.get("CUSTOM_FILE_NAME", "") 
 UPLOAD_AS_DOC = os.environ.get("UPLOAD_AS_DOC", "False")
-CUSTOM_FILE_CAPTION = os.environ.get('CUSTOM_FILE_CAPTION', '{file_name}')
+CUSTOM_FILE_CAPTION = os.environ.get('CUSTOM_FILE_CAPTION', '<code>{file_name}</code>')
 
 ################ Torrent/Aria2 Settings ################
 MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START = int(os.environ.get("MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START", 600))
