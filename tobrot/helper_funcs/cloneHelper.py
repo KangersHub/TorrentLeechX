@@ -24,6 +24,7 @@ from tobrot import (
 )
 
 from .gdtot_appdrive_bypass import gdtot_dl, appdrive_dl
+from .utils import parse_gd_link
 
 class CloneHelper:
     def __init__(self, mess):
@@ -52,33 +53,31 @@ class CloneHelper:
         if '.gdtot.' in txt.lower():
             self.lsg = await self.mess.reply('Found _gdtot_ link!\n`Processing...`', quote = True)
             bdata = await gdtot_dl(txt)
-            mess = bdata.get('gd_id')
-            self.name = bdata.get('title', '')
-            if not mess:
-                mess = txt
+            gd_id = bdata.get('gd_id')
         elif 'appdrive.' in txt.lower():
             self.lsg = await self.mess.reply('Found _appdrive_ link!\n`Processing...`', quote = True)
             bdata = await appdrive_dl(txt)
-            mess = bdata.get('gdrive_link')
-            if mess:
-                mess = mess.replace('/view', '').split('/')[-1]
-                self.name = bdata.get('name', '')
-            else:
-                mess = txt
+            gd_id = bdata.get('gdrive_link')
+            if gd_id:
+                gd_id = gd_id.replace('/view', '').split('/')[-1]
+        elif 'drive.google.com' in txt:
+            self.lsg = await self.mess.reply('Processing gdrive link, please wait...', quote = True)
+            gd_id = parse_gd_link(txt)
         else:
             self.lsg = await self.mess.reply('Processing gdrive_id, please wait...', quote = True)
-            mess = txt
-        mess = mess.split(" ", maxsplit=1)
-        LOGGER.info(mess)
-        if len(mess) == 2:
-            self.g_id = mess[0]
-            LOGGER.info(self.g_id)
+            gd_id = None
+        mess = txt.split(" ", maxsplit=1)
+        if not gd_id:
+            gd_id = mess[0]
+        self.g_id = gd_id
+        LOGGER.info(self.g_id)
+        self.name = ''
+        if len(mess) == 2:     
             self.name = mess[1]
-            LOGGER.info(self.name)
-        else:
-            self.g_id = mess[0]
-            LOGGER.info(self.g_id)
+        LOGGER.info(self.name)
         return self.g_id, self.name
+
+
 
     async def link_gen_size(self):
         if self.name is not None:
