@@ -20,7 +20,8 @@ from tobrot import (
     INDEX_LINK,
     LOGGER,
     RCLONE_CONFIG,
-    AUTH_CHANNEL
+    AUTH_CHANNEL,
+    MANNUAL_GUP_COMMAND
 )
 
 async def mannual_gd_upload(client, message):
@@ -35,7 +36,7 @@ async def mannual_gd_upload(client, message):
         await process_msg.delete()
         await message.reply_text("**‼️You didn't give path to a file‼️😡**\n`Aborting...`", parse_mode = 'markdown', quote = True)
         return
-    path_to_file = str(message.text.split('upgd ', 1)[1])
+    path_to_file = str(message.text.split(MANNUAL_GUP_COMMAND, 1)[1])
     if not os.path.exists(path_to_file):
         await process_msg.delete()
         await message.reply_text("**‼️Given file path doesn't exist‼️😡\nGive a valid path to file!**\n`Aborting...`", parse_mode = 'markdown', quote = True)
