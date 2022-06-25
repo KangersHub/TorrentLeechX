@@ -21,7 +21,7 @@ if os.path.exists("TorrentLeech-Gdrive.txt"):
 
 # the logging things
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s [%(filename)s:%(lineno)d]",
     datefmt="%d-%b-%y %H:%M:%S",
     handlers=[
@@ -59,50 +59,46 @@ API_HASH = os.environ.get("API_HASH")
 
 OWNER_ID = int(os.environ.get("OWNER_ID", 539295917))
 
-
 # to store the channel ID where bot is authorized
-AUTH_CHANNEL = [int(x) for x in os.environ.get("AUTH_CHANNEL", "539295917").split()]
-
+AUTH_CHANNEL = [int(x) for x in os.environ.get("AUTH_CHANNEL", "539295917").split(' ')]
 # Cuz most ppl dunno AUTH_CHANNEL also works as SUDO
-SUDO_USERS = [int(s) if (' ' not in os.environ.get('SUDO_USERS', '')) else int(s) for s in os.environ.get('SUDO_USERS', '').split()]
-
-# the download location, where the HTTP Server runs
-DOWNLOAD_LOCATION = "./DOWNLOADS"
-# Telegram maximum file upload size
-MAX_FILE_SIZE = 50000000
-TG_MAX_FILE_SIZE = 2097152000
-FREE_USER_MAX_FILE_SIZE = 50000000
-
+SUDO_USERS = [int(s) for s in os.environ.get('SUDO_USERS', '').split()]
 AUTH_CHANNEL.append(OWNER_ID)
 AUTH_CHANNEL += SUDO_USERS
-# chunk size that should be used with requests
-CHUNK_SIZE = int(os.environ.get("CHUNK_SIZE", 128))
-# default thumbnail to be used in the videos
-DEF_THUMB_NAIL_VID_S = os.environ.get(
-    "DEF_THUMB_NAIL_VID_S", "https://via.placeholder.com/90.jpg"
-)
-# maximum message length in Telegram
-MAX_MESSAGE_LENGTH = 4096
+
 # set timeout for subprocess
 PROCESS_MAX_TIMEOUT = 3600
-#
 SP_LIT_ALGO_RITH_M = os.environ.get("SP_LIT_ALGO_RITH_M", "hjs")
-ARIA_TWO_STARTED_PORT = int(os.environ.get("ARIA_TWO_STARTED_PORT", 6800))
-EDIT_SLEEP_TIME_OUT = int(os.environ.get("EDIT_SLEEP_TIME_OUT", 15))
-MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START = int(
-    os.environ.get("MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START", 600)
-)
+# add offensive API
+TG_OFFENSIVE_API = os.environ.get("TG_OFFENSIVE_API", None)
+INDEX_LINK = os.environ.get("INDEX_LINK", "")
+#################### Rclone vars ##########################
+RCLONE_CONFIG = os.environ.get("RCLONE_CONFIG", "")
+DESTINATION_FOLDER = os.environ.get("DESTINATION_FOLDER", "TorrentLeechX")
+
+#################### Telegram Settings ####################
+MAX_FILE_SIZE = 50000000 # Maximum file size to download from direct links/torrents
+FREE_USER_MAX_FILE_SIZE = 50000000
+TG_MAX_FILE_SIZE = 2097152000 # Telegram maximum file upload size
 MAX_TG_SPLIT_FILE_SIZE = int(os.environ.get("MAX_TG_SPLIT_FILE_SIZE", 1072864000))
+MAX_MESSAGE_LENGTH = 4096 # maximum message length in Telegram
 # add config vars for the display progress
 FINISHED_PROGRESS_STR = os.environ.get("FINISHED_PROGRESS_STR", "█")
 UN_FINISHED_PROGRESS_STR = os.environ.get("UN_FINISHED_PROGRESS_STR", "░")
-# add offensive API
-TG_OFFENSIVE_API = os.environ.get("TG_OFFENSIVE_API", None)
-CUSTOM_FILE_NAME = os.environ.get("CUSTOM_FILE_NAME", "")
-RCLONE_CONFIG = os.environ.get("RCLONE_CONFIG", "")
-DESTINATION_FOLDER = os.environ.get("DESTINATION_FOLDER", "TorrentLeechX")
-INDEX_LINK = os.environ.get("INDEX_LINK", "")
+# default thumbnail to be used in the videos
+DEF_THUMB_NAIL_VID_S = os.environ.get("DEF_THUMB_NAIL_VID_S", "https://via.placeholder.com/90.jpg")
+EDIT_SLEEP_TIME_OUT = int(os.environ.get("EDIT_SLEEP_TIME_OUT", 15))
+CUSTOM_FILE_NAME = os.environ.get("CUSTOM_FILE_NAME", "") 
 UPLOAD_AS_DOC = os.environ.get("UPLOAD_AS_DOC", "False")
+CUSTOM_FILE_CAPTION = os.environ.get('CUSTOM_FILE_CAPTION', '<code>{file_name}</code>')
+
+################ Torrent/Aria2 Settings ################
+MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START = int(os.environ.get("MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START", 600))
+# the download location, where the HTTP Server runs
+DOWNLOAD_LOCATION = "./DOWNLOADS"
+# chunk size that should be used with requests
+CHUNK_SIZE = int(os.environ.get("CHUNK_SIZE", 128))
+ARIA_TWO_STARTED_PORT = int(os.environ.get("ARIA_TWO_STARTED_PORT", 6800))
 
 #################### COMMANDS ####################
 LEECH_COMMAND = os.environ.get("LEECH_COMMAND", "leech")
@@ -156,7 +152,7 @@ for i in ga_vars_list:
             raise KeyError
     except KeyError:
         LOGGER.warning(f"{i} is not provided!! The respective gdtot/appdrive bypass will not work!!!")
-
+#########################################
 
 # dict to control uploading and downloading
 gDict = defaultdict(lambda: [])
@@ -197,5 +193,3 @@ app = Client("LeechBot", bot_token=TG_BOT_TOKEN, api_id=APP_ID, api_hash=API_HAS
 updater = tg.Updater(token=TG_BOT_TOKEN)
 bot = updater.bot
 dispatcher = updater.dispatcher
-
-

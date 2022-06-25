@@ -35,10 +35,10 @@ async def mannual_gd_upload(client, message):
         await process_msg.delete()
         await message.reply_text("**‼️You didn't give path to a file‼️😡**\n`Aborting...`", parse_mode = 'markdown', quote = True)
         return
-    path_to_file = str(message.text.split('upgd ', 1)[1])
+    path_to_file = ' '.join(message.command[1:])
     if not os.path.exists(path_to_file):
         await process_msg.delete()
-        await message.reply_text("**‼️Given file path doesn't exist‼️😡\nGive a valid path to file!**\n`Aborting...`", parse_mode = 'markdown', quote = True)
+        await message.reply_text(f"**‼️Given file path doesn't exist‼️😡\n`{path_to_file}`\nGive a valid path to file!**\n`Aborting...`", parse_mode = 'markdown', quote = True)
         return
     await process_msg.edit("Found a valid path to file...\n`Now Uploading to ☁️Cloud!!!`", parse_mode = 'markdown')
     if not os.path.exists("rclone.conf"):
@@ -197,7 +197,10 @@ async def link_mediainfo_fn(bot, msg):
     if len(msg.command) == 1:
         await msg.reply("You didn't provide a link for mediainfo!!!", quote = True)
         return
-    file_link = msg.text.replace('/mediainfo ', '').strip(' ')
+    elif len(msg.command) >= 3:
+        await msg.reply("Only provide the direct download link with command! Nothing else!...Aborting...", quote = True)
+        return
+    file_link = msg.command[1]
     if file_link.endswith('/'):
         await msg.reply("Send direct download links only!!!", quote = True)
         return

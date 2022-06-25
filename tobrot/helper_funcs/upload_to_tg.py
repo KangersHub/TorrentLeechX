@@ -33,6 +33,7 @@ from tobrot import (
     UPLOAD_AS_DOC,
     user_specific_config,
     gDict,
+    CUSTOM_FILE_CAPTION
 )
 from tobrot.helper_funcs.copy_similar_file import copy_file
 from tobrot.helper_funcs.display_progress import humanbytes, Progress
@@ -62,10 +63,7 @@ async def upload_to_tg(
     yt_thumb=None,
 ):
     base_file_name = os.path.basename(local_file_name)
-    caption_str = ""
-    caption_str += "<code>"
-    caption_str += base_file_name
-    caption_str += "</code>"
+    caption_str = CUSTOM_FILE_CAPTION.format(file_name=base_file_name)
     if os.path.isdir(local_file_name):
         directory_contents = os.listdir(local_file_name)
         directory_contents.sort()
